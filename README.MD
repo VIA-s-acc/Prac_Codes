@@ -2,6 +2,7 @@
 
 
 [Gauss](#Gauss)
+[Gauss](#LinEqSolver)
 
 
 
@@ -15,7 +16,7 @@ Gauss Method
 
 The LinEqSolver class provides methods for solving systems of linear equations and working with matrices and vectors.
 
-## Methods:
+### Methods:
 
 - `det(matrix):` Calculate the determinant of a square matrix.
 - `gauss_elimination(matrix, vec, dig):` Perform Gaussian elimination on the given matrix and vector to solve a system of linear equations.
@@ -28,7 +29,7 @@ The LinEqSolver class provides methods for solving systems of linear equations a
 - `_check_solve_web(matrix, b, size, dig, solution, epsilon):` Solve a system of linear equations using a web-based matrix calculator.
 - `generate_and_solve_linear_equations(size, matrix_file, vector_file, solution_file, ext_file, dig, check, epsilon, m_v_range):` Generate and solve a system of linear equations.
 
-## Usage:
+### Usage:
 
 ```python
 from LinEqSolver import LinEqSolver
