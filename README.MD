@@ -2,7 +2,7 @@
 
 
 [Gauss][#Gauss]
-[Gauss]: 
+
 
 
 
