@@ -1,7 +1,35 @@
 # PracCodes
 
 ## Table of Contents
+<style>
+    body {
+        font-family: Arial, sans-serif;
+    }
 
+    h3 {
+        color: #333;
+    }
+
+    ul {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    li {
+        margin-bottom: 10px;
+    }
+
+    a {
+        text-decoration: none;
+        color: #007bff;
+        transition: color 0.3s ease;
+    }
+
+    a:hover {
+        color: #0056b3;
+    }
+</style>
+<body>
 <h3>Gauss</h3>
 <p><em><a href="https://github.com/VIA-s-acc/Prac_Codes/tree/main/Gauss">Gauss Code</a></em></p>
 <ul>
@@ -10,7 +38,7 @@
     <li><a href="#Methods">Methods</a></li>
     <li><a href="#Usage">Usage</a></li>
 </ul>
-
+</body>
 
 
 ## Gauss
