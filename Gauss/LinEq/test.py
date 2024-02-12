@@ -3,6 +3,9 @@ from lineq import LinEqSolver
 from tempfile import NamedTemporaryFile
 from unittest.mock import patch, mock_open
 import lineq
+
+#Default Tests files saving path  "Base/test_files/" <- Create if dont have.
+
 class TestDeterminant(unittest.TestCase):
     def test_2x2_matrix(self):
         matrix = [[1, 2], [3, 4]]
