@@ -2,14 +2,14 @@
 
 ## Table of Contents
 
-### Gauss
-`*[Gauss Code](https://github.com/VIA-s-acc/Prac_Codes/tree/main/Gauss)*`\
-----[Gauss Method](#Gauss)\
-----[LinEqSolver](#LinEqSolver)\
-----[Methods](#Methods)\
-----[Usage](#Usage)
-
-
+<h3>Gauss</h3>
+<p><em><a href="https://github.com/VIA-s-acc/Prac_Codes/tree/main/Gauss">Gauss Code</a></em></p>
+<ul>
+    <li><a href="#Gauss">Gauss Method</a></li>
+    <li><a href="#LinEqSolver">LinEqSolver</a></li>
+    <li><a href="#Methods">Methods</a></li>
+    <li><a href="#Usage">Usage</a></li>
+</ul>
 
 
 
