@@ -36,7 +36,7 @@ The LinEqSolver class provides methods for solving systems of linear equations a
 ### Usage:
 
 ```python
-from LinEqSolver import LinEqSolver
+from LinEq import LinEqSolver
 
 # Example usage
 matrix = [[2, 1], [1, -1]]
