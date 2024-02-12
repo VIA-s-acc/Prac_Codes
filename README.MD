@@ -1,7 +1,7 @@
 # PracCodes
 
 
-[Gauss][#Gauss]
+[Gauss](#Gauss)
 
 
 
