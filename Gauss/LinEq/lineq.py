@@ -272,7 +272,7 @@ class LinEqSolver():
             dig_inp.send_keys(str(dig))
         send_button  = driver.find_element(By.XPATH,"//button[text()='Solve']")
         send_button.click()
-        time.sleep(2)
+        time.sleep(1)
         element = driver.find_element(By.CLASS_NAME, "list-unstyled")
         formatting = element.text.split()
         formatting = [el.replace('−', '-') for el in formatting]
@@ -293,7 +293,6 @@ class LinEqSolver():
             if i+4 < formatting_len:
                 parsed_list.append(f'{formatting[i]}{formatting[i+1]} {formatting[i+2]} {formatting[i+3]}{formatting[i+4]}')
         driver.quit()
-        print(parsed_list)
         checking_result = []
         for i in parsed_list:
             elem = float(i[5::].replace(',', '.'))
@@ -344,7 +343,7 @@ class LinEqSolver():
                 else:
                     check_res, sub_result = LinEqSolver._check_solve_web(matrix, vector, size, solution=solution, epsilon=epsilon)
                 
-                sol_eq.extend(["Checker_Mode: ON\n",f"Epsilon: {epsilon}\n","Program_Result:\n"] + [f"x{i} = {solution[i]}" for i in range(len(solution))] + ['\n'] + ['Checker_Result:\n'] + check_res + ['\n'] + sub_result)
+                sol_eq.extend(["Checker_Mode: ON\n",f"Epsilon: {epsilon}\n","Program_Result:\n"] + [f"x{i} = {solution[i]}" for i in range(len(solution))] + ['\n'] + ['Checker_Result:\n'] + check_res + ['\n'] + ['Cheking:\n'] + sub_result)
             else:
                 sol_eq.extend([" ","Checker_Mode: OFF"])
             LinEqSolver.save_matrix_to_file(sol_eq, ext_file)
