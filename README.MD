@@ -1,6 +1,11 @@
 # PracCodes
 
-## Table of Contents
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gauss</title>
 <style>
     body {
         font-family: Arial, sans-serif;
@@ -29,6 +34,7 @@
         color: #0056b3;
     }
 </style>
+</head>
 <body>
 <h3>Gauss</h3>
 <p><em><a href="https://github.com/VIA-s-acc/Prac_Codes/tree/main/Gauss">Gauss Code</a></em></p>
@@ -39,6 +45,8 @@
     <li><a href="#Usage">Usage</a></li>
 </ul>
 </body>
+</html>
+
 
 
 ## Gauss
