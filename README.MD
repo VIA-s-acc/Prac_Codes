@@ -3,7 +3,7 @@
 ## Table of Contents
 
 ### Gauss
-[Gauss Code](https://github.com/VIA-s-acc/Prac_Codes/tree/main/Gauss)\
+----[Gauss Code](https://github.com/VIA-s-acc/Prac_Codes/tree/main/Gauss)\
 ----[Gauss Method](#Gauss)\
 ----[LinEqSolver](#LinEqSolver)\
 ----[Methods](#Methods)\
