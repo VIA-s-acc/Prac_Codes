@@ -1,51 +1,15 @@
 # PracCodes
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Gauss</title>
-<style>
-    body {
-        font-family: Arial, sans-serif;
-    }
-
-    h3 {
-        color: #333;
-    }
-
-    ul {
-        list-style-type: none;
-        padding: 0;
-    }
-
-    li {
-        margin-bottom: 10px;
-    }
-
-    a {
-        text-decoration: none;
-        color: #007bff;
-        transition: color 0.3s ease;
-    }
-
-    a:hover {
-        color: #0056b3;
-    }
-</style>
-</head>
-<body>
-<h3>Gauss</h3>
-<p><em><a href="https://github.com/VIA-s-acc/Prac_Codes/tree/main/Gauss">Gauss Code</a></em></p>
-<ul>
-    <li><a href="#Gauss">Gauss Method</a></li>
-    <li><a href="#LinEqSolver">LinEqSolver</a></li>
-    <li><a href="#Methods">Methods</a></li>
-    <li><a href="#Usage">Usage</a></li>
+## Table Of Content
+<h3 style="color: #333;">Gauss</h3>
+<p><em><a href="https://github.com/VIA-s-acc/Prac_Codes/tree/main/Gauss" style="text-decoration: none; color: #007bff; transition: color 0.3s ease;">Gauss Code</a></em></p>
+<ul style="list-style-type: none; padding: 0;">
+    <li style="margin-bottom: 10px;"><a href="#Gauss" style="text-decoration: none; color: #007bff; transition: color 0.3s ease;">Gauss Method</a></li>
+    <li style="margin-bottom: 10px;"><a href="#LinEqSolver" style="text-decoration: none; color: #007bff; transition: color 0.3s ease;">LinEqSolver</a></li>
+    <li style="margin-bottom: 10px;"><a href="#Methods" style="text-decoration: none; color: #007bff; transition: color 0.3s ease;">Methods</a></li>
+    <li style="margin-bottom: 10px;"><a href="#Usage" style="text-decoration: none; color: #007bff; transition: color 0.3s ease;">Usage</a></li>
 </ul>
 </body>
-</html>
 
 
 
