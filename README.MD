@@ -7,7 +7,7 @@
 ----[Gauss Method](#Gauss)\
 ----[LinEqSolver](#LinEqSolver)\
 ----[Methods](#Methods)\
-----[Usage](#Usage)\
+----[Usage](#Usage)
 
 
 
