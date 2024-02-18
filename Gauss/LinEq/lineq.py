@@ -272,7 +272,7 @@ class LinEqSolver():
             dig_inp.send_keys(str(dig))
         send_button  = driver.find_element(By.XPATH,"//button[text()='Solve']")
         send_button.click()
-        time.sleep(1)
+        time.sleep(3)
         element = driver.find_element(By.CLASS_NAME, "list-unstyled")
         formatting = element.text.split()
         formatting = [el.replace('−', '-') for el in formatting]
@@ -343,7 +343,7 @@ class LinEqSolver():
                 else:
                     check_res, sub_result = LinEqSolver._check_solve_web(matrix, vector, size, solution=solution, epsilon=epsilon)
                 
-                sol_eq.extend(["Checker_Mode: ON\n",f"Epsilon: {epsilon}\n","Program_Result:\n"] + [f"x{i} = {solution[i]}" for i in range(len(solution))] + ['\n'] + ['Checker_Result:\n'] + check_res + ['\n'] + ['Cheking:\n'] + sub_result)
+                sol_eq.extend(["Checker_Mode: ON\n",f"Epsilon: {epsilon}\n","Program_Result:\n"] + [f"x{i+1} = {solution[i]}" for i in range(len(solution))] + ['\n'] + ['Checker_Result:\n'] + check_res + ['\n'] + ['Cheking:\n'] + sub_result)
             else:
                 sol_eq.extend([" ","Checker_Mode: OFF"])
             LinEqSolver.save_matrix_to_file(sol_eq, ext_file)
