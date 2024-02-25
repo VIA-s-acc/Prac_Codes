@@ -24,7 +24,8 @@ def time_decorator(func):
 
 class LinEqSolver():
     """
-    This class definition defines a linear equation solver with various methods:
+    This class definition is for a linear equation solver using Gaussian elimination. Here's what each class method does:
+
     det(matrix): Calculates the determinant of a square matrix.
     gauss_elimination(matrix, vec, dig): Performs Gaussian elimination to solve a system of linear equations.
     generate_random_matrix(size, rng, mode): Generates a random matrix of the given size.
@@ -33,10 +34,18 @@ class LinEqSolver():
     generate_random_vector(size, rng): Generates a random vector of the specified size and range.
     save_vector_to_file(vector, filename): Saves the given vector to a file.
     read_vector_from_file(filename): Reads a vector from a file.
+    _check_solve_web(matrix, b, size, dig, solution, epsilon): Solves a system of linear equations using a web-based matrix calculator and checks the solution.
     LU_decomposition(matrix): Performs LU decomposition on the given matrix.
-    cholesky_decomposition_v2(matrix): Performs Cholesky decomposition on the given matrix using a different method.
-    cholesky_decomposition_v1(matrix): Performs Cholesky decomposition on the given matrix using a specific method.
-    generate_and_solve_linear_equations(size, matrix_file, vector_file, solution_file, ext_file, dig, check, epsilon, m_v_range, mode, random, **kwargs): Generates and solves a system of linear equations.
+    _signum(num): Calculates the signum of the given number.
+    cholesky_decomposition_v2(matrix): Performs Cholesky decomposition on the given matrix.
+    _sylvesters_criterion(matrix): Checks if the given matrix satisfies Sylvester's criterion for positive definiteness.
+    cholesky_decomposition_v1(matrix): Performs Cholesky decomposition on the given matrix.
+    _matrix_multiply(*matrices): Performs matrix multiplication on the input matrices.
+    _chol_solver(matrix, vec, dig, mode): Solves a linear system using Cholesky decomposition or LU decomposition.
+    _lu_solver(matrix, vec, dig): Solves a linear system of equations using LU decomposition.
+    _forward_substitution(matrix, vec, dig): Solves a system of linear equations using forward substitution.
+    _backward_substitution(matrix, vec, dig): Solves a system of linear equations using backward substitution.
+    generate_and_solve_linear_equations(size, matrix_file, vector_file, solution_file, ext_file, dig, check, epsilon, m_v_range, mode, random, **kwargs): Generates and solves a system of linear equations, with options for different solving methods and file saving options.
     """
     @staticmethod
     def det(matrix):
@@ -153,7 +162,7 @@ class LinEqSolver():
             Args:
                 size (int): The size of the matrix.
                 rng (int, optional): The range of random values. Defaults to 10.
-                mode (str, optional): The mode of the matrix. Defaults to None. Mode can be 'simm' or None.
+                mode (str, optional): The mode of the matrix. Either 'symm' for symmetric matrix or None for general matrix. Defaults to None.
 
             Returns:
                 list: A 2D list representing the random matrix.
@@ -166,7 +175,7 @@ class LinEqSolver():
                 row = [random.randint(-rng, rng) for _ in range(size)]
                 matrix.append(row)
        
-        elif mode == "simm":
+        elif mode == "symm":
             matrix = [[0] * size for _ in range(size)]
             for _ in range(size):
                 for index in range(_, size):
@@ -558,7 +567,7 @@ class LinEqSolver():
                 check (bool, optional): Flag to enable checking the solution. Defaults to False.
                 epsilon (float): The acceptable margin of error for the solution. Defaults to 1e-5.
                 m_v_range (tuple): The range for generating random matrix and vector values. Defaults to (10, 10).
-                mode (str): The method to use for solving the linear equations. Defaults to 'gauss'. method list 'chol_v1, chol_v2, gauss, 'lu'
+                mode (str): The method to use for solving the linear equations. Defaults to 'gauss'. method list 'chol_v1, chol_v2, gauss, lu'
                 random (bool): Flag to determine if the matrix and vector should be generated randomly. Defaults to True.
                 **kwargs: if random is False, the matrix and vector should be provided as kwargs with keys 'matrix' and 'vector'.
             Returns:
@@ -566,7 +575,7 @@ class LinEqSolver():
         """
         if random:
             if mode == 'chol_v1' or mode == 'chol_v2':
-                matrix = LinEqSolver.generate_random_matrix(size, m_v_range[0], mode = 'simm')
+                matrix = LinEqSolver.generate_random_matrix(size, m_v_range[0], mode = 'symm')
             else:
                 matrix = LinEqSolver.generate_random_matrix(size, m_v_range[0])
             vector = LinEqSolver.generate_random_vector(size, m_v_range[1])
