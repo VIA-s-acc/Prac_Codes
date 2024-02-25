@@ -4,7 +4,7 @@
 ### LineqSolving methods
 <p><em><a href="https://github.com/VIA-s-acc/Prac_Codes/tree/main/Gauss">Gauss|Chol(V1,V2) Code</a></em></p>
 <ul>
-    <li><a href="#gauss,cholesky">Gauss | Cholesky Methods</a></li>
+    <li><a href="#solver-class">Solver Class</a></li>
     <li><a href="#lineqsolver">LinEqSolver</a></li>
     <li><a href="#methods">Methods</a></li>
     <li><a href="#usage">Usage</a></li>
@@ -12,7 +12,7 @@
 
 
 
-## Gauss,Cholesky
+## Solver Class
 
 Gauss | Cholesky(v1,v2) Methods
 
