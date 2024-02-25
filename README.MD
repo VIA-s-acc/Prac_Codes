@@ -4,7 +4,7 @@
 ### Gauss
 <p><em><a href="https://github.com/VIA-s-acc/Prac_Codes/tree/main/Gauss">Gauss|Chol(V1,V2) Code</a></em></p>
 <ul>
-    <li><a href="#Gauss">Gauss | Chol Methods</a></li>
+    <li><a href="#Gauss | Chol">Gauss | Chol Methods</a></li>
     <li><a href="#LinEqSolver">LinEqSolver</a></li>
     <li><a href="#Methods">Methods</a></li>
     <li><a href="#Usage">Usage</a></li>
@@ -12,7 +12,7 @@
 
 
 
-## Gauss
+## Gauss | Chol
 
 Gauss | Chol(v1,v2) Methods
 
