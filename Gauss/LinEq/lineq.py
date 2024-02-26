@@ -24,28 +24,27 @@ def time_decorator(func):
 
 class LinEqSolver():
     """
-    This class definition is for a linear equation solver using Gaussian elimination. Here's what each class method does:
+    This class is a linear equation solver that provides methods for performing various operations related to solving systems of linear equations. Here's a brief summary of each class method:
 
     det(matrix): Calculates the determinant of a square matrix.
     gauss_elimination(matrix, vec, dig): Performs Gaussian elimination to solve a system of linear equations.
-    generate_random_matrix(size, rng, mode): Generates a random matrix of the given size.
-    save_matrix_to_file(matrix, filename): Saves the given matrix to a file.
+    generate_random_matrix(size, rng, mode): Generates a random matrix of the given size and mode.
+    save_matrix_to_file(matrix, filename, mode): Saves the given matrix to a file.
     read_matrix_from_file(filename): Reads a matrix from a file.
     generate_random_vector(size, rng): Generates a random vector of the specified size and range.
     save_vector_to_file(vector, filename): Saves the given vector to a file.
     read_vector_from_file(filename): Reads a vector from a file.
-    _check_solve_web(matrix, b, size, dig, solution, epsilon): Solves a system of linear equations using a web-based matrix calculator and checks the solution.
     LU_decomposition(matrix): Performs LU decomposition on the given matrix.
+    _pretty_matrix(matrix): Generates a pretty matrix representation with column labels, row numbers, and proper spacing.
     _signum(num): Calculates the signum of the given number.
+    cholesky_decomposition_v1(matrix): Performs Cholesky decomposition on the given matrix.
     cholesky_decomposition_v2(matrix): Performs Cholesky decomposition on the given matrix.
     _sylvesters_criterion(matrix): Checks if the given matrix satisfies Sylvester's criterion for positive definiteness.
-    cholesky_decomposition_v1(matrix): Performs Cholesky decomposition on the given matrix.
-    _matrix_multiply(*matrices): Performs matrix multiplication on the input matrices.
-    _chol_solver(matrix, vec, dig, mode): Solves a linear system using Cholesky decomposition or LU decomposition.
+    _chol_solver(matrix, vec, dig, mode): Solves a linear system using Cholesky decomposition.
     _lu_solver(matrix, vec, dig): Solves a linear system of equations using LU decomposition.
     _forward_substitution(matrix, vec, dig): Solves a system of linear equations using forward substitution.
     _backward_substitution(matrix, vec, dig): Solves a system of linear equations using backward substitution.
-    generate_and_solve_linear_equations(size, matrix_file, vector_file, solution_file, ext_file, dig, check, epsilon, m_v_range, mode, random, **kwargs): Generates and solves a system of linear equations, with options for different solving methods and file saving options.
+    generate_and_solve_linear_equations(size, matrix_file, vector_file, solution_file, ext_file, dig, check, epsilon, m_v_range, mode, random, prettier_path, prettier, **kwargs): Generates and solves a system of linear equations, with various options for customization and output.
     """
     @staticmethod
     def det(matrix):
