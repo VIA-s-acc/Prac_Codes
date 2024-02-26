@@ -27,6 +27,7 @@ The LinEqSolver class provides methods for solving systems of linear equations a
 - `generate_random_matrix(size, rng, mode)`: Generates a random matrix of the given size and mode.
 - `save_matrix_to_file(matrix, filename, mode)`: Saves the given matrix to a file.
 - `read_matrix_from_file(filename)`: Reads a matrix from a file.
+- `_combine_txt(folder_path, output_file, delete_flag)`: Combines the text files in the specified folder into a single output file.
 - `generate_random_vector(size, rng)`: Generates a random vector of the specified size and range.
 - `save_vector_to_file(vector, filename)`: Saves the given vector to a file.
 - `read_vector_from_file(filename)`: Reads a vector from a file.

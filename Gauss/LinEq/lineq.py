@@ -31,6 +31,7 @@ class LinEqSolver():
     generate_random_matrix(size, rng, mode): Generates a random matrix of the given size and mode.
     save_matrix_to_file(matrix, filename, mode): Saves the given matrix to a file.
     read_matrix_from_file(filename): Reads a matrix from a file.
+    _combine_txt(folder_path, output_file, delete_flag): Combines the text files in the specified folder into a single output file.
     generate_random_vector(size, rng): Generates a random vector of the specified size and range.
     save_vector_to_file(vector, filename): Saves the given vector to a file.
     read_vector_from_file(filename): Reads a vector from a file.
@@ -228,7 +229,35 @@ class LinEqSolver():
                 matrix.append(row)
         return matrix
     
-    
+
+    def _combine_txt(folder_path, output_file, delete_flag=False):  
+        """
+        Combine the text files in the specified folder into a single output file.
+
+        Args:
+            folder_path (str): The path to the folder containing the text files.
+            output_file (str): The path to the output file to write the combined content to.
+            delete_flag (bool, optional): Whether to delete the input text files after combining. Defaults to False.
+        """
+        import os
+        files = []
+        with open(output_file, 'w') as combined_file:
+            for filename in os.listdir(folder_path):
+                if filename.endswith('.txt'):
+                    combined_file.write(f"{filename}\n\n")
+                    filepath = os.path.join(folder_path, filename)
+                    files.append(filepath)
+                    with open(filepath, 'r') as file:
+                        combined_file.write(file.read())
+                        combined_file.write("\n\n")
+        try:
+            files.remove(output_file)        
+        except:...
+        if delete_flag:
+            for filepath in files:
+                os.remove(filepath)
+        
+
     def generate_random_vector(size, rng: int = 10):
         """
             Generate a random vector of the specified size and range.
