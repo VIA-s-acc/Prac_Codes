@@ -89,14 +89,12 @@ class LinEqSolver():
             Args:
                 matrix: The matrix representing the coefficients of the linear equations.
                 vec: The vector representing the constants of the linear equations.
-                dig (int, optional): The number of digits to round the solution to. Defaults to -1.
+                dig (int, optional): The number of digits to round the solution to. Defaults to 0.
             
             Returns:
                 list: The solution to the system of linear equations.
         """
-        if dig == -1:
-            dig = 0
-        if dig < -1:
+        if dig < 0:
             return ValueError('digits-nums < 0')
         A = deepcopy(matrix)
         b = deepcopy(vec)
@@ -148,10 +146,8 @@ class LinEqSolver():
                 x[i] -= A[i][j] * x[j]
         del A
         del b
-        if dig != -1:
-            temp = [round(el, dig) for el in x]
-            x = temp
-            del temp
+        x = [round(el, dig) for el in x]
+
         return x
     
 
@@ -399,6 +395,17 @@ class LinEqSolver():
         return 1 if num > 0 else -1
     
     def cholesky_decomposition_v2(matrix):
+        """
+        Performs Cholesky decomposition on the given matrix.
+
+        Args:
+            matrix: The input matrix for Cholesky decomposition.
+
+        Returns:
+            lower: The lower triangular matrix from the decomposition.
+            diagonal_matrix: The diagonal matrix from the decomposition.
+            upper: The upper triangular matrix from the decomposition.
+        """
         size = len(matrix)
         upper = [[0] * size for _ in range(size)]
         diagonal = [0] * size
@@ -409,7 +416,7 @@ class LinEqSolver():
                     diagonal[i] = LinEqSolver._signum(sum_v)
                     upper[i][i] = np.sqrt(abs(sum_v))
                 else:
-                    sum_v = (matrix[i][j] - sum(upper[k][i]*upper[k][j] for k in range(i)))/(upper[i][i]*diagonal[i])
+                    sum_v = (matrix[i][j] - sum(upper[k][i]*upper[k][j]*diagonal[k] for k in range(i)))/(upper[i][i]*diagonal[i])
                     upper[i][j] = sum_v
         
         
@@ -497,11 +504,12 @@ class LinEqSolver():
             lower, diagonal, upper = LinEqSolver.cholesky_decomposition_v2(matrix)            
             lower_upd = LinEqSolver._matrix_multiply(lower, diagonal)
             y = LinEqSolver._forward_substitution(lower_upd, vec, dig=dig)
+
         x = LinEqSolver._backward_substitution(upper, y, dig=dig)
         if mode == '1':
             return x, lower, upper
         elif mode == '2':
-            return x,lower,diagonal,upper
+            return x, lower, diagonal, upper
 
     
 
@@ -547,13 +555,13 @@ class LinEqSolver():
         size = len(matrix)
         x = [0] * size
         x[-1] = vec[-1] / matrix[-1][-1]
-        for i in range(size - 2, -1, -1):
+        for i in range(size - 1, -1, -1):
             x[i] = round((vec[i] - sum(matrix[i][j] * x[j] for j in range(i + 1, size))) / matrix[i][i],dig)
         return x
     
 
     @time_decorator
-    def generate_and_solve_linear_equations(size, matrix_file, vector_file, solution_file, ext_file, dig: int = 1, check: bool = False, epsilon = 1e-5, m_v_range: tuple = (10,10), mode: str = 'gauss', random = True, **kwargs):
+    def generate_and_solve_linear_equations(size, matrix_file, vector_file, solution_file, ext_file, dig: int = 0, check: bool = False, epsilon = 1e-5, m_v_range: tuple = (10,10), mode: str = 'gauss', random = True, **kwargs):
         """
             Generate and solve a system of linear equations.
             
@@ -563,7 +571,7 @@ class LinEqSolver():
                 vector_file (str): The file to save the generated vector.
                 solution_file (str): The file to save the solution to the linear equations.
                 ext_file (bool): Flag to determine if an external file should be saved.
-                dig (int, optional): The number of decimal places for the solution. Defaults to -1.
+                dig (int, optional): The number of decimal places for the solution. Defaults to 0.
                 check (bool, optional): Flag to enable checking the solution. Defaults to False.
                 epsilon (float): The acceptable margin of error for the solution. Defaults to 1e-5.
                 m_v_range (tuple): The range for generating random matrix and vector values. Defaults to (10, 10).
@@ -586,7 +594,7 @@ class LinEqSolver():
                 raise ValueError("The matrix is not a square matrix.")
             matrix = kwargs['matrix']
             vector = kwargs['vector']
-        d_f = lambda x: x if x >= 0 else -1
+        d_f = lambda x: x if x > 0 else 0
         dig = d_f(dig)
         LinEqSolver.save_matrix_to_file(matrix, matrix_file)
         LinEqSolver.save_vector_to_file(vector, vector_file)
@@ -594,20 +602,22 @@ class LinEqSolver():
                 solution = LinEqSolver.gauss_elimination(matrix, vector, dig)
         if mode == 'chol_v1':
                 solution,lower,upper = LinEqSolver._chol_solver(matrix, vector, dig, mode = '1')
+                lower = [list(map(lambda x: round(x, dig), row)) for row in lower]
+                upper = [list(map(lambda x: round(x, dig), row)) for row in upper]
                 LinEqSolver.save_matrix_to_file(lower, matrix_file+'_chol_L.txt')
                 LinEqSolver.save_matrix_to_file(upper, matrix_file+'_chol_U.txt')
         if mode == 'chol_v2':
-                solution,lower,upper,diagonal = LinEqSolver._chol_solver(matrix, vector, dig, mode = '2')
+                solution,lower,diagonal,upper = LinEqSolver._chol_solver(matrix, vector, dig, mode = '2')
+                lower = [list(map(lambda x: round(x, dig), row)) for row in lower]
+                upper = [list(map(lambda x: round(x, dig), row)) for row in upper]
                 LinEqSolver.save_matrix_to_file(lower, matrix_file+'_chol_dec_L.txt')
                 LinEqSolver.save_matrix_to_file(upper, matrix_file+'_chol_dec_U.txt')
-                LinEqSolver.save_matrix_to_file(diagonal, matrix_file+'_chol_dec_L.txt')
-                
+                LinEqSolver.save_matrix_to_file(diagonal, matrix_file+'_chol_dec_D.txt')
         if mode == 'lu':
                 solution,lower,upper = LinEqSolver._lu_solver(matrix, vector, dig)
                 LinEqSolver.save_matrix_to_file(lower, matrix_file+'_lu_L.txt')
                 LinEqSolver.save_matrix_to_file(upper, matrix_file+'_lu_U.txt')
-        
-
+                
         if ext_file:
             sol_eq = [[]] * size
             
