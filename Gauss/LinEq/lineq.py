@@ -158,7 +158,7 @@ class LinEqSolver():
             Args:
                 size (int): The size of the matrix.
                 rng (int, optional): The range of random values. Defaults to 10.
-                mode (str, optional): The mode of the matrix. Either 'symm' for symmetric matrix or None for general matrix. Defaults to None.
+                mode (str, optional): The mode of the matrix. Either 'symm' for symmetric matrix or None for general matrix or '3diag' for 3-diagonal matrix. Defaults to None.
 
             Returns:
                 list: A 2D list representing the random matrix.
@@ -170,7 +170,14 @@ class LinEqSolver():
             for _ in range(size):
                 row = [random.randint(-rng, rng) for _ in range(size)]
                 matrix.append(row)
-       
+        elif mode == '3diag':
+            matrix = [[0] * size for _ in range(size)]
+            for i in range(size):
+                matrix[i][i] = random.randint(-rng, rng)
+                if i > 0:
+                    matrix[i][i-1] = random.randint(-rng, rng)
+                if i < size-1:
+                    matrix[i][i+1] = random.randint(-rng, rng)
         elif mode == "symm":
             matrix = [[0] * size for _ in range(size)]
             for _ in range(size):
@@ -181,22 +188,28 @@ class LinEqSolver():
         
         return matrix
     
-    def save_matrix_to_file(matrix, filename):
+    def save_matrix_to_file(matrix, filename, mode = None):
         """
             Save the given matrix to a file.
 
             Args:
                 matrix (list): The matrix to be saved to the file.
                 filename (str): The name of the file to which the matrix will be saved.
-
+                mode (str, optional): The mode of the matrix. Either 'prettier' or None. Defaults to None.
             Returns:
                 None
         """
-        with open(filename, 'w') as file:
-            size = len(matrix)
-            file.write(f"{size}\n")
-            for row in matrix:
-                file.write(' '.join(map(str, row)) + '\n')
+        if mode == "prettier":
+            print(matrix)
+            with open(filename, 'w') as file:
+                file.write(matrix)
+
+        else:
+            with open(filename, 'w') as file:
+                size = len(matrix)
+                file.write(f"{size}\n")
+                for row in matrix:
+                    file.write(' '.join(map(str, row)) + '\n')
 
 
     def read_matrix_from_file(filename):
@@ -381,6 +394,36 @@ class LinEqSolver():
 
         return lower, upper
     
+    def _pretty_matrix(matrix):
+        """
+            Generates a pretty matrix representation with column labels, row numbers, and proper spacing.
+            
+            Args:
+                matrix (list of lists): The input matrix.
+
+            Returns:
+                str: The pretty matrix representation.
+        """
+        max = 0
+        for row in matrix:
+            for element in row:
+                if max < len(str(element)):
+                    max = len(str(element))
+        num_cols = len(matrix[0])
+        num_rows = len(matrix)
+        result = ""
+
+        col_labels = " " * 10 + "|"+" "*(max) + f"|{" "*max}".join(f"Col {i}" for i in range(1, num_cols + 1)) + ' |'
+
+        separator = "-" * (len(col_labels) + 2)
+        result += f"{separator}\n{col_labels}\n{separator}"
+
+        for i, row in enumerate(matrix):
+            row_str = f"Row {i+1: <5} |" + "|".join(map(lambda x: f"{x: > {max+5}}", row)) + " |"
+            result += f"\n{row_str}"
+        result += "\n" + separator
+        return result
+
 
     def _signum(num):
         """
@@ -396,15 +439,15 @@ class LinEqSolver():
     
     def cholesky_decomposition_v2(matrix):
         """
-        Performs Cholesky decomposition on the given matrix.
+            Performs Cholesky decomposition on the given matrix.
 
-        Args:
-            matrix: The input matrix for Cholesky decomposition.
+            Args:
+                matrix: The input matrix for Cholesky decomposition.
 
-        Returns:
-            lower: The lower triangular matrix from the decomposition.
-            diagonal_matrix: The diagonal matrix from the decomposition.
-            upper: The upper triangular matrix from the decomposition.
+            Returns:
+                lower: The lower triangular matrix from the decomposition.
+                diagonal_matrix: The diagonal matrix from the decomposition.
+                upper: The upper triangular matrix from the decomposition.
         """
         size = len(matrix)
         upper = [[0] * size for _ in range(size)]
@@ -428,13 +471,13 @@ class LinEqSolver():
 
     def _sylvesters_criterion(matrix):
         """
-        Check if the given matrix satisfies Sylvester's criterion for positive definiteness.
+            Check if the given matrix satisfies Sylvester's criterion for positive definiteness.
 
-        Args:
-            matrix: The input matrix to be checked.
+            Args:
+                matrix: The input matrix to be checked.
 
-        Returns:
-            True if the matrix satisfies Sylvester's criterion for positive definiteness, False otherwise.
+            Returns:
+                True if the matrix satisfies Sylvester's criterion for positive definiteness, False otherwise.
         """
         n = len(matrix)
         for i in range(1, n + 1):
@@ -469,10 +512,9 @@ class LinEqSolver():
                     upper[j][i] = lower[i][j]
 
         return lower, upper
-
     def _matrix_multiply(*matrices):
         """
-        Perform matrix multiplication on the input matrices and return the resulting matrix.
+            Perform matrix multiplication on the input matrices and return the resulting matrix.
         """
         result = matrices[0]
         for matrix in matrices[1:]:
@@ -481,17 +523,17 @@ class LinEqSolver():
 
     def _chol_solver(matrix, vec, dig = 1, mode = '1'):
         """
-        Solve a linear system using Cholesky decomposition.
+            Solve a linear system using Cholesky decomposition.
 
-        Args:
-            matrix: The matrix of the linear system.
-            vec: The vector of the linear system.
-            mode: The mode of Cholesky decomposition. Default is '1'.
+            Args:
+                matrix: The matrix of the linear system.
+                vec: The vector of the linear system.
+                mode: The mode of Cholesky decomposition. Default is '1'.
 
-        Returns:
-            Tuple: Depending on the mode, it returns different values.
-                If mode is '1', returns x, lower, and upper.
-                If mode is '2', returns x, lower, diagonal, and upper.
+            Returns:
+                Tuple: Depending on the mode, it returns different values.
+                    If mode is '1', returns x, lower, and upper.
+                    If mode is '2', returns x, lower, diagonal, and upper.
         """
         
         if mode == '1':
@@ -515,19 +557,18 @@ class LinEqSolver():
 
     def _lu_solver(matrix, vec, dig:int = 1):
         """
-        Solves a linear system of equations using LU decomposition.
-        
-        Args:
-            matrix: The coefficient matrix of the linear system.
-            vec: The vector of constants in the linear system.
-            dig: The number of digits to round the solution to (default is 1).
-        
-        Returns:
-            x: The solution vector.
-            lower: The lower triangular matrix from the LU decomposition.
-            upper: The upper triangular matrix from the LU decomposition.
-        """
-       
+            Solves a linear system of equations using LU decomposition.
+            
+            Args:
+                matrix: The coefficient matrix of the linear system.
+                vec: The vector of constants in the linear system.
+                dig: The number of digits to round the solution to (default is 1).
+            
+            Returns:
+                x: The solution vector.
+                lower: The lower triangular matrix from the LU decomposition.
+                upper: The upper triangular matrix from the LU decomposition.
+        """ 
         
         if dig < 0:
             dig = 0
@@ -561,7 +602,7 @@ class LinEqSolver():
     
 
     @time_decorator
-    def generate_and_solve_linear_equations(size, matrix_file, vector_file, solution_file, ext_file, dig: int = 0, check: bool = False, epsilon = 1e-5, m_v_range: tuple = (10,10), mode: str = 'gauss', random = True, **kwargs):
+    def generate_and_solve_linear_equations(size, matrix_file, vector_file, solution_file, ext_file, dig: int = 0, check: bool = False, epsilon = 1e-5, m_v_range: tuple = (10,10), mode: str = 'gauss', random = True,prettier_path = None, prettier = False, **kwargs):
         """
             Generate and solve a system of linear equations.
             
@@ -577,6 +618,8 @@ class LinEqSolver():
                 m_v_range (tuple): The range for generating random matrix and vector values. Defaults to (10, 10).
                 mode (str): The method to use for solving the linear equations. Defaults to 'gauss'. method list 'chol_v1, chol_v2, gauss, lu'
                 random (bool): Flag to determine if the matrix and vector should be generated randomly. Defaults to True.
+                prettier_path (str): The path to the prettier executable. Defaults to None.
+                prettier (bool): Flag to enable prettier output. Defaults to False.
                 **kwargs: if random is False, the matrix and vector should be provided as kwargs with keys 'matrix' and 'vector'.
             Returns:
                 None
@@ -588,16 +631,25 @@ class LinEqSolver():
                 matrix = LinEqSolver.generate_random_matrix(size, m_v_range[0])
             vector = LinEqSolver.generate_random_vector(size, m_v_range[1])
         else:
+            try:
+                matrix = kwargs['matrix']
+                vector = kwargs['vector']
+            except:
+                raise ValueError("Matrix and vector must be provided as kwargs with keys 'matrix' and 'vector' in random = False mode.")
             size = len(kwargs['matrix'])
             check_matrix_size = lambda size, matrix: all(len(row) == size for row in matrix)
             if not check_matrix_size(len(kwargs['matrix'][0]), kwargs['matrix']):
                 raise ValueError("The matrix is not a square matrix.")
-            matrix = kwargs['matrix']
-            vector = kwargs['vector']
         d_f = lambda x: x if x > 0 else 0
         dig = d_f(dig)
         LinEqSolver.save_matrix_to_file(matrix, matrix_file)
         LinEqSolver.save_vector_to_file(vector, vector_file)
+        if prettier:
+                    if not prettier_path:
+                        raise ValueError("Please provide the path to the prettier executable.")
+                    LinEqSolver.save_matrix_to_file(LinEqSolver._pretty_matrix(matrix), prettier_path+'matrix.txt', mode = 'prettier')
+                    LinEqSolver.save_matrix_to_file(LinEqSolver._pretty_matrix([[i] for i in vector]), prettier_path+'vector.txt', mode = 'prettier')
+
         if mode == 'gauss':
                 solution = LinEqSolver.gauss_elimination(matrix, vector, dig)
         if mode == 'chol_v1':
@@ -606,6 +658,12 @@ class LinEqSolver():
                 upper = [list(map(lambda x: round(x, dig), row)) for row in upper]
                 LinEqSolver.save_matrix_to_file(lower, matrix_file+'_chol_L.txt')
                 LinEqSolver.save_matrix_to_file(upper, matrix_file+'_chol_U.txt')
+                if prettier:
+                    if not prettier_path:
+                        raise ValueError("Please provide the path to the prettier executable.")
+                    LinEqSolver.save_matrix_to_file(LinEqSolver._pretty_matrix(lower), prettier_path+'_chol_L.txt', mode = 'prettier')
+                    LinEqSolver.save_matrix_to_file(LinEqSolver._pretty_matrix(upper), prettier_path+'_chol_U.txt', mode = 'prettier')
+        
         if mode == 'chol_v2':
                 solution,lower,diagonal,upper = LinEqSolver._chol_solver(matrix, vector, dig, mode = '2')
                 lower = [list(map(lambda x: round(x, dig), row)) for row in lower]
@@ -613,10 +671,22 @@ class LinEqSolver():
                 LinEqSolver.save_matrix_to_file(lower, matrix_file+'_chol_dec_L.txt')
                 LinEqSolver.save_matrix_to_file(upper, matrix_file+'_chol_dec_U.txt')
                 LinEqSolver.save_matrix_to_file(diagonal, matrix_file+'_chol_dec_D.txt')
+                if prettier:
+                    if not prettier_path:
+                        raise ValueError("Please provide the path to the prettier executable.")
+                    LinEqSolver.save_matrix_to_file(LinEqSolver._pretty_matrix(lower), prettier_path+'_chol_dec_L.txt', mode = 'prettier')
+                    LinEqSolver.save_matrix_to_file(LinEqSolver._pretty_matrix(upper), prettier_path+'_chol_dec_U.txt', mode = 'prettier')
+                    LinEqSolver.save_matrix_to_file(LinEqSolver._pretty_matrix(diagonal), prettier_path+'_chol_dec_D.txt', mode = 'prettier')
+
         if mode == 'lu':
                 solution,lower,upper = LinEqSolver._lu_solver(matrix, vector, dig)
                 LinEqSolver.save_matrix_to_file(lower, matrix_file+'_lu_L.txt')
                 LinEqSolver.save_matrix_to_file(upper, matrix_file+'_lu_U.txt')
+                if prettier:
+                    if not prettier_path:
+                        raise ValueError("Please provide the path to the prettier executable.")
+                    LinEqSolver.save_matrix_to_file(LinEqSolver._pretty_matrix(lower), prettier_path+'_lu_L.txt', mode = 'prettier')
+                    LinEqSolver.save_matrix_to_file(LinEqSolver._pretty_matrix(upper), prettier_path+'_lu_U.txt', mode = 'prettier')
                 
         if ext_file:
             sol_eq = [[]] * size
@@ -634,5 +704,8 @@ class LinEqSolver():
                 sol_eq.extend([" ","Checker_Mode: OFF"])
             LinEqSolver.save_matrix_to_file(sol_eq, ext_file)
 
-
+        if prettier:
+                    if not prettier_path:
+                        raise ValueError("Please provide the path to the prettier executable.")
+                    LinEqSolver.save_matrix_to_file(LinEqSolver._pretty_matrix([[i] for i in solution]), prettier_path+'solution.txt', mode = 'prettier')
         LinEqSolver.save_vector_to_file(solution, solution_file)
