@@ -70,8 +70,7 @@ LinEqSolver.save_vector_to_file(random_vector, "random_vector.txt")
 read_matrix = LinEqSolver.read_matrix_from_file("random_matrix.txt")
 read_vector = LinEqSolver.read_vector_from_file("random_vector.txt")
 ```
-
-or 
+ 
 ```python
 
 from LinEq import *
@@ -86,10 +85,17 @@ LinEqSolver.generate_and_solve_linear_equations(3, 'Gauss/eq/matrix.txt', 'Gauss
 ```
 
 
-or 
 ```python
 from LinEq import *
 
 LinEqSolver.generate_and_solve_linear_equations(3, 'Gauss/eq/matrix.txt', 'Gauss/eq/vec.txt', 'Gauss/eq/sol.txt', 'Gauss/eq/sol_ext.txt',dig = 5, m_v_range=(10,10),check=False, mode = 'chol_v1', random = True)  
 
+```
+
+Combine usage
+```python
+LinEqSolver.generate_and_solve_linear_equations(8, 'Gauss/eq/matrix.txt', 'Gauss/eq/vec.txt', 'Gauss/eq/sol.txt', 'Gauss/eq/sol_ext.txt',dig = 3, m_v_range=(10,10),check=False, mode = 'chol_v2', epsilon=1e-3, random = True, prettier = True, prettier_path="Gauss/eq/prettier/pretty_", matrix = matrix,vector = vec)  
+
+LinEqSolver._combine_txt("Gauss/eq/prettier/", "Gauss/eq/prettier_combine/prettier_combined.txt", delete_flag=True)
+LinEqSolver._combine_txt("Gauss/eq/", "Gauss/eq/prettier_combine/combined.txt", delete_flag=True)
 ```
