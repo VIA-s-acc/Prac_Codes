@@ -199,7 +199,6 @@ class LinEqSolver():
                 None
         """
         if mode == "prettier":
-            print(matrix)
             with open(filename, 'w') as file:
                 file.write(matrix)
 
