@@ -164,7 +164,7 @@ class LinEqSolver():
         """
         matrix = []
         if size < 0:
-            raise ValueError("Размер не может быть меньше 0")
+            raise ValueError("Size can't be negative")
         if mode is None:
             for _ in range(size):
                 row = [random.randint(-rng, rng) for _ in range(size)]
