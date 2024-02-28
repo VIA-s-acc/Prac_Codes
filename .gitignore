@@ -1,4 +1,5 @@
 /prac
 main.py
-/Gauss/test_files
-/Gauss/eq
+/Lineq/test_files
+/Lineq/eq
+__pycache__

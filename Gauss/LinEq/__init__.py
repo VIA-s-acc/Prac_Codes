@@ -1,1 +1,0 @@
-from .lineq import *

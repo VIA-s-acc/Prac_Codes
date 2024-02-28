@@ -1,101 +1,99 @@
 # PracCodes
 
 ## Table Of Content
-### LineqSolving methods
-<p><em><a href="https://github.com/VIA-s-acc/Prac_Codes/tree/main/Gauss">Gauss|Chol(V1,V2) Code</a></em></p>
-<ul>
-    <li><a href="#solver-class">Solver Class</a></li>
-    <li><a href="#lineqsolver">LinEqSolver</a></li>
-    <li><a href="#methods">Methods</a></li>
-    <li><a href="#usage">Usage</a></li>
-</ul>
+
+<p><em><a href="https://github.com/VIA-s-acc/Prac_Codes/tree/main/Lineq">Lineq Source</a></em></p>
+
+- [Lineq Classes](#lineq-classes)
+    -   [Checker](#checker)
+    -   [Generator](#generator)
+    -   [Matrix Methods](#matrix-methods)
+    -   [Save And Read](#save-and-read)
+        -   [Saver](#saver)
+        -   [Reader](#reader)
+
+
+## Lineq Classes 
+
+### Checker
+<p><em><a href="https://github.com/VIA-s-acc/Prac_Codes/tree/main/Lineq/LinEq/Checker.py">Checker Source</a></em></p>
+This `Checker` class contains three methods:
+
+1. `_signum(num)`: 
+   - Calculates the signum of the given number.
+
+2. `_check_solve_web(matrix, b, size, dig, solution, epsilon)`: 
+   - Solves a system of linear equations using a web-based matrix calculator.
+
+3. `_sylvesters_criterion(matrix)`: 
+   - Checks if the given matrix satisfies Sylvester's criterion for positive definiteness.
 
 
 
-## Solver Class
+### Generator
+<p><em><a href="https://github.com/VIA-s-acc/Prac_Codes/tree/main/Lineq/LinEq/Generator.py">Generator Source</a></em></p>
 
-Gauss | Cholesky(v1,v2) Methods
+This class Generator contains two static methods:
 
-### LinEqSolver
+1. - `generate_random_matrix(size, rng: int = 10, mode: str = None)`:
+    - Generates a random matrix of the given size, with an optional mode for symmetric or 3-diagonal matrix.
 
-The LinEqSolver class provides methods for solving systems of linear equations and working with matrices and vectors.
+2. - `generate_random_vector(size, rng: int = 10)`:
+    - Generates a random vector of the specified size and range.
 
-### Methods:
+### Matrix Methods 
+<p><em><a href="https://github.com/VIA-s-acc/Prac_Codes/tree/main/Lineq/LinEq/Matrix_methods.py">Matrix Methods Source</a></em></p>
 
-- `det(matrix)`: Calculates the determinant of a square matrix.
-- `gauss_elimination(matrix, vec, dig)`: Performs Gaussian elimination to solve a system of linear equations.
-- `generate_random_matrix(size, rng, mode)`: Generates a random matrix of the given size and mode.
-- `save_matrix_to_file(matrix, filename, mode)`: Saves the given matrix to a file.
-- `read_matrix_from_file(filename)`: Reads a matrix from a file.
-- `_combine_txt(folder_path, output_file, delete_flag)`: Combines the text files in the specified folder into a single output file.
-- `generate_random_vector(size, rng)`: Generates a random vector of the specified size and range.
-- `save_vector_to_file(vector, filename)`: Saves the given vector to a file.
-- `read_vector_from_file(filename)`: Reads a vector from a file.
-- `LU_decomposition(matrix)`: Performs LU decomposition on the given matrix.
-- `_pretty_matrix(matrix)`: Generates a pretty matrix representation with column labels, row numbers, and proper spacing.
-- `_signum(num)`: Calculates the signum of the given number.
-- `cholesky_decomposition_v1(matrix)`: Performs Cholesky decomposition on the given matrix.
-- `cholesky_decomposition_v2(matrix)`: Performs Cholesky decomposition on the given matrix.
-- `_sylvesters_criterion(matrix)`: Checks if the given matrix satisfies Sylvester's criterion for positive definiteness.
-- `_chol_solver(matrix, vec, dig, mode)`: Solves a linear system using Cholesky decomposition.
-- `_lu_solver(matrix, vec, dig)`: Solves a linear system of equations using LU decomposition.
-- `_forward_substitution(matrix, vec, dig)`: Solves a system of linear equations using forward substitution.
-- `_backward_substitution(matrix, vec, dig)`: Solves a system of linear equations using backward substitution.
-- `generate_and_solve_linear_equations(size, matrix_file, vector_file, solution_file, ext_file, dig, check, epsilon, m_v_range, mode, random, prettier_path, prettier, **kwargs)`: Generates and solves a system of linear equations, with various options for customization and output.
+This class contains methods for various matrix operations:
 
-### Usage:
+1. `det(matrix)`: 
+    - Calculates the determinant of a square matrix.
 
-```python
-from LinEq import LinEqSolver
+2. `LU_decomposition(matrix)`: 
+    - Performs LU decomposition on the given matrix and returns the lower and upper triangular matrices.
 
-# Example usage
-matrix = [[2, 1], [1, -1]]
-vector = [8, -1]
+3. `cholesky_decomposition_v1(matrix)`: 
+    - Performs Cholesky decomposition and returns the lower and upper triangular matrices.
 
-# Calculate determinant
-determinant = LinEqSolver.det(matrix)
+4. `cholesky_decomposition_v2(matrix)`: 
+    - Performs Cholesky decomposition and returns the lower triangular matrix, diagonal matrix, and upper triangular matrix.
 
-# Solve system of linear equations
-solution = LinEqSolver.gauss_elimination(matrix, vector)
+5. `_matrix_multiply(*matrices)`:
+    - Performs matrix multiplication on the input matrices and returns the resulting matrix.
+    
 
-# Generate random matrix and vector
-random_matrix = LinEqSolver.generate_random_matrix(2)
-random_vector = LinEqSolver.generate_random_vector(2)
+### Save And Read
+<p><em><a href="https://github.com/VIA-s-acc/Prac_Codes/tree/main/Lineq/LinEq/S_R.py">Save And Read Source</a></em></p>
 
-# Save matrix and vector to files
-LinEqSolver.save_matrix_to_file(random_matrix, "random_matrix.txt")
-LinEqSolver.save_vector_to_file(random_vector, "random_vector.txt")
+#### Reader
+This `Reader` class has two methods:
+1. - `read_matrix_from_file(filename)`: 
+    - Reads a matrix from a file and returns a 2D list representing the matrix.
+    
+2. - `read_vector_from_file(filename)`: 
+    - Reads a vector from a file and returns a list containing the integers read from the file.
 
-# Read matrix and vector from files
-read_matrix = LinEqSolver.read_matrix_from_file("random_matrix.txt")
-read_vector = LinEqSolver.read_vector_from_file("random_vector.txt")
-```
- 
-```python
+#### Saver
+This class, `Saver`, provides methods to save matrices and vectors to files, and to combine text files into a single output file.
 
-from LinEq import *
+1. - `save_matrix_to_file`: 
+    - Saves the given matrix to a file, with an optional 'prettier' mode for formatting.
 
-matrix =   [[2,-1,0],
-            [-1,2,-1],
-            [0,-1,2]] 
-vec = [-8, -3, 6]
+2. - `save_vector_to_file`: 
+    - Saves the given vector to the specified file.
 
-LinEqSolver.generate_and_solve_linear_equations(3, 'Gauss/eq/matrix.txt', 'Gauss/eq/vec.txt', 'Gauss/eq/sol.txt', 'Gauss/eq/sol_ext.txt',dig = 5, m_v_range=(10,10),check=False, mode = 'chol_v1', random = False, matrix = matrix, vector = vec)  
+3. - `_combine_txt`: 
+    - Combines text files in a specified folder into a single output file, with an option to delete the input text files after combining.
 
-```
+### Prettier
+<p><em><a href="https://github.com/VIA-s-acc/Prac_Codes/tree/main/Lineq/eq/Prettier.py">Prettier Source</a></em></p>
+
+This class, `Prettier`, contains a method `_pretty_matrix` that generates a pretty matrix representation with column labels, row numbers, and proper spacing. 
+
+1. - `_pretty_matrix(matrix)`: 
+    - Generates a pretty matrix representation with column labels, row numbers, and proper spacing.
 
 
-```python
-from LinEq import *
 
-LinEqSolver.generate_and_solve_linear_equations(3, 'Gauss/eq/matrix.txt', 'Gauss/eq/vec.txt', 'Gauss/eq/sol.txt', 'Gauss/eq/sol_ext.txt',dig = 5, m_v_range=(10,10),check=False, mode = 'chol_v1', random = True)  
 
-```
 
-Combine usage
-```python
-LinEqSolver.generate_and_solve_linear_equations(8, 'Gauss/eq/matrix.txt', 'Gauss/eq/vec.txt', 'Gauss/eq/sol.txt', 'Gauss/eq/sol_ext.txt',dig = 3, m_v_range=(10,10),check=False, mode = 'chol_v2', epsilon=1e-3, random = True, prettier = True, prettier_path="Gauss/eq/prettier/pretty_", matrix = matrix,vector = vec)  
-
-LinEqSolver._combine_txt("Gauss/eq/prettier/", "Gauss/eq/prettier_combine/prettier_combined.txt", delete_flag=True)
-LinEqSolver._combine_txt("Gauss/eq/", "Gauss/eq/prettier_combine/combined.txt", delete_flag=True)
-```
