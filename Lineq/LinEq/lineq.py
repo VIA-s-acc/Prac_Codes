@@ -13,12 +13,12 @@ class LinEqSolver():
     """
     This class is a linear equation solver that provides methods for performing various operations related to solving systems of linear equations. Here's a brief summary of each class method:
 
-    gauss_elimination(matrix, vec, dig): Performs Gaussian elimination to solve a system of linear equations.
-    _chol_solver(matrix, vec, dig, mode): Solves a linear system using Cholesky decomposition.
-    _lu_solver(matrix, vec, dig): Solves a linear system of equations using LU decomposition.
-    _forward_substitution(matrix, vec, dig): Solves a system of linear equations using forward substitution.
-    _backward_substitution(matrix, vec, dig): Solves a system of linear equations using backward substitution.
-    generate_and_solve_linear_equations(size, matrix_file, vector_file, solution_file, ext_file, dig, check, epsilon, m_v_range, mode, random, prettier_path, prettier, **kwargs): Generates and solves a system of linear equations, with various options for customization and output.
+    - `gauss_elimination(matrix, vec, dig)`: Performs Gaussian elimination to solve a system of linear equations.
+    - `_chol_solver(matrix, vec, dig, mode)`: Solves a linear system using Cholesky decomposition.
+    - `_lu_solver(matrix, vec, dig):` Solves a linear system of equations using LU decomposition.
+    - `_forward_substitution(matrix, vec, dig)`: Solves a system of linear equations using forward substitution.
+    - `_backward_substitution(matrix, vec, dig)`: Solves a system of linear equations using backward substitution.
+    - `generate_and_solve_linear_equations(size, matrix_file, vector_file, solution_file, ext_file, dig, check, epsilon, m_v_range, mode, random, prettier_path, prettier, **kwargs)`: Generates and solves a system of linear equations, with various options for customization and output.
     """
     
 
