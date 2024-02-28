@@ -16,7 +16,7 @@
 ## Lineq Classes 
 
 ### Checker
-<p><em><a href="https://github.com/VIA-s-acc/Prac_Codes/tree/main/Lineq/LinEq/Utils/Checker.py">Checker Source</a></em></p>
+<p><em><a href="https://github.com/VIA-s-acc/Prac_Codes/tree/main/Lineq/LinEq/Utils/Checkers.py">Checker Source</a></em></p>
 This `Checker` class contains three methods:
 
 1. `_signum(num)`: 
