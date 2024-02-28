@@ -11,6 +11,7 @@
     -   [Save And Read](#save-and-read)
         -   [Saver](#saver)
         -   [Reader](#reader)
+    -   [LinEqSolver](#lineqsolver)
 
 
 ## Lineq Classes 
@@ -94,6 +95,21 @@ This class, `Prettier`, contains a method `_pretty_matrix` that generates a pret
     - Generates a pretty matrix representation with column labels, row numbers, and proper spacing.
 
 
+### LinEqSolver
+<p><em><a href="https://github.com/VIA-s-acc/Prac_Codes/tree/main/Lineq/LinEq/lineq.py">LinEqSolver Source</a></em></p>
 
+This class is a linear equation solver that provides methods for performing various operations related to solving systems of linear equations. Here's a brief summary of each class method:
 
+1.  `gauss_elimination(matrix, vec, dig)`: 
+    - Performs Gaussian elimination to solve a system of linear equations.
+2.  `_chol_solver(matrix, vec, dig, mode)`:
+    - Solves a linear system using Cholesky decomposition.
+3.  `_lu_solver(matrix, vec, dig):` 
+    - Solves a linear system of equations using LU decomposition.
+4.  `_forward_substitution(matrix, vec, dig)`: 
+    - Solves a system of linear equations using forward substitution.
+5.  `_backward_substitution(matrix, vec, dig)`: 
+    - Solves a system of linear equations using backward substitution.
+6.  `generate_and_solve_linear_equations(size, matrix_file, vector_file, solution_file, ext_file, dig, check, epsilon, m_v_range, mode, random, prettier_path, prettier, logger, **kwargs)`: 
+    - Generates and solves a system of linear equations, with various options for customization and output.
 

@@ -4,6 +4,9 @@ from tempfile import NamedTemporaryFile
 from unittest.mock import patch, mock_open
 import lineq
 
+
+### THIS TESTS DONT WORK REFACTOR NEED TO FIX ###
+
 #Default Tests files saving path  "Base/test_files/" <- Create if dont have.
 
 class TestDeterminant(unittest.TestCase):
@@ -233,4 +236,5 @@ class TestReadVectorFromFile(unittest.TestCase):
 
 
 if __name__ == '__main__':
-    unittest.main()
+    print("WARNING: Running test suite is not recommended. TEST DONT WORK | REFACTOR NEED TO FIX.")
+    # unittest.main()

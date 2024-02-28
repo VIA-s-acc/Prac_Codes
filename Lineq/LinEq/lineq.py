@@ -18,7 +18,7 @@ class LinEqSolver():
     - `_lu_solver(matrix, vec, dig):` Solves a linear system of equations using LU decomposition.
     - `_forward_substitution(matrix, vec, dig)`: Solves a system of linear equations using forward substitution.
     - `_backward_substitution(matrix, vec, dig)`: Solves a system of linear equations using backward substitution.
-    - `generate_and_solve_linear_equations(size, matrix_file, vector_file, solution_file, ext_file, dig, check, epsilon, m_v_range, mode, random, prettier_path, prettier, **kwargs)`: Generates and solves a system of linear equations, with various options for customization and output.
+    - `generate_and_solve_linear_equations(size, matrix_file, vector_file, solution_file, ext_file, dig, check, epsilon, m_v_range, mode, random, prettier_path, prettier, logger, **kwargs)`: Generates and solves a system of linear equations, with various options for customization and output.
     """
     
 
@@ -176,7 +176,7 @@ class LinEqSolver():
     
 
     @time_decorator
-    def generate_and_solve_linear_equations(size, matrix_file, vector_file, solution_file, ext_file, dig: int = 0, check: bool = False, epsilon = 1e-5, m_v_range: tuple = (10,10), mode: str = 'gauss', random = True,prettier_path = None, prettier = False, **kwargs):
+    def generate_and_solve_linear_equations(size, matrix_file, vector_file, solution_file, ext_file, dig: int = 0, check: bool = False, epsilon = 1e-5, m_v_range: tuple = (10,10), mode: str = 'gauss', random = True,prettier_path = None, prettier = False, logger = True, **kwargs):
         """
             Generate and solve a system of linear equations.
             
@@ -194,94 +194,138 @@ class LinEqSolver():
                 random (bool): Flag to determine if the matrix and vector should be generated randomly. Defaults to True.
                 prettier_path (str): The path to the prettier executable. Defaults to None.
                 prettier (bool): Flag to enable prettier output. Defaults to False.
+                logger (bool): Flag to enable logging. Defaults to True.
                 **kwargs: if random is False, the matrix and vector should be provided as kwargs with keys 'matrix' and 'vector'.
             Returns:
                 None
         """
-        if random:
-            if mode == 'chol_v1' or mode == 'chol_v2':
-                matrix = Gn.generate_random_matrix(size, m_v_range[0], mode = 'symm')
-            else:
-                matrix = Gn.generate_random_matrix(size, m_v_range[0])
-            vector = Gn.generate_random_vector(size, m_v_range[1])
-        else:
-            try:
-                matrix = kwargs['matrix']
-                vector = kwargs['vector']
-            except:
-                raise ValueError("Matrix and vector must be provided as kwargs with keys 'matrix' and 'vector' in random = False mode.")
-            size = len(kwargs['matrix'])
-            check_matrix_size = lambda size, matrix: all(len(row) == size for row in matrix)
-            if not check_matrix_size(len(kwargs['matrix'][0]), kwargs['matrix']):
-                raise ValueError("The matrix is not a square matrix.")
-        d_f = lambda x: x if x > 0 else 0
-        dig = d_f(dig)
-        Sv.save_matrix_to_file(matrix, matrix_file)
-        Sv.save_vector_to_file(vector, vector_file)
-        if prettier:
-                    if not prettier_path:
-                        raise ValueError("Please provide the path to the prettier executable.")
-                    Sv.save_matrix_to_file(Prt._pretty_matrix(matrix), prettier_path+'matrix.txt', mode = 'prettier')
-                    Sv.save_matrix_to_file(Prt._pretty_matrix([[i] for i in vector]), prettier_path+'vector.txt', mode = 'prettier')
-
-        if mode == 'gauss':
-                solution = LinEqSolver.gauss_elimination(matrix, vector, dig)
-        if mode == 'chol_v1':
-                solution,lower,upper = LinEqSolver._chol_solver(matrix, vector, dig, mode = '1')
-                lower = [list(map(lambda x: round(x, dig), row)) for row in lower]
-                upper = [list(map(lambda x: round(x, dig), row)) for row in upper]
-                Sv.save_matrix_to_file(lower, matrix_file+'_chol_L.txt')
-                Sv.save_matrix_to_file(upper, matrix_file+'_chol_U.txt')
-                if prettier:
-                    if not prettier_path:
-                        raise ValueError("Please provide the path to the prettier executable.")
-                    Sv.save_matrix_to_file(Prt._pretty_matrix(lower), prettier_path+'_chol_L.txt', mode = 'prettier')
-                    Sv.save_matrix_to_file(Prt._pretty_matrix(upper), prettier_path+'_chol_U.txt', mode = 'prettier')
-        
-        if mode == 'chol_v2':
-                solution,lower,diagonal,upper = LinEqSolver._chol_solver(matrix, vector, dig, mode = '2')
-                lower = [list(map(lambda x: round(x, dig), row)) for row in lower]
-                upper = [list(map(lambda x: round(x, dig), row)) for row in upper]
-                Sv.save_matrix_to_file(lower, matrix_file+'_chol_dec_L.txt')
-                Sv.save_matrix_to_file(upper, matrix_file+'_chol_dec_U.txt')
-                Sv.save_matrix_to_file(diagonal, matrix_file+'_chol_dec_D.txt')
-                if prettier:
-                    if not prettier_path:
-                        raise ValueError("Please provide the path to the prettier executable.")
-                    Sv.save_matrix_to_file(Prt._pretty_matrix(lower), prettier_path+'_chol_dec_L.txt', mode = 'prettier')
-                    Sv.save_matrix_to_file(Prt._pretty_matrix(upper), prettier_path+'_chol_dec_U.txt', mode = 'prettier')
-                    Sv.save_matrix_to_file(Prt._pretty_matrix(diagonal), prettier_path+'_chol_dec_D.txt', mode = 'prettier')
-
-        if mode == 'lu':
-                solution,lower,upper = LinEqSolver._lu_solver(matrix, vector, dig)
-                lower = [list(map(lambda x: round(x, dig), row)) for row in lower]
-                upper = [list(map(lambda x: round(x, dig), row)) for row in upper]
-                Sv.save_matrix_to_file(lower, matrix_file+'_lu_L.txt')
-                Sv.save_matrix_to_file(upper, matrix_file+'_lu_U.txt')
-                if prettier:
-                    if not prettier_path:
-                        raise ValueError("Please provide the path to the prettier executable.")
-                    Sv.save_matrix_to_file(Prt._pretty_matrix(lower), prettier_path+'_lu_L.txt', mode = 'prettier')
-                    Sv.save_matrix_to_file(Prt._pretty_matrix(upper), prettier_path+'_lu_U.txt', mode = 'prettier')
-                
-        if ext_file:
-            sol_eq = [[]] * size
-            
-            for i in range(size):
-                sol_eq[i] = ['|'] + [str(x).rjust(3) for x in matrix[i]] + ['|', '* |', str(solution[i]).rjust(7) + ' | ->', str(vector[i]).rjust(4).ljust(4)]
-            if check:
-                if dig >= 0:
-                    check_res, sub_result = Ckr._check_solve_web(matrix, vector, size, dig, solution, epsilon)
+        try:
+            if random:
+                if mode == 'chol_v1' or mode == 'chol_v2':
+                    matrix = Gn.generate_random_matrix(size, m_v_range[0], mode = 'symm')
                 else:
-                    check_res, sub_result = Ckr._check_solve_web(matrix, vector, size, dig, solution=solution, epsilon=epsilon)
-                
-                sol_eq.extend(["Checker_Mode: ON\n",f"Epsilon: {epsilon}\n","Program_Result:\n"] + [f"x{i+1} = {solution[i]}" for i in range(len(solution))] + ['\n'] + ['Checker_Result:\n'] + check_res + ['\n'] + ['Cheking:\n'] + sub_result)
+                    matrix = Gn.generate_random_matrix(size, m_v_range[0])
+                vector = Gn.generate_random_vector(size, m_v_range[1])
             else:
-                sol_eq.extend([" ","Checker_Mode: OFF"])
-            Sv.save_matrix_to_file(sol_eq, ext_file)
+                try:
+                    matrix = kwargs['matrix']
+                    vector = kwargs['vector']
+                except:
+                    raise ValueError("Matrix and vector must be provided as kwargs with keys 'matrix' and 'vector' in random = False mode.")
+                size = len(kwargs['matrix'])
+                check_matrix_size = lambda size, matrix: all(len(row) == size for row in matrix)
+                if not check_matrix_size(len(kwargs['matrix'][0]), kwargs['matrix']):
+                    raise ValueError("The matrix is not a square matrix.")
+            d_f = lambda x: x if x > 0 else 0
+            dig = d_f(dig)
+            Sv.save_matrix_to_file(matrix, matrix_file)
+            Sv.save_vector_to_file(vector, vector_file)
+            if prettier:
+                        if not prettier_path:
+                            raise ValueError("Please provide the path to the prettier executable.")
+                        Sv.save_matrix_to_file(Prt._pretty_matrix(matrix), prettier_path+'matrix.txt', mode = 'prettier')
+                        Sv.save_matrix_to_file(Prt._pretty_matrix([[i] for i in vector]), prettier_path+'vector.txt', mode = 'prettier')
 
-        if prettier:
-                    if not prettier_path:
-                        raise ValueError("Please provide the path to the prettier executable.")
-                    Sv.save_matrix_to_file(Prt._pretty_matrix([[i] for i in solution]), prettier_path+'solution.txt', mode = 'prettier')
-        Sv.save_vector_to_file(solution, solution_file)
+            if mode == 'gauss':
+                    solution = LinEqSolver.gauss_elimination(matrix, vector, dig)
+            if mode == 'chol_v1':
+                    solution,lower,upper = LinEqSolver._chol_solver(matrix, vector, dig, mode = '1')
+                    lower = [list(map(lambda x: round(x, dig), row)) for row in lower]
+                    upper = [list(map(lambda x: round(x, dig), row)) for row in upper]
+                    Sv.save_matrix_to_file(lower, matrix_file+'_chol_L.txt')
+                    Sv.save_matrix_to_file(upper, matrix_file+'_chol_U.txt')
+                    if prettier:
+                        if not prettier_path:
+                            raise ValueError("Please provide the path to the prettier executable.")
+                        Sv.save_matrix_to_file(Prt._pretty_matrix(lower), prettier_path+'_chol_L.txt', mode = 'prettier')
+                        Sv.save_matrix_to_file(Prt._pretty_matrix(upper), prettier_path+'_chol_U.txt', mode = 'prettier')
+            
+            if mode == 'chol_v2':
+                    solution,lower,diagonal,upper = LinEqSolver._chol_solver(matrix, vector, dig, mode = '2')
+                    lower = [list(map(lambda x: round(x, dig), row)) for row in lower]
+                    upper = [list(map(lambda x: round(x, dig), row)) for row in upper]
+                    Sv.save_matrix_to_file(lower, matrix_file+'_chol_dec_L.txt')
+                    Sv.save_matrix_to_file(upper, matrix_file+'_chol_dec_U.txt')
+                    Sv.save_matrix_to_file(diagonal, matrix_file+'_chol_dec_D.txt')
+                    if prettier:
+                        if not prettier_path:
+                            raise ValueError("Please provide the path to the prettier executable.")
+                        Sv.save_matrix_to_file(Prt._pretty_matrix(lower), prettier_path+'_chol_dec_L.txt', mode = 'prettier')
+                        Sv.save_matrix_to_file(Prt._pretty_matrix(upper), prettier_path+'_chol_dec_U.txt', mode = 'prettier')
+                        Sv.save_matrix_to_file(Prt._pretty_matrix(diagonal), prettier_path+'_chol_dec_D.txt', mode = 'prettier')
+
+            if mode == 'lu':
+                    solution,lower,upper = LinEqSolver._lu_solver(matrix, vector, dig)
+                    lower = [list(map(lambda x: round(x, dig), row)) for row in lower]
+                    upper = [list(map(lambda x: round(x, dig), row)) for row in upper]
+                    Sv.save_matrix_to_file(lower, matrix_file+'_lu_L.txt')
+                    Sv.save_matrix_to_file(upper, matrix_file+'_lu_U.txt')
+                    if prettier:
+                        if not prettier_path:
+                            raise ValueError("Please provide the path to the prettier executable.")
+                        Sv.save_matrix_to_file(Prt._pretty_matrix(lower), prettier_path+'_lu_L.txt', mode = 'prettier')
+                        Sv.save_matrix_to_file(Prt._pretty_matrix(upper), prettier_path+'_lu_U.txt', mode = 'prettier')
+                    
+            if ext_file:
+                sol_eq = [[]] * size
+                
+                for i in range(size):
+                    sol_eq[i] = ['|'] + [str(x).rjust(3) for x in matrix[i]] + ['|', '* |', str(solution[i]).rjust(7) + ' | ->', str(vector[i]).rjust(4).ljust(4)]
+                if check:
+                    if dig >= 0:
+                        check_res, sub_result = Ckr._check_solve_web(matrix, vector, size, dig, solution, epsilon)
+                    else:
+                        check_res, sub_result = Ckr._check_solve_web(matrix, vector, size, dig, solution=solution, epsilon=epsilon)
+                    
+                    sol_eq.extend(["Checker_Mode: ON\n",f"Epsilon: {epsilon}\n","Program_Result:\n"] + [f"x{i+1} = {solution[i]}" for i in range(len(solution))] + ['\n'] + ['Checker_Result:\n'] + check_res + ['\n'] + ['Cheking:\n'] + sub_result)
+                else:
+                    sol_eq.extend([" ","Checker_Mode: OFF"])
+                Sv.save_matrix_to_file(sol_eq, ext_file)
+
+            if prettier:
+                        if not prettier_path:
+                            raise ValueError("Please provide the path to the prettier executable.")
+                        Sv.save_matrix_to_file(Prt._pretty_matrix([[i] for i in solution]), prettier_path+'solution.txt', mode = 'prettier')
+            Sv.save_vector_to_file(solution, solution_file)
+            return True
+        except Exception as e:
+            if logger:
+                import traceback
+                import datetime
+                import os
+                import sys
+                import platform
+                exc_type = type(e).__name__
+                exc_msg = str(e)
+                exc_traceback = traceback.format_tb(e.__traceback__)
+                base_dir = os.path.dirname(__file__)
+                error_file_path = os.path.join(base_dir, "error_log.txt")
+                with open(error_file_path, "a") as error_file:
+                    error_file.write("-"*50 + "\n")
+                    error_file.write("Error Occurred: {date}\n".format(date = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")))
+                    error_file.write("-"*50 + "\n")
+                    error_file.write("System Info:\n")
+                    error_file.write("OS: {}\n".format(platform.system()))
+                    error_file.write("Python Version: {}\n".format(platform.python_version()))
+                    error_file.write("Platform: {}\n".format(platform.platform()))
+                    error_file.write("-"*50 + "\n")
+                    error_file.write("Error Details:\n")
+                    error_file.write("Type: {}\n".format(exc_type))
+                    error_file.write("File: {}\n".format(__file__))
+                    error_file.write("Function: {}\n".format(sys._getframe().f_code.co_name))
+                    error_file.write("Line: {}\n".format(sys._getframe().f_lineno))
+                    error_file.write("Exception: {}\n".format(exc_type))
+                    error_file.write("Message: {}\n".format(exc_msg))
+                    error_file.write("-"*50 + "\n")
+                    error_file.write("Traceback:\n")
+                    for tb in exc_traceback:
+                        error_file.write(tb)
+                    error_file.write("-"*50 + "\n")
+                    error_file.write("\n\n\n\n\n\n")
+
+
+                print("Something went wrong. For more information check the error_log.txt file. [Saved in {path}]\n\nShort description:\n------------------\n{msg}\nline: {line}\nFile: {file}\n------------------\n".format(path = error_file_path, msg = exc_msg, line = sys._getframe().f_lineno, file = __file__))
+            else:
+                print("Something went wrong.\nLogger is not disabled.\nShort description: {info}".format(info = e))
+            return False
+            
