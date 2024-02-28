@@ -16,7 +16,7 @@
 ## Lineq Classes 
 
 ### Checker
-<p><em><a href="https://github.com/VIA-s-acc/Prac_Codes/tree/main/Lineq/LinEq/Checker.py">Checker Source</a></em></p>
+<p><em><a href="https://github.com/VIA-s-acc/Prac_Codes/tree/main/Lineq/LinEq/Utils/Checker.py">Checker Source</a></em></p>
 This `Checker` class contains three methods:
 
 1. `_signum(num)`: 
@@ -31,7 +31,7 @@ This `Checker` class contains three methods:
 
 
 ### Generator
-<p><em><a href="https://github.com/VIA-s-acc/Prac_Codes/tree/main/Lineq/LinEq/Generator.py">Generator Source</a></em></p>
+<p><em><a href="https://github.com/VIA-s-acc/Prac_Codes/tree/main/Lineq/LinEq/Utils/Generator.py">Generator Source</a></em></p>
 
 This class Generator contains two static methods:
 
@@ -42,7 +42,7 @@ This class Generator contains two static methods:
     - Generates a random vector of the specified size and range.
 
 ### Matrix Methods 
-<p><em><a href="https://github.com/VIA-s-acc/Prac_Codes/tree/main/Lineq/LinEq/Matrix_methods.py">Matrix Methods Source</a></em></p>
+<p><em><a href="https://github.com/VIA-s-acc/Prac_Codes/tree/main/Lineq/LinEq/Utils/Matrix_methods.py">Matrix Methods Source</a></em></p>
 
 This class contains methods for various matrix operations:
 
@@ -63,7 +63,7 @@ This class contains methods for various matrix operations:
     
 
 ### Save And Read
-<p><em><a href="https://github.com/VIA-s-acc/Prac_Codes/tree/main/Lineq/LinEq/S_R.py">Save And Read Source</a></em></p>
+<p><em><a href="https://github.com/VIA-s-acc/Prac_Codes/tree/main/Lineq/LinEq/Utils/S_R.py">Save And Read Source</a></em></p>
 
 #### Reader
 This `Reader` class has two methods:
@@ -86,7 +86,7 @@ This class, `Saver`, provides methods to save matrices and vectors to files, and
     - Combines text files in a specified folder into a single output file, with an option to delete the input text files after combining.
 
 ### Prettier
-<p><em><a href="https://github.com/VIA-s-acc/Prac_Codes/tree/main/Lineq/eq/Prettier.py">Prettier Source</a></em></p>
+<p><em><a href="https://github.com/VIA-s-acc/Prac_Codes/tree/main/Lineq/LinEq/Utils/Prettier.py">Prettier Source</a></em></p>
 
 This class, `Prettier`, contains a method `_pretty_matrix` that generates a pretty matrix representation with column labels, row numbers, and proper spacing. 
 
