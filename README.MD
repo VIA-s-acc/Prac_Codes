@@ -14,7 +14,7 @@
 
 
 ## Lineq Classes 
-
+This classes is a linear equation solver system that provides methods for performing various operations related to solving systems of linear equations. Here's a brief summary of each class method:
 ### Checker
 <p><em><a href="https://github.com/VIA-s-acc/Prac_Codes/tree/main/Lineq/LinEq/Utils/Checkers.py">Checker Source</a></em></p>
 This `Checker` class contains three methods:
