@@ -35,10 +35,10 @@ This `Checker` class contains three methods:
 
 This class Generator contains two static methods:
 
-1. - `generate_random_matrix(size, rng: int = 10, mode: str = None)`:
+1.  `generate_random_matrix(size, rng: int = 10, mode: str = None)`:
     - Generates a random matrix of the given size, with an optional mode for symmetric or 3-diagonal matrix.
 
-2. - `generate_random_vector(size, rng: int = 10)`:
+2.  `generate_random_vector(size, rng: int = 10)`:
     - Generates a random vector of the specified size and range.
 
 ### Matrix Methods 
@@ -46,7 +46,7 @@ This class Generator contains two static methods:
 
 This class contains methods for various matrix operations:
 
-1. `det(matrix)`: 
+1.  `det(matrix)`: 
     - Calculates the determinant of a square matrix.
 
 2. `LU_decomposition(matrix)`: 
@@ -67,22 +67,22 @@ This class contains methods for various matrix operations:
 
 #### Reader
 This `Reader` class has two methods:
-1. - `read_matrix_from_file(filename)`: 
+1.  `read_matrix_from_file(filename)`: 
     - Reads a matrix from a file and returns a 2D list representing the matrix.
     
-2. - `read_vector_from_file(filename)`: 
+2.  `read_vector_from_file(filename)`: 
     - Reads a vector from a file and returns a list containing the integers read from the file.
 
 #### Saver
 This class, `Saver`, provides methods to save matrices and vectors to files, and to combine text files into a single output file.
 
-1. - `save_matrix_to_file`: 
+1.  `save_matrix_to_file`: 
     - Saves the given matrix to a file, with an optional 'prettier' mode for formatting.
 
-2. - `save_vector_to_file`: 
+2.  `save_vector_to_file`: 
     - Saves the given vector to the specified file.
 
-3. - `_combine_txt`: 
+3.  `_combine_txt`: 
     - Combines text files in a specified folder into a single output file, with an option to delete the input text files after combining.
 
 ### Prettier
@@ -90,7 +90,7 @@ This class, `Saver`, provides methods to save matrices and vectors to files, and
 
 This class, `Prettier`, contains a method `_pretty_matrix` that generates a pretty matrix representation with column labels, row numbers, and proper spacing. 
 
-1. - `_pretty_matrix(matrix)`: 
+1.  `_pretty_matrix(matrix)`: 
     - Generates a pretty matrix representation with column labels, row numbers, and proper spacing.
 
 
