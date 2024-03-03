@@ -97,34 +97,46 @@ class LinEqSolver():
 
     def tridiagonal_elimination(matrix, vec, dig = 1):
         """
-        Perform tridiagonal_elimination method to solve tridiagonal matrix equation.
+        Perform Tridiagonal Matrix Algorithm (TDMA), also known as the Thomas algorithm,
+        to solve tridiagonal systems of equations using a single matrix representation.
         
         Parameters:
-            matrix (list of lists): The tridiagonal matrix.
-            vec (list): The vector.
-            dig (int): The value for diagonal. Default is 1.
+            matrix (list of list of float): The tridiagonal matrix representing the system
+                                            where matrix[i][i-1] corresponds to sub-diagonal (a),
+                                            matrix[i][i] to main diagonal (b),
+                                            matrix[i][i+1] to super-diagonal (c).
+            d (list): The right-hand side values of the equations.
+            dig (int, optional): The number of digits to round the solution to. Defaults to 1.
         
         Returns:
-            list: The solution vector.
+            list: The solution vector x.
         """
         n = len(vec)
-    
-        # Forward Elimination
-        for i in range(1, n):
-            factor = matrix[i][i-1] / matrix[i-1][i-1]
-            matrix[i][i] -= factor * matrix[i-1][i]
-            vec[i] -= factor * vec[i-1]
-        
-        # Back Substitution
+        # Modify the coefficients
+        c_prime = [0] * n
+        d_prime = [0] * n
         x = [0] * n
-        x[-1] = vec[-1] / matrix[-1][-1]
         
+        c_prime[0] = matrix[0][1] / matrix[0][0]
+        d_prime[0] = vec[0] / matrix[0][0]
+        
+        for i in range(1, n):
+            temp = matrix[i][i] - matrix[i][i-1] * c_prime[i-1]
+            c_prime[i] = matrix[i][i+1] / temp if i < n - 1 else 0
+            d_prime[i] = (vec[i] - matrix[i][i-1] * d_prime[i-1]) / temp
+        
+        # Back substitution
+        x[-1] = d_prime[-1]
         for i in range(n-2, -1, -1):
-            x[i] = (vec[i] - matrix[i][i+1] * x[i+1]) / matrix[i][i]
-
+            x[i] = d_prime[i] - c_prime[i] * x[i+1]
+        
         x = [round(el, dig) for el in x]
 
         return x
+            
+
+
+        
 
     def _chol_solver(matrix, vec, dig = 1, mode = '1'):
         """
