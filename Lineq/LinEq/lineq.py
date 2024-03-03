@@ -14,6 +14,7 @@ class LinEqSolver():
     This class is a linear equation solver that provides methods for performing various operations related to solving systems of linear equations. Here's a brief summary of each class method:
 
     - `gauss_elimination(matrix, vec, dig)`: Performs Gaussian elimination to solve a system of linear equations.
+    - `tridiagonal_elimination(matrix, vec, dig)`: Performs Tridiagonal elimination to solve a system of linear equations.
     - `_chol_solver(matrix, vec, dig, mode)`: Solves a linear system using Cholesky decomposition.
     - `_lu_solver(matrix, vec, dig):` Solves a linear system of equations using LU decomposition.
     - `_forward_substitution(matrix, vec, dig)`: Solves a system of linear equations using forward substitution.
@@ -24,7 +25,7 @@ class LinEqSolver():
 
     
 
-    @staticmethod 
+
     def gauss_elimination(matrix, vec, dig: int = -1):
         """
             Performs Gaussian elimination on the given matrix and vector to solve a system of linear equations.
@@ -94,6 +95,36 @@ class LinEqSolver():
         return x
     
 
+    def tridiagonal_elimination(matrix, vec, dig = 1):
+        """
+        Perform tridiagonal_elimination method to solve tridiagonal matrix equation.
+        
+        Parameters:
+            matrix (list of lists): The tridiagonal matrix.
+            vec (list): The vector.
+            dig (int): The value for diagonal. Default is 1.
+        
+        Returns:
+            list: The solution vector.
+        """
+        n = len(vec)
+    
+        # Forward Elimination
+        for i in range(1, n):
+            factor = matrix[i][i-1] / matrix[i-1][i-1]
+            matrix[i][i] -= factor * matrix[i-1][i]
+            vec[i] -= factor * vec[i-1]
+        
+        # Back Substitution
+        x = [0] * n
+        x[-1] = vec[-1] / matrix[-1][-1]
+        
+        for i in range(n-2, -1, -1):
+            x[i] = (vec[i] - matrix[i][i+1] * x[i+1]) / matrix[i][i]
+
+        x = [round(el, dig) for el in x]
+
+        return x
 
     def _chol_solver(matrix, vec, dig = 1, mode = '1'):
         """
@@ -190,7 +221,7 @@ class LinEqSolver():
                 check (bool, optional): Flag to enable checking the solution. Defaults to False.
                 epsilon (float): The acceptable margin of error for the solution. Defaults to 1e-5.
                 m_v_range (tuple): The range for generating random matrix and vector values. Defaults to (10, 10).
-                mode (str): The method to use for solving the linear equations. Defaults to 'gauss'. method list 'chol_v1, chol_v2, gauss, lu'
+                mode (str): The method to use for solving the linear equations. Defaults to 'gauss'. method list 'chol_v1, chol_v2, gauss, lu, thm'
                 random (bool): Flag to determine if the matrix and vector should be generated randomly. Defaults to True.
                 prettier_path (str): The path to the prettier executable. Defaults to None.
                 prettier (bool): Flag to enable prettier output. Defaults to False.
@@ -203,9 +234,15 @@ class LinEqSolver():
             if random:
                 if mode == 'chol_v1' or mode == 'chol_v2':
                     matrix = Gn.generate_random_matrix(size, m_v_range[0], mode = 'symm')
+                
+                elif mode == 'thm':
+                    matrix = Gn.generate_random_matrix(size, m_v_range[0], mode = '3diag')
+    
                 else:
                     matrix = Gn.generate_random_matrix(size, m_v_range[0])
+                
                 vector = Gn.generate_random_vector(size, m_v_range[1])
+
             else:
                 try:
                     matrix = kwargs['matrix']
@@ -265,7 +302,10 @@ class LinEqSolver():
                             raise ValueError("Please provide the path to the prettier executable.")
                         Sv.save_matrix_to_file(Prt._pretty_matrix(lower), prettier_path+'_lu_L.txt', mode = 'prettier')
                         Sv.save_matrix_to_file(Prt._pretty_matrix(upper), prettier_path+'_lu_U.txt', mode = 'prettier')
-                    
+
+            if mode == 'thm':
+                    solution = LinEqSolver.tridiagonal_elimination(matrix, vector, dig)
+
             if ext_file:
                 sol_eq = [[]] * size
                 
