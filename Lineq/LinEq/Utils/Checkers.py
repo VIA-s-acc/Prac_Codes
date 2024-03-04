@@ -40,7 +40,26 @@ class Checker:
     Solves a system of linear equations using a web-based matrix calculator.
     - `_sylvesters_criterion(matrix)`: 
     Checks if the given matrix satisfies Sylvester's criterion for positive definiteness.
+    - `_diagonal_domination(matrix)`:
+    Checks if the given matrix is diagonal dominant.
     """
+
+    def _diagonal_domination(matrix):
+        """
+            Check if the given matrix is diagonal dominant. 
+            Args:
+                matrix: The input matrix.
+            Returns:    
+                bool: True if the matrix is diagonal dominant, False otherwise.
+
+        """
+        for i in range(len(matrix)):
+            row_sum = sum(abs(matrix[i][j]) for j in range(len(matrix)))
+            if abs(matrix[i][i]) >= row_sum:
+                return False
+        return True
+    
+
     def _signum(num):
         """
             Calculate the signum of the given number.

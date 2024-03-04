@@ -1,7 +1,8 @@
 from copy import deepcopy
 import numpy as np
+import random
 from .Checkers import Checker as Ckr
-
+import warnings
 class Methods:
     """This class contains methods for various matrix operations:
 
@@ -10,8 +11,159 @@ class Methods:
     3. `cholesky_decomposition_v1(matrix)`: Performs Cholesky decomposition and returns the lower and upper triangular matrices.
     4. `cholesky_decomposition_v2(matrix)`: Performs Cholesky decomposition and returns the lower triangular matrix, diagonal matrix, and upper triangular matrix.
     5. `_matrix_multiply(*matrices)`: Performs matrix multiplication on the input matrices and returns the resulting matrix.
+    6. `euclidean_norm(vector)`: Calculates the Euclidean norm of a vector.
+    7. `_scalar_matrix_multiply(scalar, matrix)`: Performs matrix multiplication on the input matrices and returns the resulting matrix.
+    8. `_vector_matrix_multiply(matrix, vector)`: Multiply a matrix by a vector and return the resulting vector.
+    9. `_vector_approximation(v1, v2, tol=1e-6)`: Check if two vectors are approximately equal within a tolerance.
+    10. `_inverse_matrix(matrix)`: Calculate the inverse of a matrix using Gauss-Jordan elimination.
+    11. `eigen_get(matrix, max_iter=100, eps=1e-6)`: Calculate the eigenvalues and eigenvectors of the given matrix using the power method algorithm.
+    12. `power_method(matrix, max_iter=100, eps=1e-6)`: Perform the power method to find the dominant eigenvalue and eigenvector of the given matrix.
+    13. `eigen_get(matrix, max_iter=100, eps=1e-6)`: Calculate the max_min eigenvalues and eigenvectors of the given matrix using the power method algorithm.
     """
-    @staticmethod
+
+    def euclidean_norm(vector):
+        """
+        Calculate the Euclidean norm of a vector.
+
+        Args:
+            vector: The input vector.   
+
+        Returns:
+            float: The Euclidean norm of the input vector.  
+        """
+        return (sum(x**2 for x in vector))**0.5
+
+    def _vector_approximation(v1, v2, tol=1e-6):
+        """
+        Check if two vectors are approximately equal within a tolerance.
+
+        Args:
+            v1 (list): The first vector.
+            v2 (list): The second vector.
+            tol (float): The tolerance level for approximation. Defaults to 1e-6.
+
+        Returns:
+            bool: True if vectors are approximately equal, False otherwise.
+        """
+        if len(v1) != len(v2):
+            return False
+        return Methods.euclidean_norm([a-b for a,b in zip(v1,v2)])<tol
+
+
+    def _inverse_matrix(matrix):
+        """
+        Calculate the inverse of a matrix using Gauss-Jordan elimination.
+
+        Args:
+            matrix (list of list of float): The input matrix.
+
+        Returns:
+            list of list of float: The inverse of the input matrix, if it exists.
+            None: If the matrix is not invertible.
+        """
+
+        n = len(matrix)
+        mat = deepcopy(matrix)
+        inv_mat = [[float(i == j) for j in range(n)] for i in range(n)]
+
+        for i in range(n):
+            diag = mat[i][i]
+            if diag == 0:
+                for k in range(i+1, n):
+                    if mat[k][i] != 0:
+                        mat[i], mat[k] = mat[k], mat[i]
+                        inv_mat[i], inv_mat[k] = inv_mat[k], inv_mat[i]
+                        break
+                else:
+                    return None
+                diag = mat[i][i]
+            for j in range(n):
+                mat[i][j] /= diag
+                inv_mat[i][j] /= diag
+
+            for k in range(n):
+                if k != i:
+                    factor = mat[k][i]
+                    for j in range(n):
+                        mat[k][j] -= factor * mat[i][j]
+                        inv_mat[k][j] -= factor * inv_mat[i][j]
+
+        return inv_mat
+
+    def eigen_get(matrix, max_iter: int = 100, eps: float = 1e-6):
+        """
+        Calculate the eigenvalues and eigenvectors of the given matrix using the power method algorithm.
+        
+        Args:
+            matrix: The input matrix for which eigenvalues and eigenvectors are to be computed.
+            max_iter (int): The maximum number of iterations for the power method. Defaults to 100.
+            eps (float): The convergence criterion. Defaults to 1e-6.
+        
+        Returns:
+            tuple: A tuple containing the maximum eigenvalue and its corresponding eigenvector,
+                   and another tuple containing the minimum eigenvalue and its corresponding eigenvector.
+        """
+        
+        max_eigen, max_vec = Methods._power_method(matrix, max_iter, eps)
+        E = [[1 if i == j else 0 for i in range(len(matrix))] for j in range(len(matrix[0]))]
+       
+        transform_matrix = lambda m, s, e: [[m[i][j] - s * e[i][j] for j in range(len(m))] for i in range(len(m))]
+        B = transform_matrix(matrix, max_eigen, E)
+
+        min_eigen, min_vec = Methods._power_method(B, max_iter, eps)
+        
+        if max_eigen > 0:
+            min_eigen = max_eigen + min_eigen
+        if max_eigen < 0:
+            temp = min_eigen
+            min_eigen = max_eigen
+            max_eigen = max_eigen + temp 
+
+        return (max_eigen, max_vec), (min_eigen, min_vec)
+
+    def _power_method(matrix, max_iter: int = 100, eps: float = 1e-6):
+        """
+        Perform the power method to find the dominant eigenvalue and eigenvector of the given matrix.
+
+        Args:
+            matrix: The input matrix for which the dominant eigenvalue and eigenvector are to be found.
+            max_iter: The maximum number of iterations to perform (default is 100).
+            eps: The tolerance for convergence (default is 1e-6).
+
+        Returns:
+            Tuple containing the dominant eigenvalue and its corresponding eigenvector.
+        """     
+        max_v = max(map(lambda row: max(row), matrix))
+        start_vector = [random.uniform(0, max_v) for _ in range(len(matrix))]
+        norm = Methods.euclidean_norm(start_vector)
+        start_vector = [element / norm for element in start_vector] 
+        for _ in range(max_iter):
+            eigenvalue = Methods._vector_matrix_multiply([[x] for x in start_vector], (Methods._vector_matrix_multiply(matrix, vector=start_vector)))
+            norm = Methods._vector_matrix_multiply([[x] for x in start_vector], start_vector)[0]
+            eigenvalue = eigenvalue[0]/norm
+            new_vector = (Methods._matrix_multiply(matrix, [[x] for x in start_vector]))
+            new_vector = [x[0] for x in new_vector]
+            new_norm = Methods.euclidean_norm(new_vector)
+            new_vector = [element / new_norm for element in new_vector]
+            
+            new_eigenvalue = Methods._vector_matrix_multiply([[x] for x in new_vector], (Methods._vector_matrix_multiply(matrix, vector=new_vector)))
+            new_norm = Methods._vector_matrix_multiply([[x] for x in new_vector], new_vector)[0]
+            new_eigenvalue = new_eigenvalue[0]/new_norm
+            if abs(eigenvalue - new_eigenvalue) < eps and Methods._vector_approximation(new_vector, start_vector, tol = eps):
+                return eigenvalue, new_vector
+            else:
+                start_vector = new_vector
+        warnings.warn("Power method did not converge, returned last eigenvalue and vector (increase max_iter or decrease eps)")
+        return eigenvalue, new_vector
+
+        
+
+
+            
+            
+
+
+
     def det(matrix):
         """
         Calculate the determinant of a square matrix.
@@ -147,3 +299,38 @@ class Methods:
         for matrix in matrices[1:]:
             result = [[sum(a * b for a, b in zip(row_x, col_y)) for col_y in zip(*matrix)] for row_x in result]
         return result
+    
+    def _scalar_matrix_multiply(scalar, matrix):
+        """
+            Perform matrix multiplication on the input matrices and return the resulting matrix.
+
+        Args:
+
+            scalar (float): The scalar to multiply with.
+            matrix (list of lists): The matrix to multiply.
+
+        Returns:
+
+            list of lists: The resulting matrix.
+
+        """
+        return [[scalar * element for element in row] for row in matrix]
+    
+    
+    def _vector_matrix_multiply(matrix, vector):
+        """
+            Multiply a matrix and a vector
+        
+        Args:
+            matrix (list of lists): The matrix to multiply.
+            vector (list): The vector to multiply.
+
+        Returns:
+            list: The resulting vector.
+        """
+        result = []
+        for i in range(len(matrix[0])):
+            column_sum = sum(vector[j] * matrix[j][i] for j in range(len(vector)))
+            result.append(column_sum)
+        return result
+

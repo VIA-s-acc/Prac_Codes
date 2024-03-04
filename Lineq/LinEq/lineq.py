@@ -5,7 +5,6 @@ from .Utils.timer import time_decorator
 from .Utils.Matrix_methods import Methods as MM
 from .Utils.Checkers import Checker as Ckr
 from .Utils.Prettier import Prettier as Prt
-import numpy as np
 from copy import deepcopy
 
 
@@ -111,6 +110,9 @@ class LinEqSolver():
         Returns:
             list: The solution vector x.
         """
+        if not Ckr._diagonal_domination(matrix):
+            raise ValueError("The matrix is not diagonal dominant")
+        
         n = len(vec)
         # Modify the coefficients
         c_prime = [0] * n

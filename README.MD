@@ -21,13 +21,16 @@ This classes is a linear equation solver system that provides methods for perfor
 This `Checker` class contains three methods:
 
 1. `_signum(num)`: 
-   - Calculates the signum of the given number.
+    - Calculates the signum of the given number.
 
 2. `_check_solve_web(matrix, b, size, dig, solution, epsilon)`: 
-   - Solves a system of linear equations using a web-based matrix calculator.
+    - Solves a system of linear equations using a web-based matrix calculator.
 
 3. `_sylvesters_criterion(matrix)`: 
-   - Checks if the given matrix satisfies Sylvester's criterion for positive definiteness.
+    - Checks if the given matrix satisfies Sylvester's criterion for positive definiteness.
+
+4. `_diagonal_domination(matrix)`:
+    - Checks if the given matrix is diagonal dominant.
 
 
 
@@ -61,7 +64,32 @@ This class contains methods for various matrix operations:
 
 5. `_matrix_multiply(*matrices)`:
     - Performs matrix multiplication on the input matrices and returns the resulting matrix.
-    
+
+6. `euclidean_norm(vec)`: 
+    - Calculates the Euclidean norm of a vector.
+
+7. `_scalar_matrix_multiply(scalar, matrix)`: 
+    - Performs matrix multiplication on the input matrices and returns the resulting matrix.    
+
+8. `_vector_matrix_multiply(matrix, vector)`: 
+    - Multiply a matrix by a vector and return the resulting vector.
+
+9. `_vector_approximation(v1, v2, tol=1e-6)`: 
+    - Check if two vectors are approximately equal within a tolerance.
+
+10. `_inverse_matrix(matrix)`: 
+    - Calculate the inverse of a matrix using Gauss-Jordan elimination.
+
+
+11. `eigen_get(matrix, max_iter=100, eps=1e-6)`: 
+    - Calculate the eigenvalues and eigenvectors of the given matrix using the power method algorithm.
+
+12. `power_method(matrix, max_iter=100, eps=1e-6)`: 
+    - Perform the power method to find the dominant eigenvalue and eigenvector of the given matrix.
+
+13. `eigen_get(matrix, max_iter=100, eps=1e-6)`:
+    - Calculate the max_min eigenvalues and eigenvectors of the given matrix using the power method algorithm.
+
 
 ### Save And Read
 <p><em><a href="https://github.com/VIA-s-acc/Prac_Codes/tree/main/Lineq/LinEq/Utils/S_R.py">Save And Read Source</a></em></p>
