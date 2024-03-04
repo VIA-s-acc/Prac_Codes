@@ -156,10 +156,10 @@ This class is a linear equation solver that provides methods for performing vari
     - Solves a linear system of equations using LU decomposition.
 
 10.  `_forward_substitution(matrix, vec, dig)`: 
-    - Solves a system of linear equations using forward substitution.
+     - Solves a system of linear equations using forward substitution.
 
 11.  `_backward_substitution(matrix, vec, dig)`: 
-    - Solves a system of linear equations using backward substitution.
+     - Solves a system of linear equations using backward substitution.
 
 12.  `generate_and_solve_linear_equations(size, matrix_file, vector_file, solution_file, ext_file, dig, check, epsilon, m_v_range, mode, random, prettier_path, prettier, logger, **kwargs)`: 
-    - Generates and solves a system of linear equations, with various options for customization and output.
+     - Generates and solves a system of linear equations, with various options for customization and output.
