@@ -45,12 +45,7 @@ class LinEqSolver():
         Returns:
             list: The solution vector for the linear system.
         """
-        if not Ckr._symmetric_check(matrix):
-            raise ValueError("Matrix is not symmetric")
-        
-        if not Ckr._sylvesters_criterion(matrix):
-            raise ValueError("Sylvester's criterion not satisfied.")
-        
+              
         eigen = MM.eigen_get(matrix, eigen_max_iter, eigen_eps)
         eigen_max = eigen[0][0]
         eigen_min = eigen[1][0]
@@ -314,7 +309,7 @@ class LinEqSolver():
                 warnings.warn("Warning (Selected iterative method): Using default eigen_iter = 100, eigen_eps = 1e-5, method_iter = 100, method_eps = 1e-5") 
         try:
             if random:
-                if mode == 'chol_v1' or mode == 'chol_v2' or mode == 'iter_sim':
+                if mode == 'chol_v1' or mode == 'chol_v2':
                     matrix = Gn.generate_random_matrix(size, m_v_range[0], mode = 'symm')
                 
                 elif mode == 'thm':
@@ -388,7 +383,7 @@ class LinEqSolver():
             if mode == 'thm':
                     solution = LinEqSolver.tridiagonal_elimination(matrix, vector, dig)
             if mode == 'iter_sim':
-                    solution = LinEqSolver.simple_iteration(matrix, vector, dig)
+                    solution = LinEqSolver.simple_iteration(matrix, vector, max_iter=method_iter, eps=method_eps, eigen_max_iter=eigen_iter, eigen_eps=eigen_eps, dig=dig)
             if ext_file:
                 sol_eq = [[]] * size
                 

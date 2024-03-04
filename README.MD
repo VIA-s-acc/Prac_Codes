@@ -148,7 +148,6 @@ This class is a linear equation solver that provides methods for performing vari
 7.  `explicit_iteration(matrix, vec, dig)`: 
     - Performs explicit iteration to solve a system of linear equations.
     
-
 8.  `_chol_solver(matrix, vec, dig, mode)`:
     - Solves a linear system using Cholesky decomposition.
 
