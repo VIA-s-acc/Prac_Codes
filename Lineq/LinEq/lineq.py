@@ -45,7 +45,8 @@ class LinEqSolver():
         Returns:
             list: The solution vector for the linear system.
         """
-              
+        
+    
         eigen = MM.eigen_get(matrix, eigen_max_iter, eigen_eps)
         eigen_max = eigen[0][0]
         eigen_min = eigen[1][0]
