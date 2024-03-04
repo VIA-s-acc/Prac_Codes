@@ -42,6 +42,24 @@ class LinEqSolver():
             eps: The tolerance for the solution approximation (default is 1e-5).
             dig: The number of digits to round the solution to (default is 1).
 
+        Raises:
+            ValueError: If the matrix is not symmetric.
+            ValueError: If the Sylvester's criterion is not satisfied.
+            ValueError: If the eigenvalues of the matrix are not real.
+
+        Notes:
+
+        - If the matrix is not symmetric, an error will be raised.
+
+        - If the Sylvester's criterion is not satisfied, an error will be raised.
+
+        - If the eigenvalues of the matrix are not real, an error will be raised.
+
+        - If the maximum number of iterations is reached, a warning will be raised and the solution will be returned with the last iteration.
+
+        - If the solution approximation is not satisfied, a warning will be raised and the solution will be returned with the last iteration.
+
+        
         Returns:
             list: The solution vector for the linear system.
         """
@@ -81,6 +99,14 @@ class LinEqSolver():
             eps: The tolerance for the approximation (default is 1e-6).
             dig: The number of decimal digits to round to (default is 1).
         
+        Raises:
+            ValueError: If the matrix is not diagonally dominant.
+        
+        Notes:
+            - If the matrix is not diagonally dominant, an error will be raised.
+            - If the maximum number of iterations is reached, a warning will be raised and the solution will be returned with the last iteration.
+            - If the approximation is not satisfied, a warning will be raised and the solution will be returned with the last iteration.
+
         Returns:
             list: The solution vector for the linear system.
         """
@@ -104,7 +130,6 @@ class LinEqSolver():
         warnings.warn("Maximum number of iterations reached. The solution may not be accurate.")
         return new_vector
 
-
     def seidel_iteration(matrix, vec, dig: int = -1):...
 
     def relaxation_iteration(matrix, vec, dig: int = -1):...
@@ -120,6 +145,13 @@ class LinEqSolver():
                 vec: The vector representing the constants of the linear equations.
                 dig (int, optional): The number of digits to round the solution to. Defaults to 0.
             
+            Raises:
+                ValueError: If the matrix is singular or the number of digits is less than 0.
+
+            Notes:
+                - If the matrix is singular, an error will be raised.
+                - If the number of digits is less than 0, an error will be raised.
+
             Returns:
                 list: The solution to the system of linear equations.
         """
@@ -185,7 +217,7 @@ class LinEqSolver():
         Perform Tridiagonal Matrix Algorithm (TDMA), also known as the Thomas algorithm,
         to solve tridiagonal systems of equations using a single matrix representation.
         
-        Parameters:
+        Args:
             matrix (list of list of float): The tridiagonal matrix representing the system
                                             where matrix[i][i-1] corresponds to sub-diagonal (a),
                                             matrix[i][i] to main diagonal (b),
@@ -193,6 +225,12 @@ class LinEqSolver():
             d (list): The right-hand side values of the equations.
             dig (int, optional): The number of digits to round the solution to. Defaults to 1.
         
+        Raises:
+            ValueError: If the matrix is not diagonal dominant.
+
+        Notes:
+            - If the matrix is not diagonal dominant, an error will be raised.
+             
         Returns:
             list: The solution vector x.
         """
@@ -235,6 +273,15 @@ class LinEqSolver():
                 vec: The vector of the linear system.
                 mode: The mode of Cholesky decomposition. Default is '1'.
 
+            Raises:
+                ValueError: If the matrix is not symmetric or not positive definite.
+                ValueError: If the matrix is not diagonal dominant.
+
+            Notes:
+                - If the matrix is not symmetric, an error will be raised.
+                - If the matrix is not positive definite, an error will be raised.
+                - If the matrix is not diagonal dominant, an error will be raised.
+
             Returns:
                 Tuple: Depending on the mode, it returns different values.
                     If mode is '1', returns x, lower, and upper.
@@ -271,6 +318,12 @@ class LinEqSolver():
                 vec: The vector of constants in the linear system.
                 dig: The number of digits to round the solution to (default is 1).
             
+            Raises:
+                ValueError: If the matrix is not square.
+
+            Notes:
+                - If the matrix is not square, an error will be raised.
+
             Returns:
                 x: The solution vector.
                 lower: The lower triangular matrix from the LU decomposition.
@@ -329,6 +382,13 @@ class LinEqSolver():
                 prettier (bool): Flag to enable prettier output. Defaults to False.
                 logger (bool): Flag to enable logging. Defaults to True.
                 **kwargs: if random is False, the matrix and vector should be provided as kwargs with keys 'matrix' and 'vector', and 'eigen_iter', 'eigen_eps', 'method_iter', 'method_eps' for customization of the iterative methods.
+
+            Raises:
+                ValueError: If the matrix is not square.
+
+            Notes:
+                - If the matrix is not square, an error will be raised.
+
             Returns:
                 None
         """
