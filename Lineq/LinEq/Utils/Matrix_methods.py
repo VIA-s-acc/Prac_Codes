@@ -47,7 +47,6 @@ class Methods:
         """
         if len(v1) != len(v2):
             return False
-
         return Methods.euclidean_norm([a-b for a,b in zip(v1,v2)])<tol
 
 
@@ -107,7 +106,6 @@ class Methods:
         
         max_eigen, max_vec = Methods._power_method(matrix, max_iter, eps)
         E = [[1 if i == j else 0 for i in range(len(matrix))] for j in range(len(matrix[0]))]
-       
         transform_matrix = lambda m, s, e: [[m[i][j] - s * e[i][j] for j in range(len(m))] for i in range(len(m))]
         B = transform_matrix(matrix, max_eigen, E)
 
@@ -150,8 +148,8 @@ class Methods:
             new_eigenvalue = Methods._vector_matrix_multiply([[x] for x in new_vector], (Methods._vector_matrix_multiply(matrix, vector=new_vector)))
             new_norm = Methods._vector_matrix_multiply([[x] for x in new_vector], new_vector)[0]
             new_eigenvalue = new_eigenvalue[0]/new_norm
-            if abs(eigenvalue - new_eigenvalue) < eps and Methods._vector_approximation(new_vector, start_vector, tol = eps):
-                return eigenvalue, new_vector
+            if abs(new_eigenvalue-eigenvalue) < eps:
+                return new_eigenvalue, new_vector
             else:
                 start_vector = new_vector
         warnings.warn("Power method did not converge, returned last eigenvalue and vector (increase max_iter or decrease eps)")
