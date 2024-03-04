@@ -80,15 +80,11 @@ This class contains methods for various matrix operations:
 10. `_inverse_matrix(matrix)`: 
     - Calculate the inverse of a matrix using Gauss-Jordan elimination.
 
-
 11. `eigen_get(matrix, max_iter=100, eps=1e-6)`: 
-    - Calculate the eigenvalues and eigenvectors of the given matrix using the power method algorithm.
+    - Calculate the max_min eigenvalues and eigenvectors of the given matrix using the power method algorithm.
 
 12. `power_method(matrix, max_iter=100, eps=1e-6)`: 
     - Perform the power method to find the dominant eigenvalue and eigenvector of the given matrix.
-
-13. `eigen_get(matrix, max_iter=100, eps=1e-6)`:
-    - Calculate the max_min eigenvalues and eigenvectors of the given matrix using the power method algorithm.
 
 
 ### Save And Read
