@@ -50,13 +50,9 @@ class LinEqSolver():
         Notes:
 
         - If the matrix is not symmetric, an error will be raised.
-
         - If the Sylvester's criterion is not satisfied, an error will be raised.
-
         - If the eigenvalues of the matrix are not real, an error will be raised.
-
         - If the maximum number of iterations is reached, a warning will be raised and the solution will be returned with the last iteration.
-
         - If the solution approximation is not satisfied, a warning will be raised and the solution will be returned with the last iteration.
 
         
