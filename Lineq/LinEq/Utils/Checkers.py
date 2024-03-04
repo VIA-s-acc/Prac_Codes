@@ -42,7 +42,22 @@ class Checker:
     Checks if the given matrix satisfies Sylvester's criterion for positive definiteness.
     - `_diagonal_domination(matrix)`:
     Checks if the given matrix is diagonal dominant.
+    - `_symmetric_check(matrix)`:
+    Checks if the given matrix is symmetric.
     """
+
+    def _symmetric_check(matrix):
+        """
+        Check if the given matrix is symmetric.
+        Args:
+            matrix: The input matrix. 
+        Returns:
+            bool: True if the matrix is symmetric, False otherwise.
+        """
+        
+        return all(matrix[i][j] == matrix[j][i] for i in range(len(matrix)) for j in range(i + 1, len(matrix)))
+    
+
 
     def _diagonal_domination(matrix):
         """

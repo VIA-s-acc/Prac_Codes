@@ -47,6 +47,7 @@ class Methods:
         """
         if len(v1) != len(v2):
             return False
+
         return Methods.euclidean_norm([a-b for a,b in zip(v1,v2)])<tol
 
 

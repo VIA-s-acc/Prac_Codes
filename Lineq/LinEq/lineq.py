@@ -1,10 +1,11 @@
 from .Utils.Generator import Generator as Gn
 from .Utils.S_R import Saver as Sv
-from .Utils.S_R import Reader as Rd
 from .Utils.timer import time_decorator
 from .Utils.Matrix_methods import Methods as MM
 from .Utils.Checkers import Checker as Ckr
 from .Utils.Prettier import Prettier as Prt
+import random
+import warnings
 from copy import deepcopy
 
 
@@ -12,19 +13,72 @@ class LinEqSolver():
     """
     This class is a linear equation solver that provides methods for performing various operations related to solving systems of linear equations. Here's a brief summary of each class method:
 
+    - `simple_iteration(matrix, vec, dig)`: Performs simple iteration to solve a system of linear equations.
+    - `seidel_iteration(matrix, vec, dig)`: Performs Seidel iteration to solve a system of linear equations.
+    - `jacobi_iteration(matrix, vec, dig)`: Performs Jacobi iteration to solve a system of linear equations.
+    - `relaxation_method(matrix, vec, dig, omega)`: Performs relaxation method to solve a system of linear equations.
+    - `explicit_iteration(matrix, vec, dig)`: Performs explicit iteration to solve a system of linear equations.
     - `gauss_elimination(matrix, vec, dig)`: Performs Gaussian elimination to solve a system of linear equations.
     - `tridiagonal_elimination(matrix, vec, dig)`: Performs Tridiagonal elimination to solve a system of linear equations.
     - `_chol_solver(matrix, vec, dig, mode)`: Solves a linear system using Cholesky decomposition.
     - `_lu_solver(matrix, vec, dig):` Solves a linear system of equations using LU decomposition.
     - `_forward_substitution(matrix, vec, dig)`: Solves a system of linear equations using forward substitution.
     - `_backward_substitution(matrix, vec, dig)`: Solves a system of linear equations using backward substitution.
-    - `generate_and_solve_linear_equations(size, matrix_file, vector_file, solution_file, ext_file, dig, check, epsilon, m_v_range, mode, random, prettier_path, prettier, logger, **kwargs)`: Generates and solves a system of linear equations, with various options for customization and output.
+    - `generate_and_solve_linear_equations(size, matrix_file, vector_file, solution_file, ext_file, dig, check, epsilon, m_v_range, mode, random, prettier_path, prettier, logger, **kwargs)`: Generates and solves a system of linear equations, with various options for customization and output. 
     """
     
 
     
+    def simple_iteration(matrix, vec, max_iter: int = 100, eigen_max_iter: int = 1000, eigen_eps: float = 1e-12,eps: float = 1e-5, dig: int = 1):
+        """
+        Perform simple iteration to solve a linear system of equations.
+        
+        Args:
+            matrix: The coefficient matrix of the linear system.
+            vec: The constant vector of the linear system.
+            max_iter: The maximum number of iterations to perform (default is 100).
+            eigen_max_iter: The maximum number of iterations for eigenvalue computation (default is 1000).
+            eigen_eps: The tolerance for eigenvalue computation (default is 1e-12).
+            eps: The tolerance for the solution approximation (default is 1e-5).
+            dig: The number of digits to round the solution to (default is 1).
+
+        Returns:
+            list: The solution vector for the linear system.
+        """
+        if not Ckr._symmetric_check(matrix):
+            raise ValueError("Matrix is not symmetric")
+        
+        if not Ckr._sylvesters_criterion(matrix):
+            raise ValueError("Sylvester's criterion not satisfied.")
+        
+        eigen = MM.eigen_get(matrix, eigen_max_iter, eigen_eps)
+        eigen_max = eigen[0][0]
+        eigen_min = eigen[1][0]
+
+        thau = 2/(eigen_max + eigen_min)
+        max_v = max(map(lambda row: max(row), matrix))
+        start_vector = [random.uniform(0, max_v) for _ in range(len(matrix))]
+        for _ in range(max_iter):
+            new = [start_vector[i] - thau * (sum(matrix[i][j] * start_vector[j] for j in range(len(matrix))) - vec[i]) for i in range(len(matrix))]
+            if MM._vector_approximation(new, start_vector, eps):
+                new = [round(num, dig) for num in new]
+                return new
+            start_vector = new
+        new = [round(num, dig) for num in new]
+        warnings.warn("Maximum number of iterations reached. The solution may not be accurate.")
+        return new
+
+            
 
 
+    def jacobi_iteration(matrix, vec, dig: int = -1):...
+
+    def seidel_iteration(matrix, vec, dig: int = -1):...
+
+    def relaxation_iteration(matrix, vec, dig: int = -1):...
+
+    def explicit_iteration(matrix, vec, dig: int = -1, omega: float = 1):...
+        
     def gauss_elimination(matrix, vec, dig: int = -1):
         """
             Performs Gaussian elimination on the given matrix and vector to solve a system of linear equations.
@@ -154,6 +208,8 @@ class LinEqSolver():
                     If mode is '1', returns x, lower, and upper.
                     If mode is '2', returns x, lower, diagonal, and upper.
         """
+        if not Ckr._symmetric_check(matrix):
+            raise ValueError("The matrix is not symmetric")
         
         if mode == '1':
             if Ckr._sylvesters_criterion(matrix):
@@ -235,18 +291,30 @@ class LinEqSolver():
                 check (bool, optional): Flag to enable checking the solution. Defaults to False.
                 epsilon (float): The acceptable margin of error for the solution. Defaults to 1e-5.
                 m_v_range (tuple): The range for generating random matrix and vector values. Defaults to (10, 10).
-                mode (str): The method to use for solving the linear equations. Defaults to 'gauss'. method list 'chol_v1, chol_v2, gauss, lu, thm'
+                mode (str): The method to use for solving the linear equations. Defaults to 'gauss'. method list 'chol_v1, chol_v2, gauss, lu, thm, iter_sim, iter_sei, iter_jac, iter_rel, iter_exp'.
                 random (bool): Flag to determine if the matrix and vector should be generated randomly. Defaults to True.
                 prettier_path (str): The path to the prettier executable. Defaults to None.
                 prettier (bool): Flag to enable prettier output. Defaults to False.
                 logger (bool): Flag to enable logging. Defaults to True.
-                **kwargs: if random is False, the matrix and vector should be provided as kwargs with keys 'matrix' and 'vector'.
+                **kwargs: if random is False, the matrix and vector should be provided as kwargs with keys 'matrix' and 'vector', and 'eigen_iter', 'eigen_eps', 'method_iter', 'method_eps' for customization of the iterative methods.
             Returns:
                 None
         """
         try:
+            eigen_iter = kwargs['eigen_iter']
+            eigen_eps = kwargs['eigen_eps']
+            method_iter = kwargs['method_iter']
+            method_eps = kwargs['method_eps']
+        except:
+            eigen_iter = 100
+            eigen_eps = 1e-5
+            method_iter = 100
+            method_eps = 1e-5
+            if mode.startswith('iter_'):
+                warnings.warn("Warning (Selected iterative method): Using default eigen_iter = 100, eigen_eps = 1e-5, method_iter = 100, method_eps = 1e-5") 
+        try:
             if random:
-                if mode == 'chol_v1' or mode == 'chol_v2':
+                if mode == 'chol_v1' or mode == 'chol_v2' or mode == 'iter_sim':
                     matrix = Gn.generate_random_matrix(size, m_v_range[0], mode = 'symm')
                 
                 elif mode == 'thm':
@@ -319,7 +387,8 @@ class LinEqSolver():
 
             if mode == 'thm':
                     solution = LinEqSolver.tridiagonal_elimination(matrix, vector, dig)
-
+            if mode == 'iter_sim':
+                    solution = LinEqSolver.simple_iteration(matrix, vector, dig)
             if ext_file:
                 sol_eq = [[]] * size
                 
