@@ -13,9 +13,9 @@ class LinEqSolver():
     """
     This class is a linear equation solver that provides methods for performing various operations related to solving systems of linear equations. Here's a brief summary of each class method:
 
-    - `simple_iteration(matrix, vec, dig)`: Performs simple iteration to solve a system of linear equations.
+    - `simple_iteration(matrix, vec, max_iter, eigen_max_iter, eigen_eps, eps, dig)`: Performs simple iteration to solve a system of linear equations.
     - `seidel_iteration(matrix, vec, dig)`: Performs Seidel iteration to solve a system of linear equations.
-    - `jacobi_iteration(matrix, vec, dig)`: Performs Jacobi iteration to solve a system of linear equations.
+    - `jacobi_iteration(matrix, vec, max_iter, eps, dig)`: Performs Jacobi iteration to solve a system of linear equations.
     - `relaxation_method(matrix, vec, dig, omega)`: Performs relaxation method to solve a system of linear equations.
     - `explicit_iteration(matrix, vec, dig)`: Performs explicit iteration to solve a system of linear equations.
     - `gauss_elimination(matrix, vec, dig)`: Performs Gaussian elimination to solve a system of linear equations.
@@ -70,7 +70,40 @@ class LinEqSolver():
             
 
 
-    def jacobi_iteration(matrix, vec, dig: int = -1):...
+    def jacobi_iteration(matrix, vec, max_iter: int = 100, eps: float = 1e-6, dig: int = 1):
+        """
+        Perform Jacobi iteration to solve a linear system of equations.
+        
+        Args:
+            matrix: The coefficient matrix of the linear system.
+            vec: The constant vector of the linear system.
+            max_iter: The maximum number of iterations (default is 100).
+            eps: The tolerance for the approximation (default is 1e-6).
+            dig: The number of decimal digits to round to (default is 1).
+        
+        Returns:
+            list: The solution vector for the linear system.
+        """
+        if not Ckr._diagonal_domination(matrix):
+            raise ValueError("Matrix is not diagonally dominant.")
+
+        B = [[1/matrix[i][i] if i == j else 0 for i in range(len(matrix))] for j in range(len(matrix))]
+        max_v = max(map(lambda row: max(row), matrix))
+        start_vector = [random.uniform(0, max_v) for _ in range(len(matrix))]
+        for _ in range(max_iter):
+            S = MM._matrix_multiply(matrix, [[x] for x in start_vector])
+            S = [[x[0]-y] for x,y in zip(S, vec)]
+            S = MM._matrix_multiply(B, S)
+            new_vector = [start_vector[i] - S[i][0] for i in range(len(matrix))]
+            if MM._vector_approximation(new_vector, start_vector, eps):
+                new_vector = [round(num, dig) for num in new_vector]
+                return new_vector
+            start_vector = new_vector
+        
+        new_vector = [round(num, dig) for num in new_vector]
+        warnings.warn("Maximum number of iterations reached. The solution may not be accurate.")
+        return new_vector
+
 
     def seidel_iteration(matrix, vec, dig: int = -1):...
 
@@ -386,8 +419,13 @@ class LinEqSolver():
 
             if mode == 'thm':
                     solution = LinEqSolver.tridiagonal_elimination(matrix, vector, dig)
+            
             if mode == 'iter_sim':
                     solution = LinEqSolver.simple_iteration(matrix, vector, eigen_max_iter = eigen_iter, eigen_eps = eigen_eps, max_iter = method_iter, eps = method_eps, dig = dig)
+            
+            if mode == 'iter_jac':
+                    solution = LinEqSolver.jacobi_iteration(matrix, vector, max_iter = method_iter, eps = method_eps, dig = dig)
+
             if ext_file:
                 sol_eq = [[]] * size
                 

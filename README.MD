@@ -133,13 +133,13 @@ This class is a linear equation solver that provides methods for performing vari
     - Performs Tridiagonal elimination to solve a system of linear equations.
 
 
-3.  `simple_iteration(matrix, vec, dig)`: 
+3.  `simple_iteration(matrix, vec, max_iter, eigen_max_iter, eigen_eps, eps, dig)`: 
     - Performs simple iteration to solve a system of linear equations.
 
 4.  `seidel_iteration(matrix, vec, dig)`: 
     - Performs Seidel iteration to solve a system of linear equations.
 
-5.  `jacobi_iteration(matrix, vec, dig)`: 
+5.  `jacobi_iteration(matrix, vec, max_iter, eps, dig)`: 
     - Performs Jacobi iteration to solve a system of linear equations.
 
 6.  `relaxation_method(matrix, vec, dig, omega)`: 
