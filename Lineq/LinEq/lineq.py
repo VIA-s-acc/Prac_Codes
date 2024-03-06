@@ -7,6 +7,7 @@ from .Utils.Prettier import Prettier as Prt
 import random
 import warnings
 from copy import deepcopy
+from math import cos, pi
 
 
 class LinEqSolver():
@@ -139,7 +140,7 @@ class LinEqSolver():
 
         Raises:
             ValueError: If the matrix is not diagonally dominant.
-            
+
         Notes:
             - If the matrix is not diagonally dominant, an error will be raised.
             - If the maximum number of iterations is reached, a warning will be raised and the solution will be returned with the last iteration.
@@ -172,9 +173,61 @@ class LinEqSolver():
         warnings.warn("Maximum number of iterations reached. The solution may not be accurate.")
         return new_vector         
 
-    def relaxation_iteration(matrix, vec, dig: int = -1):...
+    def relaxation_iteration(matrix, vec, dig: int = -1, omega: float = 1):...
 
-    def explicit_iteration(matrix, vec, dig: int = -1, omega: float = 1):...
+    def explicit_iteration(matrix, vec, max_iter: int = 100, eigen_max_iter: int = 1000, eigen_eps: float = 1e-12, eps: float = 1e-6, dig: int = -1):
+        """
+        Perform explicit iteration to solve a linear system of equations.
+
+        Args:
+            matrix: The coefficient matrix of the linear system.
+            vec: The constant vector of the linear system.
+            max_iter: The maximum number of iterations (default is 100).
+            eigen_max_iter: The maximum number of iterations for eigenvalue computation (default is 1000).
+            eigen_eps: The tolerance for eigenvalue computation (default is 1e-12).
+            eps: The tolerance for the approximation (default is 1e-6).
+            dig: The number of decimal digits to round to (default is 1).
+
+        Raises:
+            ValueError: If the matrix is not diagonally dominant.
+
+        Notes:
+            - If the matrix is not diagonally dominant, an error will be raised.
+            - If the maximum number of iterations is reached, a warning will be raised and the solution will be returned with the last iteration.
+            - If the approximation is not satisfied, a warning will be raised and the solution will be returned with the last iteration.
+
+        Returns:
+            list: The solution vector for the linear system.
+        """
+        if not Ckr._diagonal_domination(matrix):
+            raise ValueError("Matrix is not diagonally dominant.")
+
+        eigen = MM.eigen_get(matrix, eigen_max_iter, eigen_eps)
+        eigen_max = eigen[0][0]
+        eigen_min = eigen[1][0]
+        thau_zero = 2/(eigen_max + eigen_min)
+        R = (eigen_max - eigen_min)/(eigen_max+eigen_min)
+        max_v = max(map(lambda row: max(row), matrix))
+        start_vector = [random.uniform(0, max_v) for _ in range(len(matrix))]
+
+        for _ in range(max_iter):
+            if _ == 0:
+                thau =  thau_zero
+            else:
+                thau = thau_zero/(1+R*cos(((2*_-1)*pi)/2*max_iter))
+
+            S = [[x[0]-y] for x,y in zip(MM._matrix_multiply(matrix, [[x] for x in start_vector]), vec)]
+            S = MM._scalar_matrix_multiply(thau, S)
+            new_vector = [start_vector[i] - S[i][0] for i in range(len(matrix))] 
+
+            if MM._vector_approximation(new_vector, start_vector, eps):
+                new_vector = [round(num, dig) for num in new_vector]
+                return new_vector
+            start_vector = new_vector
+
+        new_vector = [round(num, dig) for num in new_vector]
+        warnings.warn("Maximum number of iterations reached. The solution may not be accurate.")
+        return new_vector
         
     def gauss_elimination(matrix, vec, dig: int = -1):
         """
@@ -430,7 +483,8 @@ class LinEqSolver():
                 - If the matrix is not square, an error will be raised.
 
             Returns:
-                None
+                None: if the solution is not found. Otherwise, the solution will be printed to the console and saved to the solution_file.
+                (solution, matrix, vec): If the solution is found.
         """
         try:
             eigen_iter = kwargs['eigen_iter']
@@ -529,6 +583,10 @@ class LinEqSolver():
             if mode == 'iter_sei':
                     solution = LinEqSolver.seidel_iteration(matrix, vector, max_iter = method_iter, eps = method_eps, dig = dig)
 
+            if mode == 'iter_exp':
+                    solution = LinEqSolver.explicit_iteration(matrix, vector, eigen_max_iter = eigen_iter, eigen_eps = eigen_eps, max_iter = method_iter, eps = method_eps, dig = dig)
+            
+
             if ext_file:
                 sol_eq = [[]] * size
                 
@@ -550,7 +608,8 @@ class LinEqSolver():
                             raise ValueError("Please provide the path to the prettier executable.")
                         Sv.save_matrix_to_file(Prt._pretty_matrix([[i] for i in solution]), prettier_path+'solution.txt', mode = 'prettier')
             Sv.save_vector_to_file(solution, solution_file)
-            return True
+            return solution
+        
         except Exception as e:
             if logger:
                 import traceback
@@ -590,5 +649,5 @@ class LinEqSolver():
                 print("Something went wrong. For more information check the error_log.txt file. [Saved in {path}]\n\nShort description:\n------------------\n{msg}\nline: {line}\nFile: {file}\n------------------\n".format(path = error_file_path, msg = exc_msg, line = sys._getframe().f_lineno, file = __file__))
             else:
                 print("Something went wrong.\nLogger is not disabled.\nShort description: {info}".format(info = e))
-            return False
+            return None
             

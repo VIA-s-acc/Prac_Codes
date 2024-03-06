@@ -1,5 +1,4 @@
 from copy import deepcopy
-
 def det(matrix):
         """
         Calculate the determinant of a square matrix.
