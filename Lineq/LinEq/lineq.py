@@ -49,11 +49,11 @@ class LinEqSolver():
 
         Notes:
 
-        - If the matrix is not symmetric, an error will be raised.
-        - If the Sylvester's criterion is not satisfied, an error will be raised.
-        - If the eigenvalues of the matrix are not real, an error will be raised.
-        - If the maximum number of iterations is reached, a warning will be raised and the solution will be returned with the last iteration.
-        - If the solution approximation is not satisfied, a warning will be raised and the solution will be returned with the last iteration.
+            - If the matrix is not symmetric, an error will be raised.
+            - If the Sylvester's criterion is not satisfied, an error will be raised.
+            - If the eigenvalues of the matrix are not real, an error will be raised.
+            - If the maximum number of iterations is reached, a warning will be raised and the solution will be returned with the last iteration.
+            - If the solution approximation is not satisfied, a warning will be raised and the solution will be returned with the last iteration.
 
         
         Returns:
@@ -126,7 +126,51 @@ class LinEqSolver():
         warnings.warn("Maximum number of iterations reached. The solution may not be accurate.")
         return new_vector
 
-    def seidel_iteration(matrix, vec, dig: int = -1):...
+    def seidel_iteration(matrix, vec, max_iter: int = 100, eps: float = 1e-6,dig: int = -1):
+        """
+        Perform Seidel iteration to solve a linear system of equations.
+
+        Args:
+            matrix: The coefficient matrix of the linear system.
+            vec: The constant vector of the linear system.
+            max_iter: The maximum number of iterations (default is 100).
+            eps: The tolerance for the approximation (default is 1e-6).
+            dig: The number of decimal digits to round to (default is 1).
+
+        Raises:
+            ValueError: If the matrix is not diagonally dominant.
+
+        Notes:
+            - If the matrix is not diagonally dominant, an error will be raised.
+            - If the maximum number of iterations is reached, a warning will be raised and the solution will be returned with the last iteration.
+            - If the approximation is not satisfied, a warning will be raised and the solution will be returned with the last iteration.
+
+        Returns:
+            list: The solution vector for the linear system.
+        """
+        
+        if not Ckr._diagonal_domination(matrix):
+            raise ValueError("Matrix is not diagonally dominant.")
+        
+        B = [[matrix[i][j] if i <= j else 0 for i in range(len(matrix))] for j in range(len(matrix))]
+        B = MM._inverse_matrix(B)
+        max_v = max(map(lambda row: max(row), B))
+        start_vector = [random.uniform(0, max_v) for _ in range(len(matrix))]
+        for _ in range(max_iter):
+            S = MM._matrix_multiply(matrix, [[x] for x in start_vector])
+            S = [[x[0]-y] for x,y in zip(S, vec)]
+            S = MM._matrix_multiply(B, S)
+            new_vector = [start_vector[i] - S[i][0] for i in range(len(matrix))]
+            if MM._vector_approximation(new_vector, start_vector, eps):
+                print(MM._matrix_multiply(matrix, [[x] for x in new_vector]))
+                new_vector = [round(num, dig) for num in new_vector]
+                return new_vector
+            start_vector = new_vector
+        
+
+        new_vector = [round(num, dig) for num in new_vector]
+        warnings.warn("Maximum number of iterations reached. The solution may not be accurate.")
+        return new_vector         
 
     def relaxation_iteration(matrix, vec, dig: int = -1):...
 
@@ -481,6 +525,9 @@ class LinEqSolver():
             
             if mode == 'iter_jac':
                     solution = LinEqSolver.jacobi_iteration(matrix, vector, max_iter = method_iter, eps = method_eps, dig = dig)
+
+            if mode == 'iter_sei':
+                    solution = LinEqSolver.seidel_iteration(matrix, vector, max_iter = method_iter, eps = method_eps, dig = dig)
 
             if ext_file:
                 sol_eq = [[]] * size
