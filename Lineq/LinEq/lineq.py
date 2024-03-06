@@ -139,7 +139,7 @@ class LinEqSolver():
 
         Raises:
             ValueError: If the matrix is not diagonally dominant.
-
+            
         Notes:
             - If the matrix is not diagonally dominant, an error will be raised.
             - If the maximum number of iterations is reached, a warning will be raised and the solution will be returned with the last iteration.
@@ -148,7 +148,7 @@ class LinEqSolver():
         Returns:
             list: The solution vector for the linear system.
         """
-        
+
         if not Ckr._diagonal_domination(matrix):
             raise ValueError("Matrix is not diagonally dominant.")
         
