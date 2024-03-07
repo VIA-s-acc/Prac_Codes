@@ -7,7 +7,7 @@ from .Utils.Prettier import Prettier as Prt
 import random
 import warnings
 from copy import deepcopy
-from math import cos, pi
+from math import cos, pi, sqrt
 
 
 class LinEqSolver():
@@ -18,6 +18,7 @@ class LinEqSolver():
     - `seidel_iteration(matrix, vec, dig)`: Performs Seidel iteration to solve a system of linear equations.
     - `jacobi_iteration(matrix, vec, max_iter, eps, dig)`: Performs Jacobi iteration to solve a system of linear equations.
     - `relaxation_method(matrix, vec, dig, omega)`: Performs relaxation method to solve a system of linear equations.
+    - `_select_omega(matrix, eigen_max_iter, eigen_eps)`: Selects the relaxation parameter for the relaxation method.
     - `explicit_iteration(matrix, vec, dig)`: Performs explicit iteration to solve a system of linear equations.
     - `gauss_elimination(matrix, vec, dig)`: Performs Gaussian elimination to solve a system of linear equations.
     - `tridiagonal_elimination(matrix, vec, dig)`: Performs Tridiagonal elimination to solve a system of linear equations.
@@ -163,7 +164,6 @@ class LinEqSolver():
             S = MM._matrix_multiply(B, S)
             new_vector = [start_vector[i] - S[i][0] for i in range(len(matrix))]
             if MM._vector_approximation(new_vector, start_vector, eps):
-                print(MM._matrix_multiply(matrix, [[x] for x in new_vector]))
                 new_vector = [round(num, dig) for num in new_vector]
                 return new_vector
             start_vector = new_vector
@@ -173,7 +173,75 @@ class LinEqSolver():
         warnings.warn("Maximum number of iterations reached. The solution may not be accurate.")
         return new_vector         
 
-    def relaxation_iteration(matrix, vec, dig: int = -1, omega: float = 1):...
+    def _select_omega(matrix, eigen_max_iter: int = 100, eigen_eps: float = 1e-12):
+        """
+        Select the relaxation parameter for the relaxation iteration method.
+
+        Args:
+            matrix: The coefficient matrix of the linear system.
+            eigen_max_iter: The maximum number of iterations for eigenvalue computation (default is 1000).
+            eigen_eps: The tolerance for eigenvalue computation (default is 1e-12).
+
+        Returns:
+            float: The relaxation parameter.
+        """
+        D_I = [[1/matrix[i][j] if i == j else 0 for i in range(len(matrix))] for j in range(len(matrix))]
+        
+        eigen = MM.eigen_get(D_I, eigen_max_iter, eigen_eps)
+        eigen_max = eigen[0][0]
+        
+        omega = 2/(1+sqrt(1-eigen_max**2))
+
+        return omega
+
+    def relaxation_iteration(matrix, vec, max_iter: int = 100, eps: float = 1e-6, dig: int = -1, omega: float = 1):
+        """
+        Perform relaxation iteration to solve a linear system of equations.
+
+        Args:
+            matrix: The coefficient matrix of the linear system.
+            vec: The constant vector of the linear system.
+            max_iter: The maximum number of iterations (default is 100).
+            eps: The tolerance for the approximation (default is 1e-6).
+            dig: The number of decimal digits to round to (default is 1).
+            omega: The relaxation parameter (default is 1).
+
+        Raises:
+            ValueError: If the matrix is not diagonally dominant.
+
+        Notes:
+            - If the matrix is not diagonally dominant, an error will be raised.
+            - If the maximum number of iterations is reached, a warning will be raised and the solution will be returned with the last iteration.
+            - If the approximation is not satisfied, a warning will be raised and the solution will be returned with the last iteration.
+
+        Returns:
+            list: The solution vector for the linear system.    
+        """
+
+        if not Ckr._diagonal_domination(matrix):
+            raise ValueError("Matrix is not diagonally dominant.")
+        
+        B = [[matrix[i][j] if i <= j else 0 for i in range(len(matrix))] for j in range(len(matrix))]
+        B = MM._inverse_matrix(B)
+        B = MM._scalar_matrix_multiply(omega, B)
+        max_v = max(map(lambda row: max(row), B))
+        start_vector = [random.uniform(0, max_v) for _ in range(len(matrix))]
+        for _ in range(max_iter):
+            S = MM._matrix_multiply(matrix, [[x] for x in start_vector])
+            S = [[x[0]-y] for x,y in zip(S, vec)]
+            S = MM._matrix_multiply(B, S)
+            new_vector = [start_vector[i] - S[i][0] for i in range(len(matrix))]
+            if MM._vector_approximation(new_vector, start_vector, eps):
+                new_vector = [round(num, dig) for num in new_vector]
+                return new_vector
+            start_vector = new_vector
+        
+
+        new_vector = [round(num, dig) for num in new_vector]
+        warnings.warn("Maximum number of iterations reached. The solution may not be accurate.")
+        return new_vector         
+
+
 
     def explicit_iteration(matrix, vec, max_iter: int = 100, eigen_max_iter: int = 1000, eigen_eps: float = 1e-12, eps: float = 1e-6, dig: int = -1):
         """
@@ -586,7 +654,9 @@ class LinEqSolver():
             if mode == 'iter_exp':
                     solution = LinEqSolver.explicit_iteration(matrix, vector, eigen_max_iter = eigen_iter, eigen_eps = eigen_eps, max_iter = method_iter, eps = method_eps, dig = dig)
             
-
+            if mode == 'iter_rel':
+                    solution = LinEqSolver.explicit_iteration(matrix, vector, eigen_max_iter = eigen_iter, eigen_eps = eigen_eps, max_iter = method_iter, eps = method_eps, dig = dig)
+            
             if ext_file:
                 sol_eq = [[]] * size
                 

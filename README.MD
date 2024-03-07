@@ -132,33 +132,35 @@ This class is a linear equation solver that provides methods for performing vari
 2.  `tridiagonal_elimination(matrix, vec, dig)`: 
     - Performs Tridiagonal elimination to solve a system of linear equations.
 
+3.  `_select_omega(matrix, eigen_max_iter, eigen_eps)`: 
+    - Selects the relaxation parameter for the relaxation method.
 
-3.  `simple_iteration(matrix, vec, max_iter, eigen_max_iter, eigen_eps, eps, dig)`: 
+4.  `simple_iteration(matrix, vec, max_iter, eigen_max_iter, eigen_eps, eps, dig)`: 
     - Performs simple iteration to solve a system of linear equations.
 
-4.  `seidel_iteration(matrix, vec, dig)`: 
+5.  `seidel_iteration(matrix, vec, dig)`: 
     - Performs Seidel iteration to solve a system of linear equations.
 
-5.  `jacobi_iteration(matrix, vec, max_iter, eps, dig)`: 
+6.  `jacobi_iteration(matrix, vec, max_iter, eps, dig)`: 
     - Performs Jacobi iteration to solve a system of linear equations.
 
-6.  `relaxation_method(matrix, vec, dig, omega)`: 
+7.  `relaxation_method(matrix, vec, dig, omega)`: 
     - Performs relaxation method to solve a system of linear equations.
 
-7.  `explicit_iteration(matrix, vec, dig)`: 
+8.  `explicit_iteration(matrix, vec, dig)`: 
     - Performs explicit iteration to solve a system of linear equations.
     
-8.  `_chol_solver(matrix, vec, dig, mode)`:
+9.  `_chol_solver(matrix, vec, dig, mode)`:
     - Solves a linear system using Cholesky decomposition.
 
-9.  `_lu_solver(matrix, vec, dig):` 
+10.  `_lu_solver(matrix, vec, dig):` 
     - Solves a linear system of equations using LU decomposition.
 
-10.  `_forward_substitution(matrix, vec, dig)`: 
+11.  `_forward_substitution(matrix, vec, dig)`: 
      - Solves a system of linear equations using forward substitution.
 
-11.  `_backward_substitution(matrix, vec, dig)`: 
+12.  `_backward_substitution(matrix, vec, dig)`: 
      - Solves a system of linear equations using backward substitution.
 
-12.  `generate_and_solve_linear_equations(size, matrix_file, vector_file, solution_file, ext_file, dig, check, epsilon, m_v_range, mode, random, prettier_path, prettier, logger, **kwargs)`: 
+13.  `generate_and_solve_linear_equations(size, matrix_file, vector_file, solution_file, ext_file, dig, check, epsilon, m_v_range, mode, random, prettier_path, prettier, logger, **kwargs)`: 
      - Generates and solves a system of linear equations, with various options for customization and output.
