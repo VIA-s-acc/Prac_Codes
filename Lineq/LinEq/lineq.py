@@ -8,6 +8,8 @@ import random
 import warnings
 from copy import deepcopy
 from math import cos, pi, sqrt
+EPS = 1e-6
+
 
 
 class LinEqSolver():
@@ -72,7 +74,8 @@ class LinEqSolver():
         eigen_min = eigen[1][0]
         thau = 2/(eigen_max + eigen_min)
         max_v = max(map(lambda row: max(row), matrix))
-        start_vector = [random.uniform(0, max_v) for _ in range(len(matrix))]
+        start_vector = [random.uniform(0, max_v+1) for _ in range(len(matrix))]
+
         for _ in range(max_iter):
             new = [start_vector[i] - thau * (sum(matrix[i][j] * start_vector[j] for j in range(len(matrix))) - vec[i]) for i in range(len(matrix))]
             if MM._vector_approximation(new, start_vector, eps):
@@ -113,7 +116,7 @@ class LinEqSolver():
 
         B = [[1/matrix[i][i] if i == j else 0 for i in range(len(matrix))] for j in range(len(matrix))]
         max_v = max(map(lambda row: max(row), matrix))
-        start_vector = [random.uniform(0, max_v) for _ in range(len(matrix))]
+        start_vector = [random.uniform(0, max_v+1) for _ in range(len(matrix))]
         for _ in range(max_iter):
             S = MM._matrix_multiply(matrix, [[x] for x in start_vector])
             S = [[x[0]-y] for x,y in zip(S, vec)]
@@ -157,7 +160,7 @@ class LinEqSolver():
         B = [[matrix[i][j] if i <= j else 0 for i in range(len(matrix))] for j in range(len(matrix))]
         B = MM._inverse_matrix(B)
         max_v = max(map(lambda row: max(row), B))
-        start_vector = [random.uniform(0, max_v) for _ in range(len(matrix))]
+        start_vector = [random.uniform(0, max_v+1) for _ in range(len(matrix))]
         for _ in range(max_iter):
             S = MM._matrix_multiply(matrix, [[x] for x in start_vector])
             S = [[x[0]-y] for x,y in zip(S, vec)]
@@ -194,7 +197,7 @@ class LinEqSolver():
 
         return omega
 
-    def relaxation_iteration(matrix, vec, max_iter: int = 100, eps: float = 1e-6, dig: int = -1, omega: float = 1):
+    def relaxation_iteration(matrix, vec, max_iter: int = 100, eps: float = 1e-6, dig: int = 1, omega: float = 1):
         """
         Perform relaxation iteration to solve a linear system of equations.
 
@@ -207,34 +210,44 @@ class LinEqSolver():
             omega: The relaxation parameter (default is 1).
 
         Raises:
-            ValueError: If the matrix is not diagonally dominant.
+            ValueError: If the omega value is not between 0 and 2, or if the sylvester's criterion is not satisfied.
 
         Notes:
-            - If the matrix is not diagonally dominant, an error will be raised.
+            - If the omega value is not between 0 and 2, an error will be raised.
+            - If the sylvester's criterion is not satisfied, an error will be raised.
             - If the maximum number of iterations is reached, a warning will be raised and the solution will be returned with the last iteration.
             - If the approximation is not satisfied, a warning will be raised and the solution will be returned with the last iteration.
 
         Returns:
             list: The solution vector for the linear system.    
         """
-
-        if not Ckr._diagonal_domination(matrix):
-            raise ValueError("Matrix is not diagonally dominant.")
+        
+        print(omega)
+        if omega < 0 + EPS or omega > 2 - EPS:
+            raise ValueError(f"Omega must be between {0+EPS} and {2-EPS}: Omega = {omega} | change EPS value in lineq.py | now EPS = {EPS}.")
+        
+        if not Ckr._sylvesters_criterion(matrix):
+                raise ValueError("Sylvester's criterion not satisfied.")
         
         B = [[matrix[i][j] if i <= j else 0 for i in range(len(matrix))] for j in range(len(matrix))]
         B = MM._inverse_matrix(B)
         B = MM._scalar_matrix_multiply(omega, B)
         max_v = max(map(lambda row: max(row), B))
-        start_vector = [random.uniform(0, max_v) for _ in range(len(matrix))]
+        start_vector = [random.uniform(0, max_v+1) for _ in range(len(matrix))]
         for _ in range(max_iter):
             S = MM._matrix_multiply(matrix, [[x] for x in start_vector])
             S = [[x[0]-y] for x,y in zip(S, vec)]
             S = MM._matrix_multiply(B, S)
             new_vector = [start_vector[i] - S[i][0] for i in range(len(matrix))]
-            if MM._vector_approximation(new_vector, start_vector, eps):
+            try:
+                if MM._vector_approximation(new_vector, start_vector, eps):
+                    new_vector = [round(num, dig) for num in new_vector]
+                    return new_vector
+                start_vector = new_vector
+            except:
                 new_vector = [round(num, dig) for num in new_vector]
+                warnings.warn("Approximation not satisfied. The solution may not be accurate.")
                 return new_vector
-            start_vector = new_vector
         
 
         new_vector = [round(num, dig) for num in new_vector]
@@ -276,7 +289,7 @@ class LinEqSolver():
         thau_zero = 2/(eigen_max + eigen_min)
         R = (eigen_max - eigen_min)/(eigen_max+eigen_min)
         max_v = max(map(lambda row: max(row), matrix))
-        start_vector = [random.uniform(0, max_v) for _ in range(len(matrix))]
+        start_vector = [random.uniform(0, max_v+1) for _ in range(len(matrix))]
 
         for _ in range(max_iter):
             if _ == 0:
@@ -655,7 +668,7 @@ class LinEqSolver():
                     solution = LinEqSolver.explicit_iteration(matrix, vector, eigen_max_iter = eigen_iter, eigen_eps = eigen_eps, max_iter = method_iter, eps = method_eps, dig = dig)
             
             if mode == 'iter_rel':
-                    solution = LinEqSolver.explicit_iteration(matrix, vector, eigen_max_iter = eigen_iter, eigen_eps = eigen_eps, max_iter = method_iter, eps = method_eps, dig = dig)
+                    solution = LinEqSolver.relaxation_iteration(matrix, vector, max_iter = method_iter, eps = method_eps, dig = dig, omega = LinEqSolver._select_omega(matrix, eigen_max_iter=eigen_iter, eigen_eps=eigen_eps))
             
             if ext_file:
                 sol_eq = [[]] * size

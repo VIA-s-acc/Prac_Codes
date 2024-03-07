@@ -133,7 +133,7 @@ class Methods:
             Tuple containing the dominant eigenvalue and its corresponding eigenvector.
         """     
         max_v = max(map(lambda row: max(row), matrix))
-        start_vector = [random.uniform(0, max_v) for _ in range(len(matrix))]
+        start_vector = [random.uniform(0, max_v+1) for _ in range(len(matrix))]
         norm = Methods.euclidean_norm(start_vector)
         start_vector = [element / norm for element in start_vector] 
         for _ in range(max_iter):
@@ -143,7 +143,11 @@ class Methods:
             new_vector = (Methods._matrix_multiply(matrix, [[x] for x in start_vector]))
             new_vector = [x[0] for x in new_vector]
             new_norm = Methods.euclidean_norm(new_vector)
-            new_vector = [element / new_norm for element in new_vector]
+            try:
+                new_vector = [element / new_norm for element in new_vector]
+            except:
+                warnings.warn("Power method did not converge, returned last eigenvalue and vector (increase max_iter or decrease eps)")
+                return eigenvalue, start_vector
             
             new_eigenvalue = Methods._vector_matrix_multiply([[x] for x in new_vector], (Methods._vector_matrix_multiply(matrix, vector=new_vector)))
             new_norm = Methods._vector_matrix_multiply([[x] for x in new_vector], new_vector)[0]

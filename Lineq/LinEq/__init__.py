@@ -14,5 +14,5 @@ __all__ = [
     'time_decorator',
     'Methods',
     'Checker',
-    'Prettier'
+    'Prettier',
 ]

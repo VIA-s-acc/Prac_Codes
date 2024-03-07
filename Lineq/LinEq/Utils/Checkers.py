@@ -68,8 +68,8 @@ class Checker:
 
         """
         for i in range(len(matrix)):
-            row_sum = sum(abs(matrix[i][j]) for j in range(len(matrix)))
-            if abs(matrix[i][i]) >= row_sum:
+            row_sum = sum(abs(matrix[i][j]) if i != j else 0 for j in range(len(matrix)))
+            if abs(matrix[i][i]) <= row_sum:
                 return False
         return True
     
