@@ -154,7 +154,7 @@ This class is a linear equation solver that provides methods for performing vari
     - Solves a linear system using Cholesky decomposition.
 
 10.  `_lu_solver(matrix, vec, dig):` 
-    - Solves a linear system of equations using LU decomposition.
+     - Solves a linear system of equations using LU decomposition.
 
 11.  `_forward_substitution(matrix, vec, dig)`: 
      - Solves a system of linear equations using forward substitution.
