@@ -5,3 +5,4 @@ main.py
 __pycache__
 .vscode
 error_log.txt
+.VSCodeCounter

@@ -222,7 +222,6 @@ class LinEqSolver():
             list: The solution vector for the linear system.    
         """
         
-        print(omega)
         if omega < 0 + EPS or omega > 2 - EPS:
             raise ValueError(f"Omega must be between {0+EPS} and {2-EPS}: Omega = {omega} | change EPS value in lineq.py | now EPS = {EPS}.")
         
