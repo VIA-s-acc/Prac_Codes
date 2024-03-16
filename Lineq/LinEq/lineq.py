@@ -796,7 +796,7 @@ class LinEqSolver():
                 
                     - `The method list`
                     - chol_v1, chol_v2, gauss, lu, thm, iter_sim, iter_sei, iter_jac, iter_rel, iter_exp, iter_minr, iter_std
-                    - iter_minc (advanced for minc -> if end by sim, jac or sei, uses specified matrix for minc, see `min_chg_iteration for more`), 
+                    - iter_minc (advanced for minc -> if end by sim, jac or sei, uses specified matrix for minc, see `min_chg_iteration` for more), 
                     - iter_stdi (advanced for stdo -> if end by sim, jac or sei, uses specified matrix for stdi -> see `step_desc_iteration_imp` for more).
 
                 random (bool): Flag to determine if the matrix and vector should be generated randomly. Defaults to True.
