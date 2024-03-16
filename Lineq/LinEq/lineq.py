@@ -22,6 +22,10 @@ class LinEqSolver():
     - `relaxation_method(matrix, vec, dig, omega)`: Performs relaxation method to solve a system of linear equations.
     - `_select_omega(matrix, eigen_max_iter, eigen_eps)`: Selects the relaxation parameter for the relaxation method.
     - `explicit_iteration(matrix, vec, dig)`: Performs explicit iteration to solve a system of linear equations.
+    - `min_res_iteration(matrix, vec, max_iter, eps, dig)`: Performs minimum residual iteration to solve a system of linear equations.
+    - `min_chg_iteration(matrix, vec, max_iter, eps, dig, matrix_choose_mode)`: Performs minimum change iteration to solve a system of linear equations.
+    - `step_desc_iteration(matrix, vec, max_iter, eps, dig)`: Performs method of steepest descent to solve a system of linear equations.
+    - `step_desc_iteration_imp(matrix, vec, max_iter, eps, dig, matrix_choose_mode)`: Performs implicit method of steepest descent to solve a system of linear equations.
     - `gauss_elimination(matrix, vec, dig)`: Performs Gaussian elimination to solve a system of linear equations.
     - `tridiagonal_elimination(matrix, vec, dig)`: Performs Tridiagonal elimination to solve a system of linear equations.
     - `_chol_solver(matrix, vec, dig, mode)`: Solves a linear system using Cholesky decomposition.
@@ -31,6 +35,239 @@ class LinEqSolver():
     - `generate_and_solve_linear_equations(size, matrix_file, vector_file, solution_file, ext_file, dig, check, epsilon, m_v_range, mode, random, prettier_path, prettier, logger, **kwargs)`: Generates and solves a system of linear equations, with various options for customization and output. 
     """
     
+
+    def min_res_iteration(matrix, vec, max_iter: int = 100, eps: float = 1e-5, dig: int = 1):
+        """
+        Perform min residual iteration to solve a linear system of equations.
+
+        Args:
+            matrix: The coefficient matrix of the linear system.
+            vec: The constant vector of the linear system.
+            max_iter: The maximum number of iterations (default is 100).
+            eps: The tolerance for the approximation (default is 1e-5).
+            dig: The number of decimal digits to round to (default is 1).
+
+        Raises:
+            ValueError: If the matrix is not symmetric.
+            ValueError: If the Sylvester's criterion is not satisfied.
+
+        Notes:
+            - If the matrix is not symmetric, an error will be raised.
+            - If the Sylvester's criterion is not satisfied, an error will be raised.
+
+        Returns:
+            list: The solution vector for the linear system.
+        """
+        if not Ckr._symmetric_check(matrix):
+            raise ValueError("Matrix is not symmetric")
+        
+        if not Ckr._sylvesters_criterion(matrix):
+            raise ValueError("Sylvester's criterion not satisfied.")
+        
+        max_v = max(map(lambda row: max(row), matrix))
+        start_vector = [random.uniform(0, max_v+1) for _ in range(len(matrix))]
+        for _ in range(max_iter):
+            R_0 = [el1[0] - el2 for el1,el2 in zip(MM._matrix_multiply(matrix, [[x] for x in start_vector]), vec)]
+            A_R0 = MM._matrix_multiply(matrix, [[x] for x in R_0])
+            thau = sum(x*y[0] for x,y in zip(R_0, A_R0)) / sum(x[0]**2 for x in A_R0)
+            new_vector = [x - thau*y for x,y in zip(start_vector, R_0)]
+            if MM.euclidean_norm(R_0) < eps:
+                new = [round(x, dig) for x in new_vector]
+                return new
+            start_vector = new_vector
+
+        new = [round(x, dig) for x in new_vector]
+        warnings.warn("Maximum number of iterations reached. The solution may not be accurate.")
+        return new
+    
+    def min_chg_iteration(matrix, vec, max_iter: int = 100, eps: float = 1e-5, dig: int = 1, matrix_choose_mode = 'sim'):
+        """
+        Perform implicit min change iteration to solve a linear system of equations.
+
+        Args:
+            matrix: The coefficient matrix of the linear system.
+            vec: The constant vector of the linear system.
+            max_iter: The maximum number of iterations (default is 100).
+            eps: The tolerance for the approximation (default is 1e-5).
+            dig: The number of decimal digits to round to (default is 1).
+            matrix_choose_mode: The mode for choosing the matrix. Can be 'sim, 'jac', 'sei'. (default is 'sim')
+                                                                'sim' - simple iteration B matrix 
+                                                                'jac' - Jacobi iteration B matrix
+                                                                'sei' - Seidel iteration B matrix
+
+        Raises:
+            ValueError: If the matrix is not symmetric.
+            ValueError: If the Sylvester's criterion is not satisfied.
+            ValueError: If the matrix_choose_mode is invalid.
+
+        Notes:
+            - If the matrix is not symmetric, an error will be raised.
+            - If the Sylvester's criterion is not satisfied, an error will be raised.
+            - If the matrix_choose_mode is invalid, an error will be raised.
+
+        Returns:
+            list: The solution vector for the linear system.
+        """
+        if not Ckr._symmetric_check(matrix):
+            raise ValueError("Matrix is not symmetric")
+        
+        if not Ckr._sylvesters_criterion(matrix):
+            raise ValueError("Sylvester's criterion not satisfied.")
+        
+        if matrix_choose_mode not in ['sim', 'jac', 'sei']:
+            raise ValueError("Invalid matrix_choose_mode. Please choose 'sim', 'jac', 'sei'.")
+        
+        if matrix_choose_mode == 'sim':
+            B = [[1 if i == j else 0 for i in range(len(matrix))] for j in range(len(matrix))]
+            B_I = B
+        elif matrix_choose_mode == 'jac':
+            B = [[matrix[i][i] if i == j else 0 for i in range(len(matrix))] for j in range(len(matrix))]
+            B_I = [[1/matrix[i][i] if i == j else 0 for i in range(len(matrix))] for j in range(len(matrix))]
+        elif matrix_choose_mode == 'sei':
+            B = [[matrix[i][j] if i <= j else 0 for i in range(len(matrix))] for j in range(len(matrix))]
+            B_I = MM._inverse_matrix(B)
+
+        max_v = max(map(lambda row: max(row), matrix))
+        start_vector = [random.uniform(0, max_v+1) for _ in range(len(matrix))]
+
+        for _ in range(max_iter):
+            R_0 = [el1[0] - el2 for el1,el2 in zip(MM._matrix_multiply(matrix, [[x] for x in start_vector]), vec)]
+            omega = MM._matrix_multiply(B_I, [[x] for x in R_0])
+            A_omega = MM._matrix_multiply(matrix, omega)
+            B_I_A_omega = MM._matrix_multiply(B_I, A_omega)
+            thau = sum(x[0]*y[0] for x,y in zip(A_omega, omega)) / sum(x[0]*y[0] for x,y in zip(B_I_A_omega, A_omega))
+            B_I_R0 = MM._matrix_multiply(B_I, [[x] for x in R_0])
+            new_vector = [x - thau*y[0] for x,y in zip(start_vector, B_I_R0)]
+
+            if MM.euclidean_norm(R_0) < eps:
+                new = [round(x, dig) for x in new_vector]
+                return new
+            start_vector = new_vector
+
+        new = [round(x, dig) for x in new_vector]
+        warnings.warn("Maximum number of iterations reached. The solution may not be accurate.")
+        return new            
+
+        
+    def step_desc_iteration(matrix, vec, max_iter: int = 100, eps: float = 1e-5, dig: int = 1):
+        """
+        Perform method of steepest descent to solve a linear system of equations.
+
+        Args:
+            matrix: The coefficient matrix of the linear system.
+            vec: The constant vector of the linear system.
+            max_iter: The maximum number of iterations (default is 100).
+            eps: The tolerance for the approximation (default is 1e-5).
+            matrix_choose_mode: The mode for choosing the matrix. Can be 'sim, 'jac', 'sei'. (default is 'sim')
+                                                                'sim' - simple iteration B matrix 
+                                                                'jac' - Jacobi iteration B matrix
+                                                                'sei' - Seidel iteration B matrix
+
+        Raises:
+            ValueError: If the matrix is not symmetric.
+            ValueError: If the Sylvester's criterion is not satisfied.
+
+        Notes:
+            - If the matrix is not symmetric, an error will be raised.
+            - If the Sylvester's criterion is not satisfied, an error will be raised.
+
+        Returns:
+            list: The solution vector for the linear system.
+        """
+        if not Ckr._symmetric_check(matrix):
+            raise ValueError("Matrix is not symmetric")
+        
+        if not Ckr._sylvesters_criterion(matrix):
+            raise ValueError("Sylvester's criterion not satisfied.")
+        
+        max_v = max(map(lambda row: max(row), matrix))
+        start_vector = [random.uniform(0, max_v+1) for _ in range(len(matrix))]
+        for _ in range(max_iter):
+            R_0 = [el1[0] - el2 for el1,el2 in zip(MM._matrix_multiply(matrix, [[x] for x in start_vector]), vec)]
+            A_R0 = MM._matrix_multiply(matrix, [[x] for x in R_0])
+            thau = sum(x**2 for x in R_0) / sum(x[0]*y for x,y in zip(A_R0, R_0))
+            new_vector = [x - thau*y for x,y in zip(start_vector, R_0)]
+            if MM.euclidean_norm(R_0) < eps:
+                new = [round(x, dig) for x in new_vector]
+                return new
+            start_vector = new_vector
+
+        new = [round(x, dig) for x in new_vector]
+        warnings.warn("Maximum number of iterations reached. The solution may not be accurate.")
+        return new
+    
+
+    def step_desc_iteration_imp(matrix, vec, max_iter: int = 100, eps: float = 1e-5, dig: int = 1, matrix_choose_mode: str = 'sim'):
+        """
+        Perform implicit method of steepest descent to solve a linear system of equations.
+
+        Args:
+            matrix: The coefficient matrix of the linear system.
+            vec: The constant vector of the linear system.
+            max_iter: The maximum number of iterations (default is 100).
+            eps: The tolerance for the approximation (default is 1e-5).
+            dig: The number of decimal digits to round to (default is 1).
+            matrix_choose_mode: The mode for choosing the matrix. Can be 'sim, 'jac', 'sei'. (default is 'sim')
+                                                                'sim' - simple iteration B matrix 
+                                                                'jac' - Jacobi iteration B matrix
+                                                                'sei' - Seidel iteration B matrix
+
+        Raises:
+            ValueError: If the matrix is not symmetric.
+            ValueError: If the Sylvester's criterion is not satisfied.
+            ValueError: If the matrix_choose_mode is invalid.
+            
+        Notes:
+            - If the matrix is not symmetric, an error will be raised.
+            - If the Sylvester's criterion is not satisfied, an error will be raised.
+            - If the matrix_choose_mode is invalid, an error will be raised.
+
+        Returns:
+            list: The solution vector for the linear system.
+        """
+
+        print(matrix_choose_mode)
+        if not Ckr._symmetric_check(matrix):
+            raise ValueError("Matrix is not symmetric")
+        
+        if not Ckr._sylvesters_criterion(matrix):
+            raise ValueError("Sylvester's criterion not satisfied.")
+
+        if matrix_choose_mode not in ['sim', 'jac', 'sei']:
+            raise ValueError("Invalid matrix_choose_mode")
+
+        if matrix_choose_mode == 'sim':
+            B = [[1 if i == j else 0 for i in range(len(matrix))] for j in range(len(matrix))]
+            B_I = B
+        elif matrix_choose_mode == 'jac':
+            B = [[matrix[i][i] if i == j else 0 for i in range(len(matrix))] for j in range(len(matrix))]
+            B_I = [[1/matrix[i][i] if i == j else 0 for i in range(len(matrix))] for j in range(len(matrix))]
+        elif matrix_choose_mode == 'sei':
+            B = [[matrix[i][j] if i <= j else 0 for i in range(len(matrix))] for j in range(len(matrix))]
+            B_I = MM._inverse_matrix(B)
+
+        max_v = max(map(lambda row: max(row), matrix))
+        start_vector = [random.uniform(0, max_v+1) for _ in range(len(matrix))]
+
+        for _ in range(max_iter):
+            R_0 = [el1[0] - el2 for el1,el2 in zip(MM._matrix_multiply(matrix, [[x] for x in start_vector]), vec)]
+            omega = MM._matrix_multiply(B_I, [[x] for x in R_0])
+            A_omega = MM._matrix_multiply(matrix, omega)
+            thau = sum(x*y[0] for x,y in zip(R_0, omega)) / sum(x[0]*y[0] for x,y in zip(A_omega, omega))
+            B_I_R0 = MM._matrix_multiply(B_I, [[x] for x in R_0])
+            new_vector = [x - thau*y[0] for x,y in zip(start_vector, B_I_R0)]
+
+            if MM.euclidean_norm(R_0) < eps:
+                new = [round(x, dig) for x in new_vector]
+                return new
+            start_vector = new_vector
+
+        new = [round(x, dig) for x in new_vector]
+        warnings.warn("Maximum number of iterations reached. The solution may not be accurate.")
+        return new            
+        
+
+
 
     
     def simple_iteration(matrix, vec, max_iter: int = 100, eigen_max_iter: int = 1000, eigen_eps: float = 1e-12,eps: float = 1e-5, dig: int = 1):
@@ -68,7 +305,7 @@ class LinEqSolver():
         
         if not Ckr._sylvesters_criterion(matrix):
             raise ValueError("Sylvester's criterion not satisfied.")
-        
+
         eigen = MM.eigen_get(matrix, eigen_max_iter, eigen_eps)
         eigen_max = eigen[0][0]
         eigen_min = eigen[1][0]
@@ -188,8 +425,14 @@ class LinEqSolver():
         Returns:
             float: The relaxation parameter.
         """
-        D_I = [[1/matrix[i][j] if i == j else 0 for i in range(len(matrix))] for j in range(len(matrix))]
-        
+
+ 
+        # D_I = [[1/matrix[i][j] if i == j else 0 for i in range(len(matrix))] for j in range(len(matrix))]
+        E = [[1 if i == j else 0 for i in range(len(matrix))] for j in range(len(matrix))]
+        B_I = [[1/matrix[i][j] if i == j else 0 for i in range(len(matrix))] for j in range(len(matrix))]
+        B_I_A = MM._matrix_multiply(B_I, matrix)
+        D_I = [[E[i][j] - B_I_A[i][j] for i in range(len(matrix))] for j in range(len(matrix))]
+
         eigen = MM.eigen_get(D_I, eigen_max_iter, eigen_eps)
         eigen_max = eigen[0][0]
         
@@ -549,7 +792,13 @@ class LinEqSolver():
                 check (bool, optional): Flag to enable checking the solution. Defaults to False.
                 epsilon (float): The acceptable margin of error for the solution. Defaults to 1e-5.
                 m_v_range (tuple): The range for generating random matrix and vector values. Defaults to (10, 10).
-                mode (str): The method to use for solving the linear equations. Defaults to 'gauss'. method list 'chol_v1, chol_v2, gauss, lu, thm, iter_sim, iter_sei, iter_jac, iter_rel, iter_exp'.
+                - mode (str): The method to use for solving the linear equations. Defaults to 'gauss'.  
+                
+                    - `The method list`
+                    - chol_v1, chol_v2, gauss, lu, thm, iter_sim, iter_sei, iter_jac, iter_rel, iter_exp, iter_minr, iter_std
+                    - iter_minc (advanced for minc -> if end by sim, jac or sei, uses specified matrix for minc, see `min_chg_iteration for more`), 
+                    - iter_stdi (advanced for stdo -> if end by sim, jac or sei, uses specified matrix for stdi -> see `step_desc_iteration_imp` for more).
+
                 random (bool): Flag to determine if the matrix and vector should be generated randomly. Defaults to True.
                 prettier_path (str): The path to the prettier executable. Defaults to None.
                 prettier (bool): Flag to enable prettier output. Defaults to False.
@@ -558,9 +807,11 @@ class LinEqSolver():
 
             Raises:
                 ValueError: If the matrix is not square.
+                ValueError: If the vector is not the same length as the matrix.
 
             Notes:
                 - If the matrix is not square, an error will be raised.
+                - If the vector is not the same length as the matrix, an error will be raised.
 
             Returns:
                 None: if the solution is not found. Otherwise, the solution will be printed to the console and saved to the solution_file.
@@ -580,7 +831,7 @@ class LinEqSolver():
                 warnings.warn("Warning (Selected iterative method): Using default eigen_iter = 100, eigen_eps = 1e-5, method_iter = 100, method_eps = 1e-5") 
         try:
             if random:
-                if mode == 'chol_v1' or mode == 'chol_v2' or mode == 'iter_sim':
+                if mode == 'chol_v1' or mode == 'chol_v2' or mode.startswith('iter'):
                     matrix = Gn.generate_random_matrix(size, m_v_range[0], mode = 'symm')
                 
                 elif mode == 'thm':
@@ -599,10 +850,24 @@ class LinEqSolver():
                     raise ValueError("Matrix and vector must be provided as kwargs with keys 'matrix' and 'vector' in random = False mode.")
                 size = len(kwargs['matrix'])
                 check_matrix_size = lambda size, matrix: all(len(row) == size for row in matrix)
+                cheeck_matrix_vector = lambda matrix, vector: len(matrix) == len(vector)
                 if not check_matrix_size(len(kwargs['matrix'][0]), kwargs['matrix']):
                     raise ValueError("The matrix is not a square matrix.")
+                
+                if not cheeck_matrix_vector(kwargs['matrix'], kwargs['vector']):
+                    raise ValueError("The vector is not the same length as the matrix.")
+                
+            if mode in ['chol_v1', 'chol_v2', 'gauss', 'lu', 'thm', 'iter_sim', 'iter_sei', 'iter_jac', 'iter_rel', 'iter_exp', 'iter_minr', 'iter_std'] or mode.startswith('iter_minc') or mode.startswith('iter_stdi'):
+                pass
+            else:
+                warnings.warn("Warning (Selected method not found): Using default method = 'gauss'")
+                mode = 'gauss'
+
+
+
             d_f = lambda x: x if x > 0 else 0
             dig = d_f(dig)
+
             Sv.save_matrix_to_file(matrix, matrix_file)
             Sv.save_vector_to_file(vector, vector_file)
             if prettier:
@@ -668,7 +933,33 @@ class LinEqSolver():
             
             if mode == 'iter_rel':
                     solution = LinEqSolver.relaxation_iteration(matrix, vector, max_iter = method_iter, eps = method_eps, dig = dig, omega = LinEqSolver._select_omega(matrix, eigen_max_iter=eigen_iter, eigen_eps=eigen_eps))
-            
+
+            if mode == 'iter_minr':
+                    solution = LinEqSolver.min_res_iteration(matrix, vector, max_iter = method_iter, eps = method_eps, dig = dig) 
+
+            if mode == 'iter_std':
+                    solution = LinEqSolver.step_desc_iteration(matrix, vector, max_iter = method_iter, eps = method_eps, dig = dig)
+
+            if mode.startswith('iter_minc'):
+                if mode.endswith('sei'):
+                    solution = LinEqSolver.min_chg_iteration(matrix, vector, max_iter = method_iter, eps = method_eps, dig = dig, matrix_choose_mode = 'sei')
+                elif mode.endswith('jac'):
+                    solution = LinEqSolver.min_chg_iteration(matrix, vector, max_iter = method_iter, eps = method_eps, dig = dig, matrix_choose_mode = 'jac')
+                elif mode.endswith('sim'):
+                    solution = LinEqSolver.min_chg_iteration(matrix, vector, max_iter = method_iter, eps = method_eps, dig = dig, matrix_choose_mode = 'sim')
+                else: 
+                    solution = LinEqSolver.min_chg_iteration(matrix, vector, max_iter = method_iter, eps = method_eps, dig = dig)
+
+            if mode.startswith('iter_stdi'):
+                if mode.endswith('sei'):
+                    solution = LinEqSolver.step_desc_iteration_imp(matrix, vector, max_iter = method_iter, eps = method_eps, dig = dig, matrix_choose_mode = 'sei')
+                elif mode.endswith('jac'):
+                    solution = LinEqSolver.step_desc_iteration_imp(matrix, vector, max_iter = method_iter, eps = method_eps, dig = dig, matrix_choose_mode = 'jac')
+                elif mode.endswith('sim'):
+                    solution = LinEqSolver.step_desc_iteration_imp(matrix, vector, max_iter = method_iter, eps = method_eps, dig = dig, matrix_choose_mode = 'sim')
+                else: 
+                    solution = LinEqSolver.step_desc_iteration_imp(matrix, vector, max_iter = method_iter, eps = method_eps, dig = dig)    
+
             if ext_file:
                 sol_eq = [[]] * size
                 

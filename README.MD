@@ -150,17 +150,29 @@ This class is a linear equation solver that provides methods for performing vari
 8.  `explicit_iteration(matrix, vec, dig)`: 
     - Performs explicit iteration to solve a system of linear equations.
     
-9.  `_chol_solver(matrix, vec, dig, mode)`:
+9.  `min_res_iteration(matrix, vec, max_iter, eps, dig)`: 
+    - Performs minimum residual iteration to solve a system of linear equations.
+
+10. `min_chg_iteration(matrix, vec, max_iter, eps, dig, matrix_choose_mode)`: 
+    - Performs minimum change iteration to solve a system of linear equations.
+
+11. `step_desc_iteration(matrix, vec, max_iter, eps, dig)`: 
+    - Performs method of steepest descent to solve a system of linear equations.
+    
+12. `step_desc_iteration_imp(matrix, vec, max_iter, eps, dig, matrix_choose_mode)`: 
+    - Performs implicit method of steepest descent to solve a system of linear equations.
+
+13. `_chol_solver(matrix, vec, dig, mode)`:
     - Solves a linear system using Cholesky decomposition.
 
-10.  `_lu_solver(matrix, vec, dig):` 
-     - Solves a linear system of equations using LU decomposition.
+14. `_lu_solver(matrix, vec, dig):` 
+    - Solves a linear system of equations using LU decomposition.
 
-11.  `_forward_substitution(matrix, vec, dig)`: 
-     - Solves a system of linear equations using forward substitution.
+15. `_forward_substitution(matrix, vec, dig)`: 
+    - Solves a system of linear equations using forward substitution.
 
-12.  `_backward_substitution(matrix, vec, dig)`: 
-     - Solves a system of linear equations using backward substitution.
+16. `_backward_substitution(matrix, vec, dig)`: 
+    - Solves a system of linear equations using backward substitution.
 
-13.  `generate_and_solve_linear_equations(size, matrix_file, vector_file, solution_file, ext_file, dig, check, epsilon, m_v_range, mode, random, prettier_path, prettier, logger, **kwargs)`: 
+.  `generate_and_solve_linear_equations(size, matrix_file, vector_file, solution_file, ext_file, dig, check, epsilon, m_v_range, mode, random, prettier_path, prettier, logger, **kwargs)`: 
      - Generates and solves a system of linear equations, with various options for customization and output.
