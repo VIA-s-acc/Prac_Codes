@@ -54,6 +54,8 @@ class LinEqSolver():
         Notes:
             - If the matrix is not symmetric, an error will be raised.
             - If the Sylvester's criterion is not satisfied, an error will be raised.
+            - If the maximum number of iterations is reached, a warning will be raised and the solution will be returned with the last iteration.
+            - If the approximation is not satisfied, a warning will be raised and the solution will be returned with the last iteration.
 
         Returns:
             list: The solution vector for the linear system.
@@ -104,6 +106,8 @@ class LinEqSolver():
             - If the matrix is not symmetric, an error will be raised.
             - If the Sylvester's criterion is not satisfied, an error will be raised.
             - If the matrix_choose_mode is invalid, an error will be raised.
+            - If the maximum number of iterations is reached, a warning will be raised and the solution will be returned with the last iteration.
+            - If the approximation is not satisfied, a warning will be raised and the solution will be returned with the last iteration.
 
         Returns:
             list: The solution vector for the linear system.
@@ -170,7 +174,9 @@ class LinEqSolver():
         Notes:
             - If the matrix is not symmetric, an error will be raised.
             - If the Sylvester's criterion is not satisfied, an error will be raised.
-
+            - If the maximum number of iterations is reached, a warning will be raised and the solution will be returned with the last iteration.
+            - If the approximation is not satisfied, a warning will be raised and the solution will be returned with the last iteration.
+            
         Returns:
             list: The solution vector for the linear system.
         """
@@ -221,7 +227,9 @@ class LinEqSolver():
             - If the matrix is not symmetric, an error will be raised.
             - If the Sylvester's criterion is not satisfied, an error will be raised.
             - If the matrix_choose_mode is invalid, an error will be raised.
-
+            - If the maximum number of iterations is reached, a warning will be raised and the solution will be returned with the last iteration.
+            - If the approximation is not satisfied, a warning will be raised and the solution will be returned with the last iteration.
+            
         Returns:
             list: The solution vector for the linear system.
         """
