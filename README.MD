@@ -186,6 +186,7 @@ This class is a linear equation solver that provides methods for performing vari
 
 
 ### Polynomial
+<p><em><a href="https://github.com/VIA-s-acc/Prac_Codes/tree/main/Nonlineq/NonLinEq/Utils/Poly.py">Poly Source</a></em></p>
 A class for representing polynomials
 
 1.  `__init__(self, Poly)`: 
@@ -208,6 +209,7 @@ A class for representing polynomials
 
 
 ### NonLinEqSolver
+<p><em><a href="https://github.com/VIA-s-acc/Prac_Codes/tree/main/Nonlineq/NonLinEq/Nonlineq.py">NonLinEq Source</a></em></p>
 A class for solving non-linear equations
 
 1.  `solve(self, eps, mode, step)`: 
