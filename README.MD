@@ -13,6 +13,10 @@
         -   [Reader](#reader)
     -   [LinEqSolver](#lineqsolver)
 
+- [Non-Linear Equations Classes](#non-linear-equations-classes)
+    -   [Polynomial](#polynomial)
+    -   [NonLinEqSolver](#nonlineqsolver)
+
 
 ## Lineq Classes 
 This classes is a linear equation solver system that provides methods for performing various operations related to solving systems of linear equations. Here's a brief summary of each class method:
@@ -176,3 +180,38 @@ This class is a linear equation solver that provides methods for performing vari
 
 17. `generate_and_solve_linear_equations(size, matrix_file, vector_file, solution_file, ext_file, dig, check, epsilon, m_v_range, mode, random, prettier_path, prettier, logger, **kwargs)`: 
     - Generates and solves a system of linear equations, with various options for customization and output.
+
+
+## Non-Linear Equations Classes
+
+
+### Polynomial
+A class for representing polynomials
+
+1.  `__init__(self, Poly)`: 
+    - Initialize the polynomials
+
+2.  `__str__(self)`:
+    - Return a string representation of the Degree and Polynomial attributes with special character replacements.
+
+3.  `polynomial_degree(poly_str)`:
+    - A method to calculate the degree of a polynomial expression.
+
+4.  `eval(self, value: numeric)`: 
+    - Evaluate the polynomial expression with the given value for the variable.
+
+5.  `get_degree(self)`: 
+    - A method to retrieve the degree attribute from the object.
+
+6.  `get_variable(self)`: 
+    - Get the value of the Variable attribute.
+
+
+### NonLinEqSolver
+A class for solving non-linear equations
+
+1.  `solve(self, eps, mode, step)`: 
+    - Solve the non-linear equation
+
+2.  `bisect_solver(self, eps, step)`: 
+    - Use Bisection method for solving the equation P(n) = 0
