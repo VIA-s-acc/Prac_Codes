@@ -4,7 +4,7 @@
 
 <p><em><a href="https://github.com/VIA-s-acc/Prac_Codes/tree/main/Lineq">Lineq Source</a></em></p>
 
-- [Lineq Classes](#lineq-classes)
+- [Linear Equations Classes](#lineq-classes)
     -   [Checker](#checker)
     -   [Generator](#generator)
     -   [Matrix Methods](#matrix-methods)
