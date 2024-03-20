@@ -16,6 +16,7 @@
 - [Non-Linear Equations Classes](#non-linear-equations-classes)
     -   [Polynomial](#polynomial)
     -   [NonLinEqSolver](#nonlineqsolver)
+    -   [Prettier Poly](#prettier-poly)
 
 
 ## Lineq Classes 
@@ -192,21 +193,47 @@ A class for representing polynomials
 1.  `__init__(self, Poly)`: 
     - Initialize the polynomials
 
-2.  `__str__(self)`:
+2.  `__str__(self)`: 
     - Return a string representation of the Degree and Polynomial attributes with special character replacements.
 
-3.  `polynomial_degree(poly_str)`:
-    - A method to calculate the degree of a polynomial expression.
+3.  `__eq__(self, other)`: 
+    - Check if two polynomials are equal.
 
-4.  `eval(self, value: numeric)`: 
+4.  `__neq__(self, other)`: 
+    - Check if two polynomials are not equal.
+
+5.  `__add__(self, other)`: 
+    - Add two polynomials.
+
+6.  `__sub__(self, other)`: 
+    - Subtract two polynomials.
+
+7.  `__mul__(self, other)`: 
+    - Multiply two polynomials.
+
+8.  `__rmul__(self, other)`: 
+    - Multiply a polynomial by a constant.
+
+9.  `__neg__(self)`: 
+    - Negate the polynomial.
+
+10. `__call__(self, value)`: 
     - Evaluate the polynomial expression with the given value for the variable.
 
-5.  `get_degree(self)`: 
+11. `polynomial_degree(poly_str)`: 
+    - A method to calculate the degree of a polynomial expression.
+
+12. `eval(self, value)`: 
+    - Evaluate the polynomial expression with the given value for the variable.
+
+13. `get_degree(self)`: 
     - A method to retrieve the degree attribute from the object.
 
-6.  `get_variable(self)`: 
+14. `get_variable(self)`: 
     - Get the value of the Variable attribute.
 
+15. `get_coeffs(self)`: 
+    - Get the coefficients of the polynomial.
 
 ### NonLinEqSolver
 <p><em><a href="https://github.com/VIA-s-acc/Prac_Codes/tree/main/Nonlineq/NonLinEq/Nonlineq.py">NonLinEq Source</a></em></p>
@@ -217,3 +244,20 @@ A class for solving non-linear equations
 
 2.  `bisect_solver(self, eps, step)`: 
     - Use Bisection method for solving the equation P(n) = 0
+
+3.  `find_intervals_with_opposite_signs(self, start, end, step)`: 
+    - Find the intervals with opposite signs in the domain
+
+4.  `newton_solver(self, eps, step)`: 
+    - Use Newton method for solving the equation P(n) = 0
+
+5.  `iter_sim_solver(self, eps, step, max_iter)`: 
+    - Use simple Iterative method for solving the equation P(n) = 0
+
+### Prettier Poly
+<p><em><a href="https://github.com/VIA-s-acc/Prac_Codes/tree/main/Nonlineq/NonLinEq/Utils/Prettier.py">Prettier Source</a></em></p>
+Class for pretty printing polynomials.
+    
+1. `pretty_polynom(Poly)`: 
+    - Pretty string representation of the polynomial
+    
