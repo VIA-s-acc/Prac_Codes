@@ -268,9 +268,10 @@ class Polynom:
             variable (str): The variable to plot the polynomial on.
             range (list): The range of the x-axis.
             step (float): The step size for the x-axis.
+            colors (list): The colors to use for the plot.
             kwargs: 
                 Additional arguments to pass to the plot function.
-                list of tuples or list of lists: [(x1, y1), (x2, y2), ...]
+                list of tuples or lists (elements must be int or float and must have length 2) : [(x1, y1), (x2, y2), ...] ot [[x1, y1], [x2, y2], ...] or [(x1, y1], (x2, y2), ...])]
                 for plotting 
         
         Raises:
