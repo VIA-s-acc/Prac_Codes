@@ -14,6 +14,7 @@ class Polynom:
     - `__rmul__(self, other)`: Multiply a polynomial by a constant.
     - `__neg__(self)`: Negate the polynomial.
     - `__call__(self, value)`: Evaluate the polynomial expression with the given value for the variable.
+    - `copy(self)`: Create a copy of the polynomial.
     - `polynomial_degree(poly_str)`: A method to calculate the degree of a polynomial expression.
     - `eval(self, value)`: Evaluate the polynomial expression with the given value for the variable.
     - `get_degree(self)`: A method to retrieve the degree attribute from the object.
@@ -180,6 +181,13 @@ class Polynom:
         coefs = [-coef for coef in self_coef]
         variable = self.Variable
         return Polynom([coefs, variable])
+
+    def copy(self):
+        """
+        Create a copy of the polynomial.
+        """
+        return Polynom([self.get_coeffs(), self.Variable])
+    
 
     def get_coeffs(self):
         """
