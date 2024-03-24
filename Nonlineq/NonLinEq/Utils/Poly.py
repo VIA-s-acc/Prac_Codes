@@ -1,5 +1,6 @@
 import re
 import warnings
+import matplotlib.pyplot as plt
 class Polynom:
     """
     A class for representing polynomials
@@ -21,6 +22,7 @@ class Polynom:
     - `get_variable(self)`: Get the value of the Variable attribute.
     - `get_coeffs(self)`: Get the coefficients of the polynomial.
     - `get_diff(self)`: Get the derivative of the polynomial.
+    - `plot(self, range, step)`: Plot the polynomial.
 
 
     """
@@ -253,3 +255,29 @@ class Polynom:
         return Polynom([new_coeffs, self.Variable])
 
 
+    def plot(self, range: tuple = (-10, 10), step: float = 0.1):
+        """
+        Plot the polynomial.
+
+        Parameters:
+            variable (str): The variable to plot the polynomial on.
+            range (list): The range of the x-axis.
+            step (float): The step size for the x-axis.
+
+        Returns:
+            None
+        """
+        x, y = [], []
+        point = range[0]
+        while point < range[1]:
+            x.append(point)
+            y.append(self(point))
+            point += step
+
+        plt.plot(x, y)
+        plt.title(str(self))
+        plt.xlabel(self.Variable)
+        plt.ylabel('P(x)')
+        plt.grid(True)
+        plt.show()
+        plt.show()
