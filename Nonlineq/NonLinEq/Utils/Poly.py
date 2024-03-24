@@ -320,7 +320,6 @@ class Polynom:
         plt.title(str(self))
         plt.xlabel(self.Variable)
         plt.ylabel(f'P({self.Variable})')
-
         plt.grid(True)
         plt.plot(x, y, color = colors[0], label = f'P({self.Variable})') 
         
