@@ -60,6 +60,11 @@ class Polynom:
             if type(Poly[1]) != str:
                 warnings.warn("Poly[1] is not str\nPoly[1] will be set as 'x'")
                 Poly[1] = 'x'
+                
+            if len(Poly[1]) != 1:
+                warnings.warn("Poly[1] is not a single character\nPoly[1] will be set as 'x'")
+                Poly[1] = 'x'
+
             self.Variable = Poly[1]
             self.Poly = ''
             if type(Poly[0]) == list:
@@ -274,10 +279,9 @@ class Polynom:
             y.append(self(point))
             point += step
 
-        plt.plot(x, y)
         plt.title(str(self))
         plt.xlabel(self.Variable)
-        plt.ylabel('P(x)')
+        plt.ylabel(f'P({self.Variable})')
         plt.grid(True)
-        plt.show()
+        plt.plot(x, y) 
         plt.show()
