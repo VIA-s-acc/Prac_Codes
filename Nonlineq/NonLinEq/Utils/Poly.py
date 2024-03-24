@@ -260,7 +260,7 @@ class Polynom:
         return Polynom([new_coeffs, self.Variable])
 
 
-    def plot(self, range: tuple = (-10, 10), step: float = 0.1):
+    def plot(self, range: tuple = (-10, 10), step: float = 0.1, colors = ['blue'], **kwargs):
         """
         Plot the polynomial.
 
@@ -268,10 +268,30 @@ class Polynom:
             variable (str): The variable to plot the polynomial on.
             range (list): The range of the x-axis.
             step (float): The step size for the x-axis.
+            kwargs: 
+                Additional arguments to pass to the plot function.
+                list of tuples or list of lists: [(x1, y1), (x2, y2), ...]
+                for plotting 
+        
+        Raises:
+            ValueError: If the length of the lists/typles in args is not 2
+            ValueError: If the args is not a list
+            ValueError: If the elements in the args elements are not int or float
 
         Returns:
             None
         """
+
+        if len(colors) == 0:
+            warnings.warn('No colors provided, using default color blue')
+            colors = ['blue']
+
+        if type(colors[0]) != str:
+            raise ValueError('The first color must be a string')
+
+        if type(colors[1]) != str:
+            raise ValueError('The second color must be a string')
+        
         x, y = [], []
         point = range[0]
         while point < range[1]:
@@ -279,9 +299,40 @@ class Polynom:
             y.append(self(point))
             point += step
 
+        if kwargs:
+            points = dict()
+            for key, arg in kwargs.items():
+                points[key] = [[],[]]
+                if type(arg) == list or type(arg) == tuple:
+                    for pts in arg:
+                        if len(pts) == 2:
+                            if isinstance(pts[0], int) or isinstance(pts[1], float):
+                                points[key][0].append(pts[0])
+                                points[key][1].append(pts[1])
+                            else:
+                                raise ValueError(f'Invalid argument {pts} in {arg} in {kwargs}')
+                        else:
+                            raise ValueError(f'Invalid argument {pts} in {arg} in {kwargs}')
+                else:
+                    raise ValueError(f'Invalid argument {arg} in {kwargs}')
+
         plt.title(str(self))
         plt.xlabel(self.Variable)
         plt.ylabel(f'P({self.Variable})')
+
         plt.grid(True)
-        plt.plot(x, y) 
+        plt.plot(x, y, color = colors[0], label = f'P({self.Variable})') 
+        
+        if kwargs:
+            i = 0
+            for key, item  in points.items():
+                try:
+                    color = colors[i+1]
+                except:
+                    color = colors[-1]
+                plt.scatter(item[0], item[1], color = color, label = key)
+                i+=1
+        
+        plt.legend()
         plt.show()
+
