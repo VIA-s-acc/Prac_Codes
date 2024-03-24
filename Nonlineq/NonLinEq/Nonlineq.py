@@ -86,10 +86,15 @@ class NonLinEqSolver:
             end (float): The ending value of the domain
             step (float): The step size. Defaults to 0.1.
 
+        Raises:
+            ValueError: If the step size is not positive
 
         Returns:
             intervals (list): A list of intervals with opposite signs
         """
+        if step < 0:
+            raise ValueError('Step size must be positive')
+        
         Poly = self.Polynom
         intervals = []
         x = start-1e-15
@@ -102,6 +107,22 @@ class NonLinEqSolver:
         return intervals
 
     def iter_sim_solver(self, eps: float = 1e-6, step = 0.1, max_iter = 100):
+        """
+        Solve the nonlinear equation using iterative simulation.
+        
+        Args:
+            eps (float, optional): The desired accuracy of the solution. Defaults to 1e-6.
+            step (float, optional): The step size for interval subdivision. Defaults to 0.1.
+            max_iter (int, optional): The maximum number of iterations for the algorithm. Defaults to 100.
+        
+        Raises:
+            ValueError: If the desired accuracy is not a positive number.
+            ValueError: If the step size is not a positive number.
+            ValueError: If the maximum number of iterations is not a positive integer.
+        
+        Returns:
+            list: A list of solutions found in the given domain.
+        """
         a = self.domain[0]
         b = self.domain[1]
         solutions = []
@@ -121,6 +142,7 @@ class NonLinEqSolver:
                             solutions.append(new_value)
                         break
                     start_value = new_value
+        
         else:
             raise ValueError(f'No intervals with opposite signs found in [{a}, {b}] with step = {step}\n please decrease the step size')
         
@@ -128,10 +150,49 @@ class NonLinEqSolver:
             return solutions
         
         else:
-            raise ValueError('There are no solutions found to the equation P(n) = 0 in the given domain')
+            warnings.warn(f'No solution found in [{self.domain[0]}, {self.domain[1]}]')
 
-    def newton_solver(self, eps: float = 1e-6, step = 0.1):
-        ...
+
+
+    def newton_solver(self, eps: float = 1e-6, step = 0.1, max_iter = 100):
+        """
+        Solve the nonlinear equation using Newton's method.
+        
+        Args:
+            eps (float, optional): The desired accuracy of the solution. Defaults to 1e-6.
+            step (float, optional): The step size for interval subdivision. Defaults to 0.1.
+            max_iter (int, optional): The maximum number of iterations for the algorithm. Defaults to 100.
+        
+        Raises:
+            ValueError: if no intervals with opposite signs found in the domain
+            
+        Returns:
+            list: A list of solutions found in the given domain.
+        """
+
+        a = self.domain[0]
+        b = self.domain[1]
+        solutions = []
+        subintervals = self.find_intervals_with_opposite_signs(a, b, step)
+        if subintervals != []:
+            for interval in subintervals:
+                start_value = (interval[0] + interval[1])/2
+                for _ in range(max_iter):
+                    new_value = start_value - self.Polynom.eval(start_value)/self.Polynom.get_diff().eval(start_value)
+                    if abs(start_value - new_value) < eps:
+                        if new_value > interval[0] and new_value < interval[1]:
+                            solutions.append(new_value)
+                        break
+                    start_value = new_value
+        
+        else:
+            raise ValueError(f'No intervals with opposite signs found in [{a}, {b}] with step = {step}\n please decrease the step size')
+        
+        if solutions != []:
+            return solutions
+        
+        else:
+            warnings.warn(f'No solution found in [{self.domain[0]}, {self.domain[1]}]')
 
     def bisect_solver(self, eps: float = 1e-6, step = 0.1):
         """
@@ -174,7 +235,7 @@ class NonLinEqSolver:
             raise ValueError(f'No intervals with opposite signs found in [{a}, {b}] with step = {step}\n please decrease the step size')
         
         if solutions == []:
-            warnings.warn(f'No solution found in [{a}, {b}]')
+            warnings.warn(f'No solution found in [{self.domain[0]}, {self.domain[1]}]')
         return solutions
          
     

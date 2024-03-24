@@ -237,7 +237,10 @@ A class for representing polynomials
 
 16. `copy(self)`: 
     - Create a copy of the polynomial.
-    
+
+17. `get_diff(self)`: 
+    - Get the derivative of the polynomial.   
+
 ### NonLinEqSolver
 <p><em><a href="https://github.com/VIA-s-acc/Prac_Codes/tree/main/Nonlineq/NonLinEq/Nonlineq.py">NonLinEq Source</a></em></p>
 A class for solving non-linear equations

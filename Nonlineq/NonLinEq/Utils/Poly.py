@@ -20,6 +20,7 @@ class Polynom:
     - `get_degree(self)`: A method to retrieve the degree attribute from the object.
     - `get_variable(self)`: Get the value of the Variable attribute.
     - `get_coeffs(self)`: Get the coefficients of the polynomial.
+    - `get_diff(self)`: Get the derivative of the polynomial.
 
 
     """
@@ -239,4 +240,16 @@ class Polynom:
             return max(degrees)
         else:
             return 0  
+        
+    def get_diff(self):
+        """
+        Get the derivative of the polynomial.
+        """
+        coeffs = self.get_coeffs()
+        new_coeffs = []
+        for i in range(0, len(coeffs)-1):
+            new_coeffs.append(coeffs[i] * (len(coeffs)-i-1))    
+
+        return Polynom([new_coeffs, self.Variable])
+
 
