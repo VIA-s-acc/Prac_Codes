@@ -33,7 +33,7 @@ class Prettier:
         s += '\n'
         s += '\033[1m\033[92m' + '-'*(i+1)  + '\033[0m'
         s += '\033[93m'+'\n|'+'\033[0m'    
-        for c in coeffs[::-1]:
+        for c in coeffs[::]:
             s += '\033[93m' + ' {:>{max}} |'.format(c, max = max) +'\033[0m'      
         s += '\n'
         s +=  '\033[1m\033[92m' +'-'*(i+1) + '\033[0m'
