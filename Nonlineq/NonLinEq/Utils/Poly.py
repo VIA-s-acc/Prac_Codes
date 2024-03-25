@@ -24,7 +24,7 @@ class Polynom:
     - `get_variable(self)`: Get the value of the Variable attribute.
     - `get_coeffs(self)`: Get the coefficients of the polynomial.
     - `get_diff(self)`: Get the derivative of the polynomial.
-    - `plot(self, range, step, colors, **kwargs)`: Plot the polynomial.
+    - `plot(self, range, step, colors, legend, **kwargs)`: Plot the polynomial.
 
 
     """
@@ -282,7 +282,7 @@ class Polynom:
         return Polynom([new_coeffs, self.Variable])
 
 
-    def plot(self, range: tuple = (-10, 10), step: float = 0.1, colors = ['blue'], **kwargs):
+    def plot(self, range: tuple = (-10, 10), step: float = 0.1, colors = ['blue'], legend = True, **kwargs):
         """
         Plot the polynomial.
 
@@ -291,6 +291,7 @@ class Polynom:
             range (list): The range of the x-axis.
             step (float): The step size for the x-axis.
             colors (list): The colors to use for the plot first color uses to self, others to additional points.
+            legend (bool): Whether to show the legend.
             for poly-s and func-s use syntax of kwargs['func'] kwargs['poly']
             - kwargs: 
                 - Additional arguments to pass to the plot function.
@@ -369,7 +370,7 @@ class Polynom:
         
         x, y = [], []
         point = range[0]
-        while point < range[1]:
+        while point < range[1]+step:
             x.append(point)
             y.append(self(point))
             point += step
@@ -474,7 +475,7 @@ class Polynom:
                     color = colors[-1]
                 plt.scatter(item[0], item[1], color = color, label = key)
                 i+=1
-        
-        plt.legend()
+        if legend:
+            plt.legend()
         plt.show()
 
