@@ -241,7 +241,7 @@ A class for representing polynomials
 17. `get_diff(self)`: 
     - Get the derivative of the polynomial.   
 
-18. `plot(self, range, step)`: 
+18. `plot(self, range, step, colors, **kwargs)`: 
     - Plot the polynomial.
 
 ### NonLinEqSolver

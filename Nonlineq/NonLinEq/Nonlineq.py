@@ -1,6 +1,19 @@
-from .Utils.Poly import Polynom as Poly
 import warnings
-import random
+import sys
+import os
+import importlib
+
+
+from .Utils.Poly import Polynom as Poly
+
+path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', 'Lineq'))
+if path not in sys.path:
+    sys.path.append(path)
+
+from LinEq import LinEqSolver # import Lineq solver
+
+
+
 class NonLinEqSolver:
     """
     A class for solving non-linear equations

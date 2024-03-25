@@ -1,6 +1,8 @@
 import re
 import warnings
 import matplotlib.pyplot as plt
+import matplotlib.colors as mcolors
+
 class Polynom:
     """
     A class for representing polynomials
@@ -22,7 +24,7 @@ class Polynom:
     - `get_variable(self)`: Get the value of the Variable attribute.
     - `get_coeffs(self)`: Get the coefficients of the polynomial.
     - `get_diff(self)`: Get the derivative of the polynomial.
-    - `plot(self, range, step)`: Plot the polynomial.
+    - `plot(self, range, step, colors, **kwargs)`: Plot the polynomial.
 
 
     """
@@ -61,9 +63,22 @@ class Polynom:
                 warnings.warn("Poly[1] is not str\nPoly[1] will be set as 'x'")
                 Poly[1] = 'x'
                 
-            if len(Poly[1]) != 1:
-                warnings.warn("Poly[1] is not a single character\nPoly[1] will be set as 'x'")
-                Poly[1] = 'x'
+            if len(Poly[1]) > 1 and Poly[1][0] != '(' and Poly[1][-1] != ')':
+                    Poly[1] = "("+Poly[1]+')'
+
+            count = 0
+            for i in Poly[1]:
+                if i == '(':
+                    count += 1
+                if i == ')':
+                    count -= 1
+            if count != 0:
+                raise ValueError("There is not matching closing/opening bracket for an opening/closing bracket")
+            
+            if Poly[1][-1] != ')':
+                Poly[1] = "("+Poly[1]+')'
+
+                        
 
             self.Variable = Poly[1]
             self.Poly = ''
@@ -94,6 +109,13 @@ class Polynom:
 
         else:
             raise TypeError("Poly is not list")
+
+        variable = ''
+        for letter in Poly[1]:
+            if letter.isalpha():
+                variable += letter
+
+        self.Variable = variable if variable else 'x'
 
     def __call__(self, value):
         """
@@ -268,11 +290,56 @@ class Polynom:
             variable (str): The variable to plot the polynomial on.
             range (list): The range of the x-axis.
             step (float): The step size for the x-axis.
-            colors (list): The colors to use for the plot.
-            kwargs: 
-                Additional arguments to pass to the plot function.
-                list of tuples or lists (elements must be int or float and must have length 2) : [(x1, y1), (x2, y2), ...] ot [[x1, y1], [x2, y2], ...] or [(x1, y1], (x2, y2), ...])]
-                for plotting 
+            colors (list): The colors to use for the plot first color uses to self, others to additional points.
+            for poly-s and func-s use syntax of kwargs['func'] kwargs['poly']
+            - kwargs: 
+                - Additional arguments to pass to the plot function.
+                list of tuples or lists (elements must be int or float and must have length 2) : [(x1, y1), (x2, y2), ...] ot [[x1, y1], [x2, y2], ...] or [(x1, y1], (x2, y2), ...])] points to plot
+                
+
+                - func: 
+                    - the functions to plot 
+                    - can be list of functions or a single function.
+                    - if single function for color and name may be provided as a tuple (func, color, name)
+                    - if color is not provided will be 'blue'
+                    - if name is not provided will be the 'func'
+                    - Examples: 
+                        - func = [(func1, color, name), [func2, color], func3 ...]
+                        - func = (func1, color, name)
+                        - func = func1
+                    
+                - poly:
+                    - the additional polynomials to plot 
+                    - can be list of polynomials or a single polynomial.
+                    - if single polynomial for color and name may be provided as a tuple (poly, color, name) [same as func]
+                    - if color is not provided will be 'blue'
+                    - if name is not provided will be the Polynom Str representation slice [23:end]
+                        -   Example:
+                            - poly3 = Polynom('x**3 + 2*x**2 + 3*x + 4')
+                            - poly = poly.plot(range = (-3,3), step=0.01, colors=['blue', 'green'], poly = poly3)   
+                            - Poly3.name # in legend
+                            - x^3 + 2x^2 + 3x + 4
+                            - Poly3.color # in plot and legend
+                            - 'black'
+
+                    - Examples: 
+                        - poly = [(poly1, color, name), [poly2, color], poly3 ...]
+                        - poly = (poly1, color, name)
+                        - poly = poly1
+                            
+
+        Example:
+        -------
+        >>> def funct(x):
+        >>>     return cos(x)*sin(x*pi)+sqrt(5+x)
+
+        >>> a = Polynom([[1, 3, 0, -1.0],'(x-0.25)'])
+        >>> b = Polynom([3,4,-1], 'x')
+        >>> a.plot(range = (-3,3), step=0.01, colors=['blue', 'green'], solutions = plot, func = (funct, 'purple', 'cos(x)*sin(x*pi)+sqrt(5+x)')
+        poly = b)
+        >>> #in example plot is list of points [(x1,y1),(x2,y2), ...] of solution of P(x) = a = 0
+           
+        
         
         Raises:
             ValueError: If the length of the lists/typles in args is not 2
@@ -282,6 +349,13 @@ class Polynom:
         Returns:
             None
         """
+        def check_color_existence(color_name):
+            try:
+                mcolors.to_rgba(color_name)
+                return True
+            except ValueError:
+                return False
+
 
         if len(colors) == 0:
             warnings.warn('No colors provided, using default color blue')
@@ -303,26 +377,94 @@ class Polynom:
         if kwargs:
             points = dict()
             for key, arg in kwargs.items():
-                points[key] = [[],[]]
-                if type(arg) == list or type(arg) == tuple:
-                    for pts in arg:
-                        if len(pts) == 2:
-                            if isinstance(pts[0], int) or isinstance(pts[1], float):
-                                points[key][0].append(pts[0])
-                                points[key][1].append(pts[1])
+                if key != 'func' and key != 'poly':
+                    points[key] = [[],[]]
+                    if type(arg) == list or type(arg) == tuple:
+                        for pts in arg:
+                            if len(pts) == 2:
+                                if isinstance(pts[0], int) or isinstance(pts[1], float):
+                                    points[key][0].append(pts[0])
+                                    points[key][1].append(pts[1])
+                                else:
+                                    raise ValueError(f'Invalid argument {pts} in {arg} in {kwargs}')
                             else:
                                 raise ValueError(f'Invalid argument {pts} in {arg} in {kwargs}')
-                        else:
-                            raise ValueError(f'Invalid argument {pts} in {arg} in {kwargs}')
-                else:
-                    raise ValueError(f'Invalid argument {arg} in {kwargs}')
-
+                    else:
+                        raise ValueError(f'Invalid argument {arg} in {kwargs}')
+        
         plt.title(str(self))
         plt.xlabel(self.Variable)
         plt.ylabel(f'P({self.Variable})')
         plt.grid(True)
-        plt.plot(x, y, color = colors[0], label = f'P({self.Variable})') 
-        
+        plt.plot(x, y, color = colors[0], label = f'P({self.Variable}) : {str(self)[23:]}') 
+        if 'func' in kwargs.keys():
+            if type(kwargs['func']) == list:
+                for element in kwargs['func']:
+                    if type(element) == tuple or type(element) == list:
+
+                        color = element[1] if check_color_existence(element[1]) else 'black'
+                        
+                        try: 
+                            name = element[2]
+                        except:
+                            name = f'func{kwargs["func"].index(element)}'
+
+                        if type(element[0]) == type(lambda: None):
+                            plt.plot(x, [element[0](i) for i in x], color = color, label =  name)
+
+                    elif type(element) == type(lambda: None):
+                        plt.plot(x, [element(i) for i in x], color = 'black', label = f'func{kwargs["func"].index(element)}')
+
+            elif type(kwargs['func']) == tuple:
+                
+                color = kwargs['func'][1] if check_color_existence(kwargs['func'][1]) else 'black'
+
+                try:
+                    name = kwargs['func'][2]
+                except:
+                    name = 'func0'
+
+                if type(kwargs['func'][0]) == type(lambda: None):
+                    plt.plot(x, [kwargs['func'][0](i) for i in x], color = color, label = name)
+
+            elif type(kwargs['func']) == type(lambda: None):
+                plt.plot(x, [kwargs['func'](i) for i in x], color = 'black', label = 'func0')
+            
+        if 'poly' in kwargs.keys():
+            if type(kwargs['poly']) == list:
+                for element in kwargs['poly']:
+                    if type(element) == tuple or type(element) == list:
+
+                        color = element[1] if check_color_existence(element[1]) else 'black'
+
+                        try:
+                            name = element[2]
+
+                        except:
+                            name = f'P({element[0].Variable}) : {str(element[0])[23:]}'
+
+                        if type(element[0]) == Polynom:
+                            plt.plot(x, [element[0](i) for i in x], color = color, label = name)
+
+                    elif type(element) == Polynom:
+                        plt.plot(x, [element(i) for i in x], color = 'black', label = f'P({element.Variable}) : {str(element)[23:]}')
+
+            elif type(kwargs['poly']) == tuple:
+
+                color = kwargs['poly'][1] if check_color_existence(kwargs['poly'][1]) else 'black'
+                
+                try:
+                    name = kwargs['poly'][2]
+
+                except:
+                    name = f'P({kwargs["poly"][0].Variable}) : {str(kwargs["poly"][0])[23:]}'
+
+                if type(kwargs['poly'][0]) == Polynom:
+                    plt.plot(x, [kwargs['poly'][0](i) for i in x], color = color, label = name)
+
+            elif type(kwargs['poly']) == Polynom:
+                plt.plot(x, [kwargs['poly'](i) for i in x], color = 'black', label = f'P({kwargs['poly'].Variable}) : {str(kwargs['poly'])[23:]}')
+            
         if kwargs:
             i = 0
             for key, item  in points.items():
