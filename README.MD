@@ -17,6 +17,7 @@
     -   [Polynomial](#polynomial)
     -   [NonLinEqSolver](#nonlineqsolver)
     -   [Prettier Poly](#prettier-poly)
+    -   [Interpolation](#interpolation)
 
 
 ## Lineq Classes 
@@ -269,4 +270,24 @@ Class for pretty printing polynomials.
     
 1. `pretty_polynom(Poly)`: 
     - Pretty string representation of the polynomial
+
+### Interpolation
+<p><em><a href="https://github.com/VIA-s-acc/Prac_Codes/tree/main/Nonlineq/NonLinEq/Utils/Inter.py">Interpolation Source</a></em></p>
+Class that Interpolates a function using the specified interpolation mode and points.
+
+1.  `generate_vandermonde(x)`: 
+    - generates the Vandermonde matrix
+2.  `interpolate(func, mode, points, intervals=(0, 1, 10), **kwargs)`: 
+    - interpolates the function
+
+3.  `lagrange_interpolation(x, y, var)`: 
+    - lagrange interpolation
+
+4.  `newton_interpolation(x, y, var)`: 
+    - newton interpolation
+
+5.  `divided_diff(x, y)`: 
+    - calculates the divided difference table
+
+
     

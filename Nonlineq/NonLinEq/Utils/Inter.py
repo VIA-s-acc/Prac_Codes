@@ -14,11 +14,11 @@ class Interpolation:
     """
     Interpolates a function using the specified interpolation mode and points.
 
-    - `generate_vandermonde(x)` generates the Vandermonde matrix
-    - `interpolate(func, mode, points, intervals=(0, 1, 10), **kwargs)` interpolates the function
-    - `lagrange_interpolation(x, y, var)` lagrange interpolation
-    - `newton_interpolation(x, y, var)` newton interpolation
-    - `divided_diff(x, y)` calculates the divided difference table
+    - `generate_vandermonde(x)`: generates the Vandermonde matrix
+    - `interpolate(func, mode, points, intervals=(0, 1, 10), **kwargs)`: interpolates the function
+    - `lagrange_interpolation(x, y, var)`: lagrange interpolation
+    - `newton_interpolation(x, y, var)`: newton interpolation
+    - `divided_diff(x, y)`: calculates the divided difference table
 
     """
 
@@ -57,7 +57,9 @@ class Interpolation:
             - points (str): The method for determining the interpolation points. Defaults to 'auto'. for manual use 'manual'
                 - if 'manual' then points must be a list/tuple of lists/tuples of the form [(x1, y1), (x2, y2), ...] or [[x1, y1], [x2, y2], ...]] or ((x1, y1), (x2, y2), ...) in kwargs['pts']
 
-            intervals (tuple): The range and number of points for automatically determining the interpolation points. Defaults to (-3, 3, 10).
+            - intervals (tuple): The range and number of points for automatically determining the interpolation points. Defaults to (-3, 3, n).| n = 10 -> degree = 10 -> points_num = 11  
+                - n (int): n+1 is The number of points. n is the degree of the polynomial.
+                        
             - kwargs: Additional arguments to pass to the interpolation function .
                 - lineqmethod (str): The lineq method to use for solving the lineq system. Defaults to 'gauss' if mode is lagrange_vold.
                     - The method list
@@ -70,7 +72,7 @@ class Interpolation:
                 - pts (list): The list of points to use for the interpolation. Defaults to None. Need when mode is 'manual'
 
         Returns:
-            None
+            Polynom: The interpolated polynomial.
         """
 
 

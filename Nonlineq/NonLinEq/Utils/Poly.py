@@ -127,7 +127,7 @@ class Polynom:
         """
         Return a string representation of the Degree and Polynomial attributes with special character replacements.
         """
-        return f'Degree: {self.Degree}' + '\nPolynomial: ' + self.Poly.replace('**', '^').replace('-',' - ').replace('+',' + ').replace('*','')
+        return f'Degree: {self.Degree}' + '\nPolynomial: ' + self.Poly.replace('**', '^').replace('*','')
     
     def __eq__(self, other):
         """
@@ -395,11 +395,11 @@ class Polynom:
                     else:
                         raise ValueError(f'Invalid argument {arg} in {kwargs}')
         
-        plt.title(str(self))
+        plt.title(f'{hex(hash(self.__class__))}\n{str(self)[:50]+"..." if len(str(self)) > 50 else str(self)}')
         plt.xlabel(self.Variable)
         plt.ylabel(f'P({self.Variable})')
         plt.grid(True)
-        plt.plot(x, y, color = colors[0], label = f'P({self.Variable}) : {str(self)[23:]}') 
+        plt.plot(x, y, color = colors[0], label = f'P({self.Variable}) : {str(self)[23:50]+'...' if len(str(self)) > 50 else str(self)[23:]}') 
         if 'func' in kwargs.keys():
             if type(kwargs['func']) == list:
                 for element in kwargs['func']:
@@ -413,7 +413,7 @@ class Polynom:
                             name = f'func{kwargs["func"].index(element)}'
 
                         if type(element[0]) == type(lambda: None):
-                            plt.plot(x, [element[0](i) for i in x], color = color, label =  name)
+                            plt.plot(x, [element[0](i) for i in x], color = color, label =  name[0:50]+'...' if len(name) > 50 else name)
 
                     elif type(element) == type(lambda: None):
                         plt.plot(x, [element(i) for i in x], color = 'black', label = f'func{kwargs["func"].index(element)}')
@@ -428,7 +428,7 @@ class Polynom:
                     name = 'func0'
 
                 if type(kwargs['func'][0]) == type(lambda: None):
-                    plt.plot(x, [kwargs['func'][0](i) for i in x], color = color, label = name)
+                    plt.plot(x, [kwargs['func'][0](i) for i in x], color = color, label = name[0:50]+'...' if len(name) > 50 else name)
 
             elif type(kwargs['func']) == type(lambda: None):
                 plt.plot(x, [kwargs['func'](i) for i in x], color = 'black', label = 'func0')
@@ -447,10 +447,10 @@ class Polynom:
                             name = f'P({element[0].Variable}) : {str(element[0])[23:]}'
 
                         if type(element[0]) == Polynom:
-                            plt.plot(x, [element[0](i) for i in x], color = color, label = name)
+                            plt.plot(x, [element[0](i) for i in x], color = color, label = name[0:50]+'...' if len(name) > 50 else name)
 
                     elif type(element) == Polynom:
-                        plt.plot(x, [element(i) for i in x], color = 'black', label = f'P({element.Variable}) : {str(element)[23:]}')
+                        plt.plot(x, [element(i) for i in x], color = 'black', label = f'P({element.Variable}) : {str(element)[23:] + "..." if len(str(element)) > 50 else str(element)[23:]}')
 
             elif type(kwargs['poly']) == tuple:
 
@@ -463,10 +463,10 @@ class Polynom:
                     name = f'P({kwargs["poly"][0].Variable}) : {str(kwargs["poly"][0])[23:]}'
 
                 if type(kwargs['poly'][0]) == Polynom:
-                    plt.plot(x, [kwargs['poly'][0](i) for i in x], color = color, label = name)
+                    plt.plot(x, [kwargs['poly'][0](i) for i in x], color = color, label = name[0:50]+'...' if len(name) > 50 else name)
 
             elif type(kwargs['poly']) == Polynom:
-                plt.plot(x, [kwargs['poly'](i) for i in x], color = 'black', label = f'P({kwargs['poly'].Variable}) : {str(kwargs['poly'])[23:]}')
+                plt.plot(x, [kwargs['poly'](i) for i in x], color = 'black', label = f'P({kwargs['poly'].Variable}) : {str(kwargs['poly'])[23:50] + "..." if len(str(kwargs['poly'])) > 50 else str(kwargs['poly'])[23:]}')
             
         if kwargs:
             i = 0
