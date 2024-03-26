@@ -299,14 +299,14 @@ class Polynom:
             for poly-s and func-s use syntax of kwargs['func'] kwargs['poly']
             - kwargs: 
                 - Additional arguments to pass to the plot function.
-                list of tuples or lists (elements must be int or float and must have length 2) : [(x1, y1), (x2, y2), ...] ot [[x1, y1], [x2, y2], ...] or [(x1, y1], (x2, y2), ...])] points to plot
+                    - list of tuples or lists (elements must be int or float and must have length 2) : [(x1, y1), (x2, y2), ...] ot [[x1, y1], [x2, y2], ...] or [(x1, y1], (x2, y2), ...])] points to plot
+                    - value name can't be 'func' or 'poly'. because they are reserved
                 
-
                 - func: 
                     - the functions to plot 
                     - can be list of functions or a single function.
                     - if single function for color and name may be provided as a tuple (func, color, name)
-                    - if color is not provided will be 'blue'
+                    - if color is not provided will be 'black'
                     - if name is not provided will be the 'func'
                     - Examples: 
                         - func = [(func1, color, name), [func2, color], func3 ...]
@@ -317,7 +317,7 @@ class Polynom:
                     - the additional polynomials to plot 
                     - can be list of polynomials or a single polynomial.
                     - if single polynomial for color and name may be provided as a tuple (poly, color, name) [same as func]
-                    - if color is not provided will be 'blue'
+                    - if color is not provided will be 'black'
                     - if name is not provided will be the Polynom Str representation slice [23:end]
                         -   Example:
                             - poly3 = Polynom('x**3 + 2*x**2 + 3*x + 4')
@@ -342,7 +342,7 @@ class Polynom:
         >>> b = Polynom([3,4,-1], 'x')
         >>> a.plot(range = (-3,3), step=0.01, colors=['blue', 'green'], solutions = plot, func = (funct, 'purple', 'cos(x)*sin(x*pi)+sqrt(5+x)')
         poly = b)
-        >>> #in example plot is list of points [(x1,y1),(x2,y2), ...] of solution of P(x) = a = 0
+        >>> #in example plot is list of points [(x1,y1),(x2,y2), ...] of solutions of P(x) = a = 0
            
         
         

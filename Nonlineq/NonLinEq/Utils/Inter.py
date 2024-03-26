@@ -42,7 +42,7 @@ class Interpolation:
         return vandermonde
     
 
-    def interpolate(func, mode: str = 'lagrange', points: str = 'auto', intervals: tuple = (0, 1, 10), **kwargs):
+    def interpolate(func = None, mode: str = 'lagrange', points: str = 'auto', intervals: tuple = (0, 1, 10), **kwargs):
         """
         Interpolates a function using the specified interpolation mode and points.
 
@@ -76,7 +76,9 @@ class Interpolation:
         """
 
 
-
+        if func is None and points == 'auto':
+                raise ValueError('func must be provided when points mode is auto')
+            
         if type(func) != type(lambda x: None):
             raise TypeError('func must be a function')
          
