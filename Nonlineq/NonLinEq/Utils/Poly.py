@@ -75,26 +75,24 @@ class Polynom:
             if count != 0:
                 raise ValueError("There is not matching closing/opening bracket for an opening/closing bracket")
             
-            if Poly[1][-1] != ')':
-                Poly[1] = "("+Poly[1]+')'
-
-                        
+            if Poly[1][-1] != ')' and len(Poly[1]) != 1:
+                Poly[1] = "("+Poly[1]+')'              
 
             self.Variable = Poly[1]
             self.Poly = ''
             if type(Poly[0]) == list:
                 if not all(isinstance(elem, (int, float)) for elem in Poly[0]):
                     raise TypeError("Poly[0] is list\nAll elements in Poly[0] should be int or float")
-                for i in Poly[0]:
-                    if len(Poly[0])-Poly[0].index(i)-1 == 0:
-                        if i >= 0:
-                            self.Poly += f'+{i}'
-                        if i < 0:
-                            self.Poly += f'{i}'
-                    elif i >= 0:
+                for i in Poly[0][0:-1]:
+                    if i >= 0:
                         self.Poly += f'+{i}*'+str(self.Variable)+f'**{len(Poly[0])-Poly[0].index(i)-1}'
                     elif i < 0:
                         self.Poly += f'{i}*'+str(self.Variable)+f'**{len(Poly[0])-Poly[0].index(i)-1}'
+                
+                if Poly[0][-1] >= 0:
+                        self.Poly += f'+{Poly[0][-1]}'
+                if Poly[0][-1] < 0:
+                        self.Poly += f'{Poly[0][-1]}'
 
                 self.Degree = len(Poly[0])-1
 
@@ -116,6 +114,8 @@ class Polynom:
                 variable += letter
 
         self.Variable = variable if variable else 'x'
+        if len(Poly[1]) == 1:
+            self.Variable = Poly[1]
 
     def __call__(self, value):
         """
@@ -165,8 +165,12 @@ class Polynom:
         """
         Add two polynomials together.
         """
-        if type(other) != Polynom:
+        if isinstance(other, (int, float)):
+            other = Polynom([[other], self.Variable])
+
+        if type(other) != Polynom and isinstance(other, (int, float)):
             other = Polynom(other)
+
         if self.Variable != other.Variable:
             raise ValueError('Polynomials must have the same variable')
         
@@ -223,7 +227,7 @@ class Polynom:
         """
         Get the coefficients of the polynomial.
         """
-        coefficients = [float(coef) for coef in re.findall(r'[-+]?\d*\.?\d+', self.Poly)]
+        coefficients = [float(coef) for coef in re.findall(r'[-+]?\d*\.?\d+(?:[eE][-+]?\d+)?', self.Poly)]
         coefficients = coefficients[::2]
         return coefficients
 
@@ -362,11 +366,9 @@ class Polynom:
             warnings.warn('No colors provided, using default color blue')
             colors = ['blue']
 
-        if type(colors[0]) != str:
-            raise ValueError('The first color must be a string')
-
-        if type(colors[1]) != str:
-            raise ValueError('The second color must be a string')
+        for color in colors:
+            if not check_color_existence(color):
+                raise ValueError(f'Invalid color {color}')
         
         x, y = [], []
         point = range[0]

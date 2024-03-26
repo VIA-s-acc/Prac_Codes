@@ -6,13 +6,6 @@ import importlib
 
 from .Utils.Poly import Polynom as Poly
 
-path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', 'Lineq'))
-if path not in sys.path:
-    sys.path.append(path)
-
-from LinEq import LinEqSolver # import Lineq solver
-
-
 
 class NonLinEqSolver:
     """
@@ -44,6 +37,9 @@ class NonLinEqSolver:
         if kwargs['Polynom'] is None:
             raise ValueError('Polynomial cannot be None')
         
+        if kwargs['Area'] is None:
+            raise ValueError('Domain cannot be None')
+
         if type(kwargs['Polynom']) is not Poly:
             self.Polynom = Poly(kwargs['Polynom'])
         else:
