@@ -335,10 +335,12 @@ class Polynom:
                         - poly = poly1
 
                 - cspline
-                    - dict of cubic splines to plot
-                    - key is the interval to plot spline
-                    - value is the ( spline, color, name ) or spline 
-                    - spline is Polynom object
+                    - the additional csplines to plot 
+                    - the dict, elements can be list/tuple (cspline, color, name) or a single cspline.
+                    - if single cspline for color and name may be provided as a tuple (cspline, color, name) [same as func]
+                    - if color is not provided will be 'black'
+                    - if name is not provided will be the Polynom Str representation slice [23:end]
+                    
                             
 
         Example:
