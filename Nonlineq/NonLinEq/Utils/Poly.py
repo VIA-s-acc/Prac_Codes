@@ -279,6 +279,8 @@ class Polynom:
         Get the derivative of the polynomial.
         """
         coeffs = self.get_coeffs()
+        if len(coeffs) <= 1:
+            return Polynom([[0], self.Variable])
         new_coeffs = []
         for i in range(0, len(coeffs)-1):
             new_coeffs.append(coeffs[i] * (len(coeffs)-i-1))    
@@ -331,6 +333,12 @@ class Polynom:
                         - poly = [(poly1, color, name), [poly2, color], poly3 ...]
                         - poly = (poly1, color, name)
                         - poly = poly1
+
+                - cspline
+                    - dict of cubic splines to plot
+                    - key is the interval to plot spline
+                    - value is the ( spline, color, name ) or spline 
+                    - spline is Polynom object
                             
 
         Example:
@@ -361,7 +369,6 @@ class Polynom:
             except ValueError:
                 return False
 
-
         if len(colors) == 0:
             warnings.warn('No colors provided, using default color blue')
             colors = ['blue']
@@ -380,7 +387,7 @@ class Polynom:
         if kwargs:
             points = dict()
             for key, arg in kwargs.items():
-                if key != 'func' and key != 'poly':
+                if key != 'func' and key != 'poly' and key != 'cspline':
                     points[key] = [[],[]]
                     if type(arg) == list or type(arg) == tuple:
                         for pts in arg:
@@ -432,7 +439,43 @@ class Polynom:
 
             elif type(kwargs['func']) == type(lambda: None):
                 plt.plot(x, [kwargs['func'](i) for i in x], color = 'black', label = 'func0')
-            
+        
+        if 'cspline' in kwargs.keys():
+            if type (kwargs['cspline']) == dict:
+                for key in kwargs['cspline'].keys():
+                    spline = kwargs['cspline'][key]
+                    inter = key
+                    x_spline = []
+                    y_spline = []
+                    try:
+                        if type(inter[0]) in (float, int) and type(inter[1]) in (float, int):
+                            a = inter[0]
+                            b = inter[1]
+                    except:
+                        raise ValueError(f'Invalid argument {inter} in {kwargs}')
+                    start = a
+                    while start < b+step:
+                        x_spline.append(start)
+                        start += step 
+
+                    if type(spline) == Polynom:
+                        y_spline = [spline(i) for i in x_spline]
+                        plt.plot(x_spline, y_spline, color = 'black', label = f'{str(spline)[0:50]}...' if len(str(spline)) > 50 else key)
+                    
+                    if type(spline) == tuple or type(spline) == list:
+                        color = spline[1] if check_color_existence(spline[1]) else 'black'
+
+                        try:
+                            name = spline[2]
+
+                        except:
+                            name = f'P({spline[0].Variable}) : {str(spline[0])[23:]}'
+
+                        if type(spline[0]) == Polynom:
+                            plt.plot(x_spline, [spline[0](i) for i in x_spline], color = color, label = name[0:50]+'...' if len(name) > 50 else name)
+            else:
+                raise ValueError(f'Invalid argument {kwargs["cspline"]} in {kwargs} | must be a dict')
+
         if 'poly' in kwargs.keys():
             if type(kwargs['poly']) == list:
                 for element in kwargs['poly']:

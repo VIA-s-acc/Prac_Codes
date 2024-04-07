@@ -289,5 +289,10 @@ Class that Interpolates a function using the specified interpolation mode and po
 5.  `divided_diff(x, y)`: 
     - calculates the divided difference table
 
+6.  `cspline_interpolation(x, y, x_y_intervals, var)`: 
+    - cubic spline interpolation
+    
+
+
 
     

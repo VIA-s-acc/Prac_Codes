@@ -19,6 +19,7 @@ class Interpolation:
     - `lagrange_interpolation(x, y, var)`: lagrange interpolation
     - `newton_interpolation(x, y, var)`: newton interpolation
     - `divided_diff(x, y)`: calculates the divided difference table
+    - `cspline_interpolation(x, y, x_y_intervals, var)`: cubic spline interpolation
 
     """
 
@@ -53,6 +54,7 @@ class Interpolation:
                 - lagrange: lagrange interpolation
                 - lagrange_vold: lagrange interpolation with vandermonde matrix
                 - newton: newton interpolation
+                - cspline: cubic spline interpolation ( in cspline intervals[2] is number of splines, work only in auto mode)
 
             - points (str): The method for determining the interpolation points. Defaults to 'auto'. for manual use 'manual'
                 - if 'manual' then points must be a list/tuple of lists/tuples of the form [(x1, y1), (x2, y2), ...] or [[x1, y1], [x2, y2], ...]] or ((x1, y1), (x2, y2), ...) in kwargs['pts']
@@ -91,16 +93,26 @@ class Interpolation:
             except:
                 raise ValueError('invalid intervals input')
             if intervals:
-                x = []
-                y = []
-                start = intervals[0]
-                x.append(start)
-                y.append(func(start))
-                while start < intervals[1]:
-                    start += step
-                    x.append(start)
-                    y.append(func(start))
-                    
+                if mode != 'cspline':
+                    x = []
+                    y = []
+                    start = intervals[0]
+                    while start < intervals[1]+step:
+                        x.append(start)
+                        y.append(func(start))
+                        start += step
+                elif mode == 'cspline':
+                    x = []
+                    y = []
+                    x_y_intervals = []
+                    start = intervals[0]
+                    while start < intervals[1]+step:
+                        x.append(start)
+                        y.append(func(start))
+                        if start + step < intervals[1]+step:
+                            x_y_intervals.append((start, start+step))
+                        start += step
+
             else:
                 raise ValueError('Either intervals or points must be provided') 
         if points == 'manual':
@@ -195,6 +207,60 @@ class Interpolation:
         if mode == 'newton':
             return Interpolation.newton_interpolation(x, y, variable)
 
+        if mode == 'cspline':
+            return Interpolation.cspline_interpolation(x, y, x_y_intervals, variable)
+             
+
+    def cspline_interpolation(x, y, x_y_intervals, var):
+        """
+        Cubic spline interpolation
+
+        Args:
+            x (list): List of x values
+            y (list): List of y values
+            x_y_intervals (list): List of intervals
+            var (str): Variable of the polynomial
+
+        Returns:
+            result (dict): The cubic spline interpolations for each interval in the form of a dictionary
+        """       
+        result = dict()
+        n = len(x_y_intervals)
+        h = x_y_intervals[0][1] - x_y_intervals[0][0]
+        if n < 2:
+            raise ValueError('Not enough points to interpolate | for cubic spline require at least 4 points(2 intervals | intervals[2] must be >= 2)') 
+        
+        if n == 2:
+            c = [0, 6/(4*h**2)*(y[0]-2*y[1]+y[2]), 0]
+
+        if n > 2:
+            c = [0]*(n+1)
+            F_ = []
+            mat_generator = lambda n: [[1 if i == j or i == j + 1 or i + 1 == j else 0 for i in range(n)] for j in range(n)]
+            mat = mat_generator(n-1)
+            for i in range(n-1):
+                mat[i][i] = 4
+            for i in range(1, n):
+                F_.append( 6/h**2* ( y[i-1]-2*y[i]+y[i+1] ) )
+            C_coeffs = LinEqSolver.tridiagonal_elimination(mat, F_, dig = 15)
+            for i in range(1, n):
+                c[i] = C_coeffs[i-1]
+
+        P = [0]
+        Q = [0]
+        for i in range(1, n+1):
+            P.append(y[i-1] - c[i-1] * (h**2)/6)
+            Q.append(y[i] - c[i] * (h**2)/6)
+
+        for i, interval in enumerate(x_y_intervals, 1):
+            P1 = c[i-1]/(6*h) * Polynom([[-1, x[i]], var]) * Polynom([[-1, x[i]], var]) * Polynom([[-1, x[i]], var])
+            P2 = c[i]/(6*h) * Polynom([[1, -x[i-1]], var]) * Polynom([[1, -x[i-1]], var]) * Polynom([[1, -x[i-1]], var])
+            P3 = P[i]/h * Polynom([[-1, x[i]], var])
+            P4 = Q[i]/h * Polynom([[1, -x[i-1]], var])
+            result[interval] = P1+P2+P3+P4
+        
+        return result
+             
 
     def lagrange_interpolation(x, y, var):
         """
