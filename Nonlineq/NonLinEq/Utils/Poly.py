@@ -288,7 +288,7 @@ class Polynom:
         return Polynom([new_coeffs, self.Variable])
 
 
-    def plot(self, range: tuple = (-10, 10), step: float = 0.1, colors = ['blue'], legend = True, **kwargs):
+    def plot(self, range: tuple = (-10, 10), step: float = 0.1, colors = ['blue'], legend: bool = True, grid: bool = True, self_flag: bool = True, title: str = None, **kwargs):
         """
         Plot the polynomial.
 
@@ -298,6 +298,9 @@ class Polynom:
             step (float): The step size for the x-axis.
             colors (list): The colors to use for the plot first color uses to self, others to additional points.
             legend (bool): Whether to show the legend.
+            grid (bool): Whether to show the grid.
+            self_flag (bool): Whether to plot the self Poly.
+            title (str): The title of the plot.
             for poly-s and func-s use syntax of kwargs['func'] kwargs['poly']
             - kwargs: 
                 - Additional arguments to pass to the plot function.
@@ -342,7 +345,7 @@ class Polynom:
                     - if name is not provided will be the Polynom Str representation slice [23:end]
                     
                             
-
+        
         Example:
         -------
         >>> def funct(x):
@@ -352,7 +355,7 @@ class Polynom:
         >>> b = Polynom([3,4,-1], 'x')
         >>> a.plot(range = (-3,3), step=0.01, colors=['blue', 'green'], solutions = plot, func = (funct, 'purple', 'cos(x)*sin(x*pi)+sqrt(5+x)')
         poly = b)
-        >>> #in example plot is list of points [(x1,y1),(x2,y2), ...] of solutions of P(x) = a = 0
+        >>> #in example plot is list of points [(x1,y1),(x2,y2), ...] of solutions of P(x) = a = 0, also can create empty plotter self = Polynom([[0], 'variable']) and self_flag = False
            
         
         
@@ -361,6 +364,16 @@ class Polynom:
             ValueError: If the args is not a list
             ValueError: If the elements in the args elements are not int or float
 
+            
+        Notes:
+        ------
+            - if colors is not provided will be 'blue'
+            - if name is not provided will be the 'func'
+            - if name is not provided will be the Polynom Str representation slice [23:end]
+
+            - if need plotter only for funcs, polys, and csplines without plotting self set self_flag to False, can plot self in kwargs['poly'], uses if you want empty plotter.
+            - for creating empty plotter use self_flag = False and self = Polynom([[0], 'variable'])
+        
         Returns:
             None
         """
@@ -403,12 +416,19 @@ class Polynom:
                                 raise ValueError(f'Invalid argument {pts} in {arg} in {kwargs}')
                     else:
                         raise ValueError(f'Invalid argument {arg} in {kwargs}')
+        if self_flag:
+
+            plt.title(f'{hex(hash(self.__class__))}\n{str(self)[:50]+"..." if len(str(self)) > 50 else str(self)}')
+            plt.plot(x, y, color = colors[0], label = f'P({self.Variable}) : {str(self)[23:50]+'...' if len(str(self)) > 50 else str(self)[23:]}') 
         
-        plt.title(f'{hex(hash(self.__class__))}\n{str(self)[:50]+"..." if len(str(self)) > 50 else str(self)}')
         plt.xlabel(self.Variable)
         plt.ylabel(f'P({self.Variable})')
-        plt.grid(True)
-        plt.plot(x, y, color = colors[0], label = f'P({self.Variable}) : {str(self)[23:50]+'...' if len(str(self)) > 50 else str(self)[23:]}') 
+        if title is not None and type(title) == str: 
+            plt.title(title)
+
+        if grid:
+            plt.grid(True)
+
         if 'func' in kwargs.keys():
             if type(kwargs['func']) == list:
                 for element in kwargs['func']:
