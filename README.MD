@@ -19,6 +19,8 @@
     -   [Prettier Poly](#prettier-poly)
     -   [Interpolation](#interpolation)
 
+- [Numerical Integration](#numerical-integration)
+    -   [Integration](#integration)
 
 ## Lineq Classes 
 This classes is a linear equation solver system that provides methods for performing various operations related to solving systems of linear equations. Here's a brief summary of each class method:
@@ -293,6 +295,17 @@ Class that Interpolates a function using the specified interpolation mode and po
     - cubic spline interpolation
     
 
+## Numerical Integration
 
+### Integration
 
-    
+Class for numerical integration
+
+1. `squares(mode)`: 
+    - Calculate the integral using the sum of squares
+
+2. `Simpson()`: 
+    - Calculate the integral using Simpson method
+
+3.  `Trapeze()`:
+    - Calculate the  integrals using trapeze method
