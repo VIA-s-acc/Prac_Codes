@@ -298,6 +298,7 @@ Class that Interpolates a function using the specified interpolation mode and po
 ## Numerical Integration
 
 ### Integration
+<p><em><a href="https://github.com/VIA-s-acc/Prac_Codes/tree/main/Numintegrate/NumIntegrate/integration.py">Integration</a></em></p>
 
 Class for numerical integration
 
