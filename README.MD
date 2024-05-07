@@ -359,3 +359,19 @@ Class for plotting
 
 1. `plot(self, **kwargs)`:
     - Plot the graph
+
+#### Non Class help functions in Plotter module
+
+1.  `return_error(func)`:
+    - This function processes the input arguments to extract 'func' and 'pts' information. 
+        It calculates the maximum error between the provided function values and the actual values at given points. 
+        The error information is stored in the function's 'error_map'. 
+        Finally, it returns the result of the input function with the processed arguments.
+
+2.  `re_map_pretty(error_map, sort, sort_key)`:
+    - This function takes a dictionary 'error_map' as input and returns a pretty string representation of the dictionary. ( sorting is based on 'sort_key' and 'sort' )
+
+3.  `plot_histogram(map, digits)`:
+    - Plot histogram from map. Map must be have keys, values, keys used as labels, values must be numeric
+
+

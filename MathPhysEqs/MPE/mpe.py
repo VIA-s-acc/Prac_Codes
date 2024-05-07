@@ -1,9 +1,15 @@
 import sys, os
-path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', 'Lineq'))
-if path not in sys.path:
-    sys.path.append(path)
+paths = [ 
+        os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', 'Lineq')),
+        os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', 'Nonlineq'))
+]
+for path in paths:
+    if path not in sys.path:
+        sys.path.append(path)
+
 import copy
 from LinEq import LinEqSolver # import Lineq solver
+from NonLinEq import Polynom, NonLinEqSolver
 
 class MPE():
     """
@@ -139,6 +145,17 @@ class MPE():
         
         return result
     
+    def build_k_step_zero_stable_method(k):
+        """
+        build k step zero stable method 
+
+        the multistep method satisfies the Root condition if
+        all the roots of the characteristic polynomial lie in a unit circle, 
+        there are no multiple roots on the boundary of the circle
+        """
+
+        
+
     def rk2(self, n):
         """
         RK2 - Runge-Kutta 2 method
@@ -192,8 +209,8 @@ class MPE():
             list: Solution
         """
         B = MPE.k_step_Adams_explicit(k)
-        if preliminary_k_method not in ["euler", "heun", "rk4", "rk2"]:
-            raise ValueError('preliminary_k_method must be in ["euler", "heun", "rk4", "rk2"]')
+        if preliminary_k_method not in ["euler", "heun", "rk4", "rk2", "gira2"]:
+            raise ValueError('preliminary_k_method must be in ["euler", "heun", "rk4", "rk2", "gira2"]')
         
         theta = (self.Area[1] - self.Area[0])/n
         n += 1
@@ -211,6 +228,8 @@ class MPE():
             result = copy_.rk4(k)
         elif preliminary_k_method == "rk2":
             result = copy_.rk2(k)
+        elif preliminary_k_method == "gira2":
+            result = copy_.gira2(k)
         
         result = result[1:]
         for i in range(k, n-1):
