@@ -332,7 +332,7 @@ Example:
 def f(x,y):
     return -x+y
 
-1. `init(self, Area, f, f0)`:
+1. `__init__(self, Area, f, f0)`:
     - initialization of MPE solver
 
 2.  `eiler(self, n)`: 
