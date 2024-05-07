@@ -22,6 +22,9 @@
 - [Numerical Integration](#numerical-integration)
     -   [Integration](#integration)
 
+- [Math Physics equations (Numeric)](#math-physics-equations-numeric)
+
+
 ## Lineq Classes 
 This classes is a linear equation solver system that provides methods for performing various operations related to solving systems of linear equations. Here's a brief summary of each class method:
 ### Checker
@@ -298,7 +301,7 @@ Class that Interpolates a function using the specified interpolation mode and po
 ## Numerical Integration
 
 ### Integration
-<p><em><a href="https://github.com/VIA-s-acc/Prac_Codes/tree/main/Numintegrate/NumIntegrate/Integration.py">Integration</a></em></p>
+<p><em><a href="https://github.com/VIA-s-acc/Prac_Codes/tree/main/Numintegrate/NumIntegrate/Integration.py">Integration Source</a></em></p>
 
 Class for numerical integration
 
@@ -310,3 +313,42 @@ Class for numerical integration
 
 3.  `Trapeze()`:
     - Calculate the  integrals using trapeze method
+
+## Math Physics Equations Numeric
+
+### MPE
+<p><em><a href="https://github.com/VIA-s-acc/Prac_Codes/tree/main/MathPhysEqs/MPE/mpe.py">MPE Source</a></em></p>
+Class for solving MPE
+dy/dx = f(t, y) 
+y(x0) = y0
+
+f must be function of x,y
+Example:
+-------
+def f(x,y):
+    return -x+y
+
+1.  `eiler(self, n)`: 
+    - Eiler method
+
+2.  `heun(self, n)`: 
+    - Heun method
+
+3.  `-k_step_Adams_explicit(self, k)`: 
+    - K step Adams explicit method
+
+4.  `rk4(self, n)`: 
+    - Runge-Kutta 4 order method
+
+5.  `rk2(self, n)`: 
+    - Runge-Kutta 2 order method
+
+6.  `solve_Adams_KSE(self, k, n, preliminary_k_method)`: 
+    - Solve using K step Adams explicit method
+    
+### Plotter
+<p><em><a href="https://github.com/VIA-s-acc/Prac_Codes/tree/main/MathPhysEqs/MPE/Utils/plotter.py">Plotter Source</a></em></p>
+Class for plotting 
+
+1. `plot(self, **kwargs)`:
+    - Plot the graph
