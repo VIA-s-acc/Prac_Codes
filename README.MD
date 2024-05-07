@@ -23,6 +23,8 @@
     -   [Integration](#integration)
 
 - [Math Physics equations (Numeric)](#math-physics-equations-numeric)
+    - [MPE](#mpe)
+    - [Plotter](#plotter)
 
 
 ## Lineq Classes 
@@ -328,22 +330,25 @@ Example:
 def f(x,y):
     return -x+y
 
-1.  `eiler(self, n)`: 
+1. `init(self, Area, f, f0)`:
+    - initialization of MPE solver
+
+2.  `eiler(self, n)`: 
     - Eiler method
 
-2.  `heun(self, n)`: 
+3.  `heun(self, n)`: 
     - Heun method
 
-3.  `-k_step_Adams_explicit(self, k)`: 
+4.  `-k_step_Adams_explicit(self, k)`: 
     - K step Adams explicit method
 
-4.  `rk4(self, n)`: 
+5.  `rk4(self, n)`: 
     - Runge-Kutta 4 order method
 
-5.  `rk2(self, n)`: 
+6.  `rk2(self, n)`: 
     - Runge-Kutta 2 order method
 
-6.  `solve_Adams_KSE(self, k, n, preliminary_k_method)`: 
+7.  `solve_Adams_KSE(self, k, n, preliminary_k_method)`: 
     - Solve using K step Adams explicit method
     
 ### Plotter
