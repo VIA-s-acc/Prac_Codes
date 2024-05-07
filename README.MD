@@ -320,8 +320,10 @@ Class for numerical integration
 
 ### MPE
 <p><em><a href="https://github.com/VIA-s-acc/Prac_Codes/tree/main/MathPhysEqs/MPE/mpe.py">MPE Source</a></em></p>
-Class for solving MPE
-dy/dx = f(t, y) 
+Class for solving MPE 
+
+dy/dx = f(x, y) 
+
 y(x0) = y0
 
 f must be function of x,y

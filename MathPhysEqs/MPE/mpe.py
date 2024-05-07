@@ -8,7 +8,7 @@ from LinEq import LinEqSolver # import Lineq solver
 class MPE():
     """
     Class for solving MPE
-    dy/dx = f(t, y) 
+    dy/dx = f(x, y) 
     y(x0) = y0
 
     f must be function of x,y
