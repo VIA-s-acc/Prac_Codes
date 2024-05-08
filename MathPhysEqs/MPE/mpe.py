@@ -228,8 +228,6 @@ class MPE():
             result = copy_.rk4(k)
         elif preliminary_k_method == "rk2":
             result = copy_.rk2(k)
-        elif preliminary_k_method == "gira2":
-            result = copy_.gira2(k)
         
         result = result[1:]
         for i in range(k, n-1):
