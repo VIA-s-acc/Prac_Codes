@@ -145,14 +145,7 @@ class MPE():
         
         return result
     
-    def build_k_step_zero_stable_method(k):
-        """
-        build k step zero stable method 
 
-        the multistep method satisfies the Root condition if
-        all the roots of the characteristic polynomial lie in a unit circle, 
-        there are no multiple roots on the boundary of the circle
-        """
 
         
 
