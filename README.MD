@@ -320,7 +320,9 @@ Class for numerical integration
 
 ### MPE
 <p><em><a href="https://github.com/VIA-s-acc/Prac_Codes/tree/main/MathPhysEqs/MPE/mpe.py">MPE Source</a></em></p>
-Class for solving MPE 
+Classes for solving MPE and EVP
+
+MPE:
 
 dy/dx = f(x, y) 
 
@@ -352,16 +354,36 @@ def f(x,y):
 
 7.  `solve_Adams_KSE(self, k, n, preliminary_k_method)`: 
     - Solve using K step Adams explicit method
-    
+
+EVP:
+class for boundary value problem solving for the equation of thermal conduction
+
+du/dt = d^2u/dx^2 + f(t, x)
+u(t, a) = m1  
+u(t, b) = m2
+u(0, x) = v0(x)
+0 < x < L
+0 < t < T
+
+1.  `__init__(self, T, L, m1, m2, v0, f)`: 
+    - Initialize the boundary value problem solver for the equation of thermal conduction.
+
+2.  `solve_heat_equation(self, N, M)`: 
+    - Solve the boundary value problem for the equation of thermal conduction.
+
+
 ### Plotter
 <p><em><a href="https://github.com/VIA-s-acc/Prac_Codes/tree/main/MathPhysEqs/MPE/Utils/plotter.py">Plotter Source</a></em></p>
 Class for plotting 
 
-1. `plot(self, **kwargs)`:
-    - Plot the graph
+1.  `plot(self, **kwargs)`:
+    - Plot the graph for MPE
+
+2.  `plot_solution(self, u, T, L, N, M, **kwargs)`:
+    - Plot the solution for EPV
 
 #### Non Class help functions in Plotter module
-
+use with `MPE.plotter.plot`, not with `plotter.plot_solution`
 1.  `return_error(func)`:
     - This function processes the input arguments to extract 'func' and 'pts' information. 
         It calculates the maximum error between the provided function values and the actual values at given points. 

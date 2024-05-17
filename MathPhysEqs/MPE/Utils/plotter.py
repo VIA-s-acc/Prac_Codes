@@ -2,6 +2,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 import inspect
 import re
+import mpl_toolkits
+from mpl_toolkits.mplot3d import Axes3D
 
 def return_error(func):
     """
@@ -121,3 +123,31 @@ class Plotter():
             plt.legend(loc = 'best')
         plt.suptitle("Plotter")
         plt.show()
+
+    def plot_solution(self, u, T, L, N, M, **kwargs):
+        """
+            Plot solution
+        """
+        
+        u_array = np.array(u)
+
+        X = np.linspace(0, L, M )
+        T = np.linspace(0, T, N )
+        X, T = np.meshgrid(X, T)
+        fig = plt.figure()
+        ax = fig.add_subplot(111, projection='3d')
+
+        for key in kwargs.keys():
+            if key.startswith("func"):
+                random_color = np.random.rand(3,)
+                ax.plot_surface(X, T, kwargs[key](X, T), cmap='viridis', edgecolor=random_color)
+        ax.plot_surface(X, T, u_array, cmap='viridis', edgecolor='none')
+
+        ax.set_xlabel('x')
+        ax.set_ylabel('t')
+        ax.set_zlabel('u(x, t)')
+        plt.show()
+
+    
+
+   

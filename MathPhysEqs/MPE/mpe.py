@@ -202,8 +202,8 @@ class MPE():
             list: Solution
         """
         B = MPE.k_step_Adams_explicit(k)
-        if preliminary_k_method not in ["euler", "heun", "rk4", "rk2", "gira2"]:
-            raise ValueError('preliminary_k_method must be in ["euler", "heun", "rk4", "rk2", "gira2"]')
+        if preliminary_k_method not in ["euler", "heun", "rk4", "rk2"]:
+            raise ValueError('preliminary_k_method must be in ["euler", "heun", "rk4", "rk2"]')
         
         theta = (self.Area[1] - self.Area[0])/n
         n += 1
@@ -230,6 +230,113 @@ class MPE():
         result = [self.f0] + result
             
         return result
+    
+def finit_diff(f, a, b, n, d, m1, m2):
+    if type(f) != type(lambda x: None):
+        raise TypeError('f must be a function')
+    if type(d) != type(lambda x: None):
+        raise TypeError('d must be a function')
+    if b > a:
+        a, b = b, a
+    if a == b or n == 0:
+        raise ValueError('a must be different from b and n must be greater than 0')
+    h = (b-a)/n
+    x = [a + i*h for i in range(n+1)]
+    A = [[0] * (n-1)] * (n-1)
+    b = [0] * (n-1)
+    for i in range(1, n):
+        xi = a + i*h
+        di = d(xi)
+        fi = f(xi)
+        if i == 1:
+            A[i-1][i-1] = -2/h**2 + di
+            A[i-1][i] = 1/h**2
+            b[i-1] = fi - m1/h**2
+        if i == n-1:
+            A[i-1][i-2] = 1/h**2
+            A[i-1][i-1] = -2/h**2 + di
+            b[i-1] = fi - m2/h**2
+        else:
+            A[i-1][i-2] = 1/h**2
+            A[i-1][i-1] = -2/h**2 + di
+            A[i-1][i] = 1/h**2
+            b[i-1] = fi
+    y = LinEqSolver.tridiagonal_elimination(A, b, 15)
+    y = [m1] + y + [m2]
+    return y, x #????
+
+class BVP:
+    """
+    class for boundary value problem solving for the equation of thermal conduction
+    du/dt = d^2u/dx^2 + f(t, x)
+    u(t, a) = m1  
+    u(t, b) = m2
+    u(0, x) = v0(x)
+    0 < x < L
+    0 < t < T
+    - `__init__(self, T, L, m1, m2, v0, f)` : Initialize the boundary value problem solver for the equation of thermal conduction.
+    - `solve_heat_equation(self, N, M)` : Solve the boundary value problem for the equation of thermal conduction.
+    """
+    def __init__(self, T, L, m1, m2, v0, f):
+        """
+        Initialize the boundary value problem solver for the equation of thermal conduction.
+
+        Args:
+            T: Total time period
+            L: Length of the domain
+            m1: Boundary value at the left boundary
+            m2: Boundary value at the right boundary
+            v0: Initial condition function
+            f: Function representing the right side of the equation
+        
+        Returns:
+            None
+        """
+
+        self.T = T
+        self.L = L
+        self.m1 = m1
+        self.m2 = m2
+        self.v0 = v0
+        self.f = f
+        
+    
+    def solve_heat_equation(self, N, M):
+        """
+        Solve the boundary value problem for the equation of thermal conduction.
+
+        Args:
+            N: Number of time steps
+            M: Number of space steps
+
+        Returns:
+            list: Solution to the boundary value problem
+        """
+        delta_t = self.T / N
+        delta_x = self.L / M
+    
+        u = [[0.0 for _ in range(M+1)] for _ in range(N)]
+        
+        for k in range(M+1):
+            u[0][k] = self.v0(k * delta_x) #нулевой ярус заполнен
+
+        for n in range(1, N):
             
+            u[n][0] = self.m1(n * delta_t)
+            u[n][M] = self.m2(n * delta_t)
+            
+        const = delta_t / delta_x**2
+        for n in range(0, N-1):
+            for k in range(1, M):
+                u[n + 1][k] = (
+                    u[n][k] 
+                    + const * (u[n][k - 1] - 2 * u[n][k] + u[n][k + 1]) 
+                    + delta_t * self.f(n * delta_t, k * delta_x)
+                )
+
+        return u
+
+        
+
 
     
