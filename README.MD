@@ -381,7 +381,18 @@ u(0, x) = v0(x)
     - Solve the boundary value problem for the equation of thermal conduction. (weighted scheme)
 
 #### Other in MPE module
-1. - `finit_diff(f, a, b, n, d, m1, m2)`:
+1.  `finit_diff(f, a, b, n, d, m1, m2)`:
+    - function to solve the equation \\
+        d^2u/dx^2 + q(x)u(x) = f(x) \\ 
+        u(a) = m1(x) \\
+        u(b) = m2(x) \\
+        q(x) >= q(a) >= 0
+        
+2. `ritz(f, a, b, k, q, n, integrate_n)`:
+    - Ritz method to solve the equation \\
+        (k(x)u (x)) + q(x)u(x)=f(x) \\
+        u(a) = 0 \\
+        u(b) = 0 
 
 ### Plotter
 <p><em><a href="https://github.com/VIA-s-acc/Prac_Codes/tree/main/MathPhysEqs/MPE/Utils/plotter.py">Plotter Source</a></em></p>

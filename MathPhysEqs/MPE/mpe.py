@@ -1,7 +1,8 @@
 import sys, os
 paths = [ 
         os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', 'Lineq')),
-        os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', 'Nonlineq'))
+        os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', 'Nonlineq')),
+        os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', 'Numintegrate'))
 ]
 for path in paths:
     if path not in sys.path:
@@ -10,6 +11,7 @@ from warnings import warn
 import copy
 from LinEq import LinEqSolver # import Lineq solver
 from NonLinEq import Polynom, NonLinEqSolver
+from NumIntegrate import Integrate
 
 class MPE():
     """
@@ -235,8 +237,8 @@ def finit_diff(f, a, b, n, d, m1, m2):
     """
     function to solve the equation \\
     d^2u/dx^2 + q(x)u(x) = f(x)\\
-    u(a) = m1\\
-    u(b) = m2\\
+    u(a) = m1(x)\\
+    u(b) = m2(x)\\
     q(x) >= q(a) >= 0
 
     Args:
@@ -262,34 +264,102 @@ def finit_diff(f, a, b, n, d, m1, m2):
         raise TypeError('f must be a function')
     if type(d) != type(lambda x: None):
         raise TypeError('d must be a function')
-    if b > a:
+    if type(m1) != type(lambda x: None):
+        raise TypeError('m1 must be a function')
+    if type(m2) != type(lambda x: None):
+        raise TypeError('m2 must be a function')
+    if b < a:
         a, b = b, a
     if a == b or n == 0:
         raise ValueError('a must be different from b and n must be greater than 0')
     h = (b-a)/n
     x = [a + i*h for i in range(n+1)]
-    A = [[0] * (n-1)] * (n-1)
-    b = [0] * (n-1)
+    A = [[0] * (n+1) for _ in range(n+1)]
+    B = [0 for _ in range(n+1)] 
+    
+    B[0] = m1(a)
+    B[-1] = m2(b)
+    A[0][0] = 1
+    A[-1][-1] = 1
     for i in range(1, n):
-        xi = a + i*h
-        di = d(xi)
-        fi = f(xi)
-        if i == 1:
-            A[i-1][i-1] = -2/h**2 + di
-            A[i-1][i] = 1/h**2
-            b[i-1] = fi - m1/h**2
-        if i == n-1:
-            A[i-1][i-2] = 1/h**2
-            A[i-1][i-1] = -2/h**2 + di
-            b[i-1] = fi - m2/h**2
+        A[i][i-1] = - 1 / h**2
+        A[i][i] = 2 / h**2 + d(x[i])
+        A[i][i+1] = - 1 / h**2
+        B[i] = f(x[i])
+
+    u = LinEqSolver.tridiagonal_elimination(A, B, 15)
+    return u, x 
+
+def ritz(f, a, b, k, q, n, integrate_n = 1000):
+    """
+    Ritz method to solve the equation \\
+    -(k(x)u (x)) + q(x)u(x)=f(x) \\
+    u(a) = 0 \\
+    u(b) = 0 
+    
+    Args:
+        f (function): function > 0
+        a (float): lower bound 
+        b (float): upper bound
+        k (function): first parameter 
+        q (function): second parameter > 0
+        n (int): number of subintervals
+        integrate_n (int): number of integration steps
+
+    Raises:
+        TypeError: if f or k or q is not a function
+        ValueError: if a is greater than b or n is less than 1
+
+    Notes:
+        - if a is greater than b or n is less than 1, raise ValueError
+        
+    Return:
+            list: Solution
+    """
+    if type(f) != type(lambda x: None):
+        raise TypeError('f must be a function')
+    if type(k) != type(lambda x: None):
+        raise TypeError('k must be a function')
+    if type(q) != type(lambda x: None):
+        raise TypeError('q must be a function')
+    if b < a:
+        a, b = b, a
+    if a == b or n == 0:
+        raise ValueError('a must be different from b and n must be greater than 0')
+    
+    h = (b-a) / n
+    x = [a + i * h for i in range(0, n+1)]
+    def phi(i, xi):
+        if i == 0 or i == n:
+            return 0
+        elif x[i-1] <= xi <= x[i]:
+            return (xi - x[i-1]) / (x[i] - x[i-1])
+        elif x[i] <= xi <= x[i+1]:
+            return (x[i+1] - xi) / (x[i+1] - x[i])
         else:
-            A[i-1][i-2] = 1/h**2
-            A[i-1][i-1] = -2/h**2 + di
-            A[i-1][i] = 1/h**2
-            b[i-1] = fi
-    y = LinEqSolver.tridiagonal_elimination(A, b, 15)
-    y = [m1] + y + [m2]
-    return y, x #????
+            return 0
+    
+    
+    def a_ij(i, j, a = a, b = b, phi = phi, k = k, q = q, n = integrate_n):
+        func  = lambda x: k(x) * phi(i, x) * phi(j, x) + q(x) * phi(i, x) * phi(j, x)
+        a = Integrate(func=func, interv=(a, b), n = n)
+        Integral = a.Simpson()
+        return Integral
+
+    def l_i(i, a = a, b = b, phi = phi, f = f, n = integrate_n):
+        func = lambda x: f(x) * phi(i, x)
+        a = Integrate(func=func, interv=(a, b), n = n)
+        Integral = a.Simpson()
+        return Integral
+
+    A = [[a_ij(i, j) for j in range(1, n)] for i in range(1, n) ]
+    L = [l_i(i)for i in range(1, n)]
+    c = LinEqSolver.tridiagonal_elimination(A, L, 15)
+    u = [0.0 for _ in range(len(x))]
+    for i in range(1, n):
+        u = [u[j] + c[i-1] * phi(i, x[j]) for j in range(len(x))]
+
+    return u, x
 
 class BVP:
     """
