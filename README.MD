@@ -23,7 +23,7 @@
     -   [Integration](#integration)
 
 - [Math Physics equations (Numeric)](#math-physics-equations-numeric)
-    - [MPE](#mpe)
+    - [MPE-EPV](#mpe-epv)
     - [Plotter](#plotter)
 
 
@@ -318,7 +318,7 @@ Class for numerical integration
 
 ## Math Physics Equations Numeric
 
-### MPE
+### MPE-EPV
 <p><em><a href="https://github.com/VIA-s-acc/Prac_Codes/tree/main/MathPhysEqs/MPE/mpe.py">MPE Source</a></em></p>
 Classes for solving MPE and EVP
 
@@ -380,7 +380,7 @@ u(0, x) = v0(x)
 5.  `_solve_heat_equation_weighted(self, N, M, omega)` : 
     - Solve the boundary value problem for the equation of thermal conduction. (weighted scheme)
 
-#### Other in MPE module
+#### Other in MPE-EPV module
 1.  `finit_diff(f, a, b, n, d, m1, m2)`:
     - function to solve the equation \\
         d^2u/dx^2 + q(x)u(x) = f(x) \\ 
