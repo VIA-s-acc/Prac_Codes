@@ -4,6 +4,8 @@ import inspect
 import re
 import mpl_toolkits
 from mpl_toolkits.mplot3d import Axes3D
+import random
+from warnings import warn
 
 def return_error(func):
     """
@@ -89,8 +91,8 @@ class Plotter():
         Args:
             **kwargs:
                 step (float, optional): Step. Defaults to 0.1.
-                func* (list, optional): List of functions. Defaults to [].
-                pts* (list, optional): List of points. Defaults to [].
+                func* (list, optional): List of functions. 
+                pts* (list, optional): List of points. 
                 legend (bool, optional): Legend. Defaults to True.
                 func* means func1, func2, func3, ... or something else
                 pts* means pts1, pts2, pts3, ... or something else
@@ -124,29 +126,107 @@ class Plotter():
         plt.suptitle("Plotter")
         plt.show()
 
-    def plot_solution(self, u, T, L, N, M, **kwargs):
+    def plot_solution(self, T, L, N, M, **kwargs):
         """
             Plot solution
+        Args:
+            T (float): Total time period
+            L (float): Length of the domain
+            N (int): Number of points in time
+            M (int): Number of points in space
+            - **kwargs:
+                - func* (list, optional): List of functions. 
+                - pts* (list, optional): 2D Array of points chain. 
+                - legend (bool, optional): Legend. Defaults to True.
+                - func* means func1, func2, func3, ... or something else
+                - pts* means pts1, pts2, pts3, ... or something else
+                - edgecolor (str, optional): Edge color. Defaults to 'none'.
+
+        Example:
+        -------
+        plotter = Plotter(Area = (0, L), T = T, N = N, M = M)
+        plotter.plot_solution(T = T, L = L, N = N, M = M, func1 = func1, func2 = func2, pts1 = pts1, pts2 = pts2)
+
+        Notes:
+        -------
+            If no functions or points are given, nothing will be plotted, returned value will be False, and a warning will be shown.
+
+        Returns:
+            bool: if functions or points are given, returned value will be True, otherwise False
         """
-        
-        u_array = np.array(u)
+
 
         X = np.linspace(0, L, M )
         T = np.linspace(0, T, N )
         X, T = np.meshgrid(X, T)
         fig = plt.figure()
-        ax = fig.add_subplot(111, projection='3d')
-
+        count = 0
         for key in kwargs.keys():
+            if key.startswith("func") or key.startswith("pts"):
+                count += 1
+        if count == 0:
+            warn("No functions or points")
+            return False
+        else:
+            rows = count // 2
+            if rows == 0:
+                rows = 1
+            if count >= 3:
+                plots = rows * 100 + 31
+            elif count >= 2:
+                plots = rows * 100 + 21
+            else:
+                plots = 100 + 11
+            i = 0
+        if 'legend' in kwargs.keys():
+            legend = kwargs['legend']
+            if type(legend) != type(False):
+                legend = True
+        else:
+            legend = True
+        color = 'none'
+        colors = plt.cm.Set1.colors + ('blue', 'red', 'green', 'yellow', 'purple', 'cyan', 'magenta', 'orange', 'brown', 'black', 'gray', 'lightgray', 'darkgray', 'white', 'none', 'random')
+        if 'edgecolor' in kwargs.keys():
+            edgecolor = kwargs['edgecolor']
+            if edgecolor in colors:
+                color = edgecolor
+            else:
+                warn(f"{edgecolor} is not in {colors}", category=SyntaxWarning)
+                warn("set edgecolor = 'none'", category=SyntaxWarning)
+        else:
+            edgecolor = 'none'
+  
+        for key in kwargs.keys():
+            if edgecolor == "random":
+                color = random.choice(colors)
+                while color == "random":
+                    color = random.choice(colors)
             if key.startswith("func"):
-                random_color = np.random.rand(3,)
-                ax.plot_surface(X, T, kwargs[key](X, T), cmap='viridis', edgecolor=random_color)
-        ax.plot_surface(X, T, u_array, cmap='viridis', edgecolor='none')
+                ax = fig.add_subplot(plots + i, projection='3d')
+                ax.plot_surface(X, T, kwargs[key](X, T), cmap='viridis', edgecolor=color, label=key)
+                if legend == True:
+                    ax.legend(loc = 'best')
+            if key.startswith("pts"):
+                u = np.array(kwargs[key])
+                ax = fig.add_subplot(plots + i, projection='3d')
+                ax.plot_surface(X, T, u, cmap='viridis', edgecolor=color, label=key)
+                if legend == True:
+                    ax.legend(loc = 'best')
+            if i == 3:
+                i = 0
+            else:
+                i += 1
+        
+        if legend == True:
+            fig.legend(labels = kwargs.keys())
+        
+    
 
         ax.set_xlabel('x')
         ax.set_ylabel('t')
         ax.set_zlabel('u(x, t)')
         plt.show()
+        return True
 
     
 

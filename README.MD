@@ -365,12 +365,23 @@ u(0, x) = v0(x)
 0 < x < L
 0 < t < T
 
-1.  `__init__(self, T, L, m1, m2, v0, f)`: 
+1.  `__init__(self, T, L, m1, m2, v0, f, alpha)`: 
     - Initialize the boundary value problem solver for the equation of thermal conduction.
 
-2.  `solve_heat_equation(self, N, M)`: 
-    - Solve the boundary value problem for the equation of thermal conduction.
+2.  `solve_heat_equation(self, N, M, scheme, omega)`: 
+    - Solve the boundary value problem for the equation of thermal conduction. (scheme list is [explicit, implicit, weighted])
 
+3.  `_solve_heat_equation_explicit(self, N, M)` : 
+    - Solve the boundary value problem for the equation of thermal conduction. (explicit scheme)
+
+4.  `_solve_heat_equation_implicit(self, N, M)` : 
+    - Solve the boundary value problem for the equation of thermal conduction. (implicit scheme)
+
+5.  `_solve_heat_equation_weighted(self, N, M, omega)` : 
+    - Solve the boundary value problem for the equation of thermal conduction. (weighted scheme)
+
+#### Other in MPE module
+1. - `finit_diff(f, a, b, n, d, m1, m2)`:
 
 ### Plotter
 <p><em><a href="https://github.com/VIA-s-acc/Prac_Codes/tree/main/MathPhysEqs/MPE/Utils/plotter.py">Plotter Source</a></em></p>
@@ -382,8 +393,9 @@ Class for plotting
 2.  `plot_solution(self, u, T, L, N, M, **kwargs)`:
     - Plot the solution for EPV
 
+
 #### Non Class help functions in Plotter module
-use with `MPE.plotter.plot`, not with `plotter.plot_solution`
+use with `MPE.plotter.plot`, not with `MPE.plotter.plot_solution`
 1.  `return_error(func)`:
     - This function processes the input arguments to extract 'func' and 'pts' information. 
         It calculates the maximum error between the provided function values and the actual values at given points. 
@@ -395,5 +407,7 @@ use with `MPE.plotter.plot`, not with `plotter.plot_solution`
 
 3.  `plot_histogram(map, digits)`:
     - Plot histogram from map. Map must be have keys, values, keys used as labels, values must be numeric
+
+
 
 

@@ -6,7 +6,7 @@ paths = [
 for path in paths:
     if path not in sys.path:
         sys.path.append(path)
-
+from warnings import warn
 import copy
 from LinEq import LinEqSolver # import Lineq solver
 from NonLinEq import Polynom, NonLinEqSolver
@@ -14,7 +14,7 @@ from NonLinEq import Polynom, NonLinEqSolver
 class MPE():
     """
     Class for solving MPE
-    dy/dx = f(x, y) 
+    dy/dx = f(x, y) \\
     y(x0) = y0
 
     f must be function of x,y
@@ -22,7 +22,7 @@ class MPE():
     -------
     def f(x,y):
         return -x+y
-    
+    -------
     - `eiler(self, n)`: Eiler method
     - `heun(self, n`): Heun method
     - `k_step_Adams_explicit(self, k)`: K step Adams explicit method
@@ -232,6 +232,32 @@ class MPE():
         return result
     
 def finit_diff(f, a, b, n, d, m1, m2):
+    """
+    function to solve the equation \\
+    d^2u/dx^2 + q(x)u(x) = f(x)\\
+    u(a) = m1\\
+    u(b) = m2\\
+    q(x) >= q(a) >= 0
+
+    Args:
+        f (function): function
+        a (float): lower bound
+        b (float): upper bound
+        n (int): number of subintervals
+        d (function): derivative
+        m1 (float): first parameter
+        m2 (float): second parameter
+
+    Raises:
+        TypeError: if f or d is not a function
+        ValueError: if a is greater than b or n is less than 1
+
+    Notes:
+        - if a is greater than b or n is less than 1, raise ValueError
+        
+    Return:
+            list: Solution
+    """
     if type(f) != type(lambda x: None):
         raise TypeError('f must be a function')
     if type(d) != type(lambda x: None):
@@ -268,16 +294,19 @@ def finit_diff(f, a, b, n, d, m1, m2):
 class BVP:
     """
     class for boundary value problem solving for the equation of thermal conduction
-    du/dt = d^2u/dx^2 + f(t, x)
-    u(t, a) = m1  
-    u(t, b) = m2
-    u(0, x) = v0(x)
-    0 < x < L
-    0 < t < T
+    du/dt = alpha * d^2u/dx^2 + f(t, x) \\
+    u(t, a) = m1  \\
+    u(t, b) = m2 \\
+    u(0, x) = v0(x) \\
+    0 < x < L \\
+    0 < t < T 
     - `__init__(self, T, L, m1, m2, v0, f)` : Initialize the boundary value problem solver for the equation of thermal conduction.
-    - `solve_heat_equation(self, N, M)` : Solve the boundary value problem for the equation of thermal conduction.
+    - `solve_heat_equation(self, N, M, scheme, omega)` : Solve the boundary value problem for the equation of thermal conduction.
+    - `_solve_heat_equation_explicit(self, N, M)` : Solve the boundary value problem for the equation of thermal conduction. (explicit scheme)
+    - `_solve_heat_equation_implicit(self, N, M)` : Solve the boundary value problem for the equation of thermal conduction. (implicit scheme)
+    - `_solve_heat_equation_weighted(self, N, M, omega)` : Solve the boundary value problem for the equation of thermal conduction. (weighted scheme)
     """
-    def __init__(self, T, L, m1, m2, v0, f):
+    def __init__(self, T, L, m1, m2, v0, f, alpha = 1):
         """
         Initialize the boundary value problem solver for the equation of thermal conduction.
 
@@ -287,7 +316,8 @@ class BVP:
             m1: Boundary value at the left boundary
             m2: Boundary value at the right boundary
             v0: Initial condition function
-            f: Function representing the right side of the equation
+            f: Function representing the right side of the equation f(x,t)
+            alpha: Diffusion coefficient
         
         Returns:
             None
@@ -299,11 +329,12 @@ class BVP:
         self.m2 = m2
         self.v0 = v0
         self.f = f
+        self.alpha = alpha
         
     
-    def solve_heat_equation(self, N, M):
+    def _solve_heat_equation_explicit(self, N, M):
         """
-        Solve the boundary value problem for the equation of thermal conduction.
+        Solve the boundary value problem for the equation of thermal conduction. (explicit scheme)
 
         Args:
             N: Number of time steps
@@ -314,7 +345,9 @@ class BVP:
         """
         delta_t = self.T / N
         delta_x = self.L / M
-    
+        if not delta_t <= delta_x**2/(2*self.alpha**2):
+            warn("The time step is too large. The solution may not be accurate.", RuntimeWarning)
+            warn("Stability condition: delta_t <= delta_x**2/(2*alpha**2)", RuntimeWarning)
         u = [[0.0 for _ in range(M+1)] for _ in range(N)]
         
         for k in range(M+1):
@@ -325,17 +358,125 @@ class BVP:
             u[n][0] = self.m1(n * delta_t)
             u[n][M] = self.m2(n * delta_t)
             
-        const = delta_t / delta_x**2
+        const = self.alpha * delta_t / delta_x**2
         for n in range(0, N-1):
             for k in range(1, M):
                 u[n + 1][k] = (
                     u[n][k] 
                     + const * (u[n][k - 1] - 2 * u[n][k] + u[n][k + 1]) 
-                    + delta_t * self.f(n * delta_t, k * delta_x)
+                    + delta_t * self.f(k*delta_x, n*delta_t)
                 )
 
         return u
+    
+    def _solve_heat_equation_implicit(self, N, M):
+        """
+        Solve the boundary value problem for the equation of thermal conduction. (implicit scheme)
 
+        Args:
+            N: Number of time steps
+            M: Number of space steps
+
+        Returns:
+            list: Solution to the boundary value problem
+        """
+        delta_t = self.T / N
+        delta_x = self.L / M
+
+        u = [[0.0 for _ in range(M+1)] for _ in range(N)]
+        const = self.alpha * delta_t / delta_x**2
+        for k in range(M+1):
+            u[0][k] = self.v0(k * delta_x) #нулевой ярус заполнен
+
+        for k in range(1, N):
+            u[k][0] = self.m1(k * delta_t)
+            u[k][-1] = self.m2(k * delta_t)
+
+        A = [[-const if j == i-1 else 1+2*const if j == i else -const if j == i+1 else 0 for j in range(M+1)] for i in range(M+1)]
+
+        for k in range(0, N-1):
+            
+            B = [0.0 for _ in range(M+1)]
+            B[0] = u[k][0]
+            B[-1] = u[k][-1]
+            for i in range(1, M):
+                B[i] = delta_t * self.f(i*delta_x, k*delta_t) + u[k][i]
+
+            
+            u_row = LinEqSolver.tridiagonal_elimination(A, B, 15)
+            for i in range(1, M):
+                u[k+1][i] = u_row[i]
+
+        
+        return u
+    
+    def _solve_heat_equation_weighted(self, N, M, omega = 0.5):
+        """
+        Solve the boundary value problem for the equation of thermal conduction. (weighted scheme)
+
+        Args:
+            N: Number of time steps
+            M: Number of space steps
+            omega: Weight
+
+        Returns:
+            list: Solution to the boundary value problem
+        """
+        delta_t = self.T / N
+        delta_x = self.L / M
+
+        u = [[0.0 for _ in range(M+1)] for _ in range(N)]
+        const = self.alpha * delta_t / delta_x**2
+        for k in range(M+1):
+            u[0][k] = self.v0(k * delta_x) #нулевой ярус заполнен
+
+        for k in range(1, N):
+            u[k][0] = self.m1(k * delta_t)
+            u[k][-1] = self.m2(k * delta_t)
+
+        A = [[-const*omega if j == i-1 else 1+2*const*omega if j == i else -const*omega if j == i+1 else 0 for j in range(M+1)] for i in range(M+1)]
+
+        for k in range(0, N-1):
+            B = [0.0 for _ in range(M+1)]
+            B[0] = u[k][0]
+            B[-1] = u[k][-1]
+            for i in range(1, M):
+                B[i] = delta_t * self.f(i*delta_x, k*delta_t) + u[k][i] + ( 1 - omega) * const * (u[k][i-1] - 2 * u[k][i] + u[k][i+1])
+            u_row = LinEqSolver.tridiagonal_elimination(A, B, 15)
+            for i in range(1, M):
+                u[k+1][i] = omega * u_row[i] 
+
+
+        return u
+
+
+
+    def solve_heat_equation(self, N, M, scheme = "explicit", omega = 0.5):
+        """
+        Solve the boundary value problem for the equation of thermal conduction. (explicit scheme)
+
+        Args:
+            N: Number of time steps
+            M: Number of space steps
+            scheme: scheme list: ["explicit", "implicit", "weighted"]
+            omega: Weight for weighted scheme
+
+        Returns:
+            list: Solution to the boundary value problem
+        """
+        if scheme not in ["explicit", "implicit", "weighted"]:
+            warn("Invalid scheme. Choose from 'explicit', 'implicit', 'weighted'.", SyntaxWarning)
+            warn("Using 'explicit' scheme.", SyntaxWarning)
+            scheme = "explicit"
+        if scheme == "explicit":
+            return self._solve_heat_equation_explicit(N, M)
+        elif scheme == "implicit":
+            return self._solve_heat_equation_implicit(N, M)
+        elif scheme == "weighted":
+            return self._solve_heat_equation_weighted(N, M, omega)
+
+    
+    
         
 
 
