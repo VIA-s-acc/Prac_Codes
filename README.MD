@@ -358,11 +358,11 @@ def f(x,y):
 EVP:
 class for boundary value problem solving for the equation of thermal conduction
 
-du/dt = d^2u/dx^2 + f(t, x)
-u(t, a) = m1  
-u(t, b) = m2
-u(0, x) = v0(x)
-0 < x < L
+du/dt = d^2u/dx^2 + f(t, x) \\
+u(t, a) = m1   \\
+u(t, b) = m2 \\
+u(0, x) = v0(x) \\
+0 < x < L \\
 0 < t < T
 
 1.  `__init__(self, T, L, m1, m2, v0, f, alpha)`: 
