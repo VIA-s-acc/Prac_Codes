@@ -1,5 +1,48 @@
 # PracCodes
 
+## Overview
+
+Welcome to the Prac_Codes repository! This collection of Python scripts is designed to assist with solving a variety of mathematical and computational problems, particularly in the fields of linear and non-linear equations, numerical integration, and mathematical physics.
+
+## Contents
+
+- **Lineq**: Tools for solving linear equations.
+- **Nonlineq**: Methods for solving non-linear equations.
+- **Numintegrate**: Numerical integration techniques.
+- **MathPhysEqs**: Solutions for mathematical physics equations.
+
+## Features
+
+- **Equation Solvers**: Efficient algorithms for both linear and non-linear systems.
+- **Matrix Operations**: Comprehensive functions for matrix manipulations.
+- **Polynomial Manipulation**: Utilities for handling polynomials, including interpolation and fitting.
+- **Numerical Methods**: Advanced numerical integration and differential equation solvers.
+
+## Getting Started
+
+1. **Clone the repository**:
+```sh
+git clone https://github.com/VIA-s-acc/Prac_Codes.git
+```
+2. **Navigate to the directory**:
+```sh
+cd Prac_Codes
+```
+3. **Run the examples**:
+```sh
+Explore the folders for example scripts and usage demonstrations.
+```
+
+## Requirements
+- Python 3.x
+- Required libraries: numpy, scipy, matplotlib (install via pip if not already available)
+
+## Usage
+Each module is designed to be user-friendly. Refer to the example scripts in each folder for guidance on how to utilize the provided functions and classes.
+
+Contact
+For any inquiries or support, please contact [VIA-s-acc](https://github.com/VIA-s-acc).
+
 ## Table Of Content
 
 <p><em><a href="https://github.com/VIA-s-acc/Prac_Codes/tree/main/Lineq">Lineq Source</a></em></p>
