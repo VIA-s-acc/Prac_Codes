@@ -40,7 +40,7 @@ Explore the folders for example scripts and usage demonstrations.
 ## Usage
 Each module is designed to be user-friendly. Refer to the example scripts in each folder for guidance on how to utilize the provided functions and classes.
 
-Contact
+## Contact
 For any inquiries or support, please contact [VIA-s-acc](https://github.com/VIA-s-acc).
 
 ## Table Of Content
