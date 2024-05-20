@@ -7,7 +7,7 @@ Welcome to the Prac_Codes repository! This collection of Python scripts is desig
 ## Contents
 
 - **Lineq**: Tools for solving linear equations.
-- **Nonlineq**: Methods for solving non-linear equations.
+- **Nonlineq**: Methods for solving non-linear equations. (Also includes tools for interpolation.)
 - **Numintegrate**: Numerical integration techniques.
 - **MathPhysEqs**: Solutions for mathematical physics equations.
 
