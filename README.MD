@@ -401,8 +401,8 @@ Class for plotting
 1.  `plot(self, **kwargs)`:
     - Plot the graph for MPE
 
-2.  `plot_solution(self, u, T, L, N, M, **kwargs)`:
-    - Plot the solution for EPV
+2.  `plot_solution(self, T, L, **kwargs)`:
+    - Plot the solution for EPV (3D)
 
 
 #### Non Class help functions in Plotter module

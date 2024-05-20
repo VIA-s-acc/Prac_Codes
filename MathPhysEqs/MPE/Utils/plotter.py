@@ -126,14 +126,12 @@ class Plotter():
         plt.suptitle("Plotter")
         plt.show()
 
-    def plot_solution(self, T, L, N, M, **kwargs):
+    def plot_solution(self, T, L, **kwargs):
         """
             Plot solution
         Args:
             T (float): Total time period
             L (float): Length of the domain
-            N (int): Number of points in time
-            M (int): Number of points in space
             - **kwargs:
                 - func* (list, optional): List of functions. 
                 - pts* (list, optional): 2D Array of points chain. 
@@ -141,6 +139,8 @@ class Plotter():
                 - func* means func1, func2, func3, ... or something else
                 - pts* means pts1, pts2, pts3, ... or something else
                 - edgecolor (str, optional): Edge color. Defaults to 'none'.
+                - step_x (float, optional): Step x. Defaults to 0.1.
+                - step_t (float, optional): Step t. Defaults to 0.1.
 
         Example:
         -------
@@ -156,14 +156,13 @@ class Plotter():
         """
 
 
-        X = np.linspace(0, L, M )
-        T = np.linspace(0, T, N )
-        X, T = np.meshgrid(X, T)
+        
         fig = plt.figure()
         count = 0
         for key in kwargs.keys():
             if key.startswith("func") or key.startswith("pts"):
                 count += 1
+        
         if count == 0:
             warn("No functions or points")
             return False
@@ -173,11 +172,12 @@ class Plotter():
                 rows = 1
             if count >= 3:
                 plots = rows * 100 + 31
-            elif count >= 2:
+            elif count == 2:
                 plots = rows * 100 + 21
             else:
                 plots = 100 + 11
             i = 0
+            print(plots)
         if 'legend' in kwargs.keys():
             legend = kwargs['legend']
             if type(legend) != type(False):
@@ -195,7 +195,22 @@ class Plotter():
                 warn("set edgecolor = 'none'", category=SyntaxWarning)
         else:
             edgecolor = 'none'
-  
+        if 'step_x' in kwargs.keys():
+            step_x = kwargs['step_x']
+            if type(step_x) != type(0.1):
+                step_x = 0.1
+                warn("step_x must be int or float", category=SyntaxWarning)
+                warn("set step_x = 0.1", category=SyntaxWarning)
+        else:
+            step_x = 0.1
+        if 'step_t' in kwargs.keys():
+            step_t = kwargs['step_t']
+            if type(step_t) != type(0.1):
+                step_t = 0.1
+                warn("step_t must be int or float", category=SyntaxWarning)
+                warn("set step_t = 0.1", category=SyntaxWarning)
+        else:
+            step_t = 0.1
         for key in kwargs.keys():
             if edgecolor == "random":
                 color = random.choice(colors)
@@ -203,19 +218,24 @@ class Plotter():
                     color = random.choice(colors)
             if key.startswith("func"):
                 ax = fig.add_subplot(plots + i, projection='3d')
-                ax.plot_surface(X, T, kwargs[key](X, T), cmap='viridis', edgecolor=color, label=key)
+                X_ = np.linspace(0, L, int(L/step_x))
+                T_ = np.linspace(0, T, int(T/step_t))
+                X_, T_ = np.meshgrid(X_, T_)
+                ax.plot_surface(X_, T_, kwargs[key](X_, T_), cmap='viridis', edgecolor=color, label=key)
                 if legend == True:
                     ax.legend(loc = 'best')
             if key.startswith("pts"):
                 u = np.array(kwargs[key])
+                X_ = np.linspace(0, L, len(u[0]) )
+                T_ = np.linspace(0, T, len(u) )
+                X_, T_ = np.meshgrid(X_, T_)
                 ax = fig.add_subplot(plots + i, projection='3d')
-                ax.plot_surface(X, T, u, cmap='viridis', edgecolor=color, label=key)
+                ax.plot_surface(X_, T_, u, cmap='viridis', edgecolor=color, label=key)
                 if legend == True:
                     ax.legend(loc = 'best')
-            if i == 3:
-                i = 0
-            else:
-                i += 1
+            i+=1
+                
+            
         
         if legend == True:
             fig.legend(labels = kwargs.keys())

@@ -534,6 +534,7 @@ class BVP:
         Returns:
             list: Solution to the boundary value problem
         """
+        N = N+1
         if scheme not in ["explicit", "implicit", "weighted"]:
             warn("Invalid scheme. Choose from 'explicit', 'implicit', 'weighted'.", SyntaxWarning)
             warn("Using 'explicit' scheme.", SyntaxWarning)
