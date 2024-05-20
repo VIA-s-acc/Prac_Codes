@@ -343,7 +343,7 @@ def f(x,y):
 3.  `heun(self, n)`: 
     - Heun method
 
-4.  `-k_step_Adams_explicit(self, k)`: 
+4.  `k_step_Adams_explicit(self, k)`: 
     - K step Adams explicit method
 
 5.  `rk4(self, n)`: 
