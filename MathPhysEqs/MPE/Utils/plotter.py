@@ -177,7 +177,6 @@ class Plotter():
             else:
                 plots = 100 + 11
             i = 0
-            print(plots)
         if 'legend' in kwargs.keys():
             legend = kwargs['legend']
             if type(legend) != type(False):
