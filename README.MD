@@ -358,11 +358,11 @@ def f(x,y):
 EVP:
 class for boundary value problem solving for the equation of thermal conduction
 
-du/dt = d^2u/dx^2 + f(t, x) \\
-u(t, a) = m1   \\
-u(t, b) = m2 \\
-u(0, x) = v0(x) \\
-0 < x < L \\
+du/dt = d^2u/dx^2 + f(t, x) \
+u(t, a) = m1   \
+u(t, b) = m2 \
+u(0, x) = v0(x) \
+0 < x < L \
 0 < t < T
 
 1.  `__init__(self, T, L, m1, m2, v0, f, alpha)`: 
@@ -382,16 +382,16 @@ u(0, x) = v0(x) \\
 
 #### Other in MPE-EPV module
 1.  `finit_diff(f, a, b, n, d, m1, m2)`:
-    - function to solve the equation \\
-        d^2u/dx^2 + q(x)u(x) = f(x) \\ 
-        u(a) = m1(x) \\
-        u(b) = m2(x) \\
+    - function to solve the equation \
+        d^2u/dx^2 + q(x)u(x) = f(x) \
+        u(a) = m1(x) \
+        u(b) = m2(x) \
         q(x) >= q(a) >= 0
         
 2. `ritz(f, a, b, k, q, n, integrate_n)`:
-    - Ritz method to solve the equation \\
-        (k(x)u (x)) + q(x)u(x)=f(x) \\
-        u(a) = 0 \\
+    - Ritz method to solve the equation \
+        (k(x)u (x)) + q(x)u(x)=f(x) \
+        u(a) = 0 \
         u(b) = 0 
 
 ### Plotter
