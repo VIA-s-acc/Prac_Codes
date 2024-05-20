@@ -144,7 +144,7 @@ class Plotter():
 
         Example:
         -------
-        plotter = Plotter(Area = (0, L), T = T, N = N, M = M)
+        plotter = Plotter(Area = (0, L), T = T, N = N, M = M) \\
         plotter.plot_solution(T = T, L = L, N = N, M = M, func1 = func1, func2 = func2, pts1 = pts1, pts2 = pts2)
 
         Notes:
