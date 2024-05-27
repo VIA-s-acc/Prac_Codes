@@ -264,7 +264,6 @@ class LinEqSolver:
             list: The solution vector for the linear system.
         """
 
-        print(matrix_choose_mode)
         if not Ckr._symmetric_check(matrix):
             raise ValueError("Matrix is not symmetric")
         
