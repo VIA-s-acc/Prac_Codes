@@ -1,12 +1,9 @@
-from LinEq import *
+from .LinEq import *
 
 matrix =   [[7, 1, 3],
             [1, 4, 2],
             [3, 2, 8]]
 vec = [-8, -2, 5]
-
-
-
 
 
 

@@ -185,19 +185,34 @@ class Methods:
         det = 1
         for i in range(n):
 
+            # Поиск максимального элемента в i-ой строке
             max_row = i
             for k in range(i+1, n):
                 if abs(A[k][i]) > abs(A[max_row][i]):
                     max_row = k
 
+
+            # Если элемент не максимален, томеняем знак определителя
+            # и меняем строки
+            if max_row != i:
+                det *= -1
+                A[i], A[max_row] = A[max_row], A[i]
+
             det *= A[i][i]
 
+            # Если элемент нулевой, то определитель равен нулю
+            if A[i][i] == 0:
+                return 0
+
+            # Умножаем оставшиеся элементы строки на -A[i][i] и
+            # складываем их с элементами оставшихся строк
             for k in range(i+1, n):
-                if A[i][i] != 0:
-                    factor = -A[k][i] / A[i][i]
-                    for j in range(i+1, n):
-                        A[k][j] += factor * A[i][j]
+                factor = -A[k][i] / A[i][i]
+                for j in range(i+1, n):
+                    A[k][j] += factor * A[i][j]
+        
         return det
+    
     
 
     def LU_decomposition(matrix):

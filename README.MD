@@ -1,5 +1,23 @@
 # PracCodes
 
+
+#### Update 26.07.2024 INFO:
+---
+In [MM](LinEq/LinEq/Utils/Matrix_methods.py) fixed **`determinant`** function.
+
+Started rewriting code. In [Optimized-Experimental](optimized) are experimental version of codes with optimization. (faster about 50 times) 
+
+Rewrited lineq.matrix_methods [module](optimized/lineq/matrix_methods/)
+
+- link to source [code](optimized/lineq/matrix_methods/lowlevel/mm.c)
+- link to python [code](optimized/lineq/matrix_methods/Module/module.py) `( Ready for 50 % (all functions work if import from build.matrix_methods, in python file realized only 50 % ) )`
+
+Source codes in ***`optimized/{module_name}/{util_name}/lowlevel`*** 
+where {module_name} is module name and {util_name} is utility name
+
+To build the optimized version, run [`build.bat`](optimized/build.bat) from (optimized)[optimized] directory ( dont work with old verison of project, please wait for new version to be ready ( with all optimizations ) ).  
+
+
 ## Overview
 
 Welcome to the Prac_Codes repository! This collection of Python scripts is designed to assist with solving a variety of mathematical and computational problems, particularly in the fields of linear and non-linear equations, numerical integration, and mathematical physics.
