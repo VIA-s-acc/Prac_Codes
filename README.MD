@@ -6,8 +6,8 @@
 
 ### Optimized Experimental
 
-<h5> TO USE OPTIMIZED CODES, RUN `build.bat` FROM `optimized` DIRECTORY ( script will build all c-libraries for you). ( ALL CODES WILL BE USED IN THIS DIRECTORY ) 
-OR DOWNLOAD RELEASE FROM GITHUB. </h5>
+TO USE OPTIMIZED CODES, RUN `build.bat` FROM `optimized` DIRECTORY ( script will build all c-libraries for you). ( ALL CODES WILL BE USED IN THIS DIRECTORY ) 
+OR DOWNLOAD RELEASE FROM GITHUB. 
 
 ---
 #### Update 26.07.2024 INFO:
