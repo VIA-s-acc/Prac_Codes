@@ -300,10 +300,10 @@ void cholesky_decomp2(double* matrix, double* l_matrix, double* u_matrix, double
     }
 }
 
-#define RAND_MAX 31071
+#define RAND_MAX 32768
 
 double random_double(double min_value, double max_value) {
-    return min_value + (double)rand() / RAND_MAX * (max_value - min_value);
+    return min_value + (double)rand() / RAND_MAX * (max_value - min_value + 1);
 }
 
 double max_el_in_matrix(double* matrix, int rows, int cols) {

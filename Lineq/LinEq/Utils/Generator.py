@@ -22,10 +22,12 @@ class Generator:
         matrix = []
         if size < 0:
             raise ValueError("Size can't be negative")
+        
         if mode is None:
             for _ in range(size):
                 row = [random.randint(-rng, rng) for _ in range(size)]
                 matrix.append(row)
+                
         elif mode == '3diag':
             matrix = [[0] * size for _ in range(size)]
             for i in range(size):
@@ -34,6 +36,7 @@ class Generator:
                     matrix[i][i-1] = random.randint(-rng, rng)
                 if i < size-1:
                     matrix[i][i+1] = random.randint(-rng, rng)
+                    
         elif mode == "symm":
             matrix = [[0] * size for _ in range(size)]
             for _ in range(size):

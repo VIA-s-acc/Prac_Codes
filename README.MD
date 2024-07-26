@@ -5,12 +5,14 @@
 Updated [optimized.lineq.matrix_methods](optimized/lineq/matrix_methods/) python interface ready for 100 %.
 New Code is faster an average of about 50+ times.
 
+Rewrited [Generator](optimized/lineq/generator/). 
+
 
 #### Update 26.07.2024 INFO:
 ---
-In [MM](LinEq/LinEq/Utils/Matrix_methods.py) fixed **`determinant`** function.
+In [MM](LinEq/LinEq/Utils/Matrix_methods.py) fixed **`determinant`** function.  
 
-Started rewriting code. In [Optimized-Experimental](optimized) are experimental version of codes with optimization. (faster about 50 times) 
+Started rewriting code. In [Optimized-Experimental](optimized) are experimental version of codes with optimization. (faster about 50 times)  |||| **NEED CYTHON LIBRARY!!!!!**
 
 Rewrited lineq.matrix_methods [module](optimized/lineq/matrix_methods/)
 

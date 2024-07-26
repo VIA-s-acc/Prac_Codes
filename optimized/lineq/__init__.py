@@ -1,4 +1,6 @@
 from .matrix_methods import MatrixMethods
+from .generator import Generator
+
 
 __doc__ = """
 Lineq module:
@@ -17,5 +19,6 @@ __version__ = '0.0.1'
 
 __all__ = [
     'MatrixMethods',
+    'Generator',
     
     ]
