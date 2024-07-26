@@ -34,6 +34,9 @@ def generate_random_vector(size, rng):
     
     cdef double* c_result = <double*>malloc(c_size*sizeof(double))
 
+    if c_result == NULL:
+        raise MemoryError("Failed to allocate memory")
+
     random_vector(c_size, c_rng, c_result)
     
     result = [c_result[i] for i in range(c_size)]

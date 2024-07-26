@@ -2365,7 +2365,7 @@ static int __pyx_m_traverse(PyObject *m, visitproc visit, void *arg) {
 #define __pyx_codeobj__5 __pyx_mstate_global->__pyx_codeobj__5
 /* #### Code section: module_code ### */
 
-/* "generator.pyx":10
+/* "generator.pyx":9
  * 
  * 
  * def generate_random_matrix(size, rng, mode):             # <<<<<<<<<<<<<<
@@ -2432,7 +2432,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
           (void)__Pyx_Arg_NewRef_FASTCALL(values[0]);
           kw_args--;
         }
-        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 10, __pyx_L3_error)
+        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 9, __pyx_L3_error)
         else goto __pyx_L5_argtuple_error;
         CYTHON_FALLTHROUGH;
         case  1:
@@ -2440,9 +2440,9 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
           (void)__Pyx_Arg_NewRef_FASTCALL(values[1]);
           kw_args--;
         }
-        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 10, __pyx_L3_error)
+        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 9, __pyx_L3_error)
         else {
-          __Pyx_RaiseArgtupleInvalid("generate_random_matrix", 1, 3, 3, 1); __PYX_ERR(0, 10, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("generate_random_matrix", 1, 3, 3, 1); __PYX_ERR(0, 9, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
@@ -2450,14 +2450,14 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
           (void)__Pyx_Arg_NewRef_FASTCALL(values[2]);
           kw_args--;
         }
-        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 10, __pyx_L3_error)
+        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 9, __pyx_L3_error)
         else {
-          __Pyx_RaiseArgtupleInvalid("generate_random_matrix", 1, 3, 3, 2); __PYX_ERR(0, 10, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("generate_random_matrix", 1, 3, 3, 2); __PYX_ERR(0, 9, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
         const Py_ssize_t kwd_pos_args = __pyx_nargs;
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values + 0, kwd_pos_args, "generate_random_matrix") < 0)) __PYX_ERR(0, 10, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values + 0, kwd_pos_args, "generate_random_matrix") < 0)) __PYX_ERR(0, 9, __pyx_L3_error)
       }
     } else if (unlikely(__pyx_nargs != 3)) {
       goto __pyx_L5_argtuple_error;
@@ -2472,7 +2472,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   }
   goto __pyx_L6_skip;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("generate_random_matrix", 1, 3, 3, __pyx_nargs); __PYX_ERR(0, 10, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("generate_random_matrix", 1, 3, 3, __pyx_nargs); __PYX_ERR(0, 9, __pyx_L3_error)
   __pyx_L6_skip:;
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L3_error:;
@@ -2531,17 +2531,17 @@ static PyObject *__pyx_pf_9generator_generate_random_matrix(CYTHON_UNUSED PyObje
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("generate_random_matrix", 1);
 
-  /* "generator.pyx":11
+  /* "generator.pyx":10
  * 
  * def generate_random_matrix(size, rng, mode):
  *     cdef int mode_size = int(len(mode))             # <<<<<<<<<<<<<<
  *     cdef char* mode_c = <char*>malloc((mode_size + 1) * sizeof(char))  # Include space for null terminator
  *     cdef int c_size = int(size)
  */
-  __pyx_t_1 = PyObject_Length(__pyx_v_mode); if (unlikely(__pyx_t_1 == ((Py_ssize_t)-1))) __PYX_ERR(0, 11, __pyx_L1_error)
+  __pyx_t_1 = PyObject_Length(__pyx_v_mode); if (unlikely(__pyx_t_1 == ((Py_ssize_t)-1))) __PYX_ERR(0, 10, __pyx_L1_error)
   __pyx_v_mode_size = ((int)__pyx_t_1);
 
-  /* "generator.pyx":12
+  /* "generator.pyx":11
  * def generate_random_matrix(size, rng, mode):
  *     cdef int mode_size = int(len(mode))
  *     cdef char* mode_c = <char*>malloc((mode_size + 1) * sizeof(char))  # Include space for null terminator             # <<<<<<<<<<<<<<
@@ -2550,30 +2550,30 @@ static PyObject *__pyx_pf_9generator_generate_random_matrix(CYTHON_UNUSED PyObje
  */
   __pyx_v_mode_c = ((char *)malloc(((__pyx_v_mode_size + 1) * (sizeof(char)))));
 
-  /* "generator.pyx":13
+  /* "generator.pyx":12
  *     cdef int mode_size = int(len(mode))
  *     cdef char* mode_c = <char*>malloc((mode_size + 1) * sizeof(char))  # Include space for null terminator
  *     cdef int c_size = int(size)             # <<<<<<<<<<<<<<
  *     cdef double c_rng = rng
  * 
  */
-  __pyx_t_2 = __Pyx_PyNumber_Int(__pyx_v_size); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 13, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyNumber_Int(__pyx_v_size); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 12, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyInt_As_int(__pyx_t_2); if (unlikely((__pyx_t_3 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 13, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyInt_As_int(__pyx_t_2); if (unlikely((__pyx_t_3 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 12, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_v_c_size = __pyx_t_3;
 
-  /* "generator.pyx":14
+  /* "generator.pyx":13
  *     cdef char* mode_c = <char*>malloc((mode_size + 1) * sizeof(char))  # Include space for null terminator
  *     cdef int c_size = int(size)
  *     cdef double c_rng = rng             # <<<<<<<<<<<<<<
  * 
  *     cdef double* c_result = <double*>malloc(c_size * c_size * sizeof(double))
  */
-  __pyx_t_4 = __pyx_PyFloat_AsDouble(__pyx_v_rng); if (unlikely((__pyx_t_4 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 14, __pyx_L1_error)
+  __pyx_t_4 = __pyx_PyFloat_AsDouble(__pyx_v_rng); if (unlikely((__pyx_t_4 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 13, __pyx_L1_error)
   __pyx_v_c_rng = __pyx_t_4;
 
-  /* "generator.pyx":16
+  /* "generator.pyx":15
  *     cdef double c_rng = rng
  * 
  *     cdef double* c_result = <double*>malloc(c_size * c_size * sizeof(double))             # <<<<<<<<<<<<<<
@@ -2582,7 +2582,7 @@ static PyObject *__pyx_pf_9generator_generate_random_matrix(CYTHON_UNUSED PyObje
  */
   __pyx_v_c_result = ((double *)malloc(((__pyx_v_c_size * __pyx_v_c_size) * (sizeof(double)))));
 
-  /* "generator.pyx":18
+  /* "generator.pyx":17
  *     cdef double* c_result = <double*>malloc(c_size * c_size * sizeof(double))
  * 
  *     if mode_c == NULL or c_result == NULL:             # <<<<<<<<<<<<<<
@@ -2600,20 +2600,20 @@ static PyObject *__pyx_pf_9generator_generate_random_matrix(CYTHON_UNUSED PyObje
   __pyx_L4_bool_binop_done:;
   if (unlikely(__pyx_t_5)) {
 
-    /* "generator.pyx":19
+    /* "generator.pyx":18
  * 
  *     if mode_c == NULL or c_result == NULL:
  *         raise MemoryError("Failed to allocate memory")             # <<<<<<<<<<<<<<
  * 
  *     strcpy(mode_c, mode.encode('utf-8'))
  */
-    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_MemoryError, __pyx_tuple_, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 19, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_MemoryError, __pyx_tuple_, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 18, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_Raise(__pyx_t_2, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __PYX_ERR(0, 19, __pyx_L1_error)
+    __PYX_ERR(0, 18, __pyx_L1_error)
 
-    /* "generator.pyx":18
+    /* "generator.pyx":17
  *     cdef double* c_result = <double*>malloc(c_size * c_size * sizeof(double))
  * 
  *     if mode_c == NULL or c_result == NULL:             # <<<<<<<<<<<<<<
@@ -2622,14 +2622,14 @@ static PyObject *__pyx_pf_9generator_generate_random_matrix(CYTHON_UNUSED PyObje
  */
   }
 
-  /* "generator.pyx":21
+  /* "generator.pyx":20
  *         raise MemoryError("Failed to allocate memory")
  * 
  *     strcpy(mode_c, mode.encode('utf-8'))             # <<<<<<<<<<<<<<
  * 
  *     random_matrix(c_size, c_rng, mode_c, c_result)
  */
-  __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_mode, __pyx_n_s_encode); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 21, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_mode, __pyx_n_s_encode); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 20, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   __pyx_t_8 = NULL;
   __pyx_t_3 = 0;
@@ -2649,15 +2649,15 @@ static PyObject *__pyx_pf_9generator_generate_random_matrix(CYTHON_UNUSED PyObje
     PyObject *__pyx_callargs[2] = {__pyx_t_8, __pyx_kp_s_utf_8};
     __pyx_t_2 = __Pyx_PyObject_FastCall(__pyx_t_7, __pyx_callargs+1-__pyx_t_3, 1+__pyx_t_3);
     __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
-    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 21, __pyx_L1_error)
+    if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 20, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
   }
-  __pyx_t_9 = __Pyx_PyObject_AsString(__pyx_t_2); if (unlikely((!__pyx_t_9) && PyErr_Occurred())) __PYX_ERR(0, 21, __pyx_L1_error)
+  __pyx_t_9 = __Pyx_PyObject_AsString(__pyx_t_2); if (unlikely((!__pyx_t_9) && PyErr_Occurred())) __PYX_ERR(0, 20, __pyx_L1_error)
   (void)(strcpy(__pyx_v_mode_c, __pyx_t_9));
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "generator.pyx":23
+  /* "generator.pyx":22
  *     strcpy(mode_c, mode.encode('utf-8'))
  * 
  *     random_matrix(c_size, c_rng, mode_c, c_result)             # <<<<<<<<<<<<<<
@@ -2666,7 +2666,7 @@ static PyObject *__pyx_pf_9generator_generate_random_matrix(CYTHON_UNUSED PyObje
  */
   random_matrix(__pyx_v_c_size, __pyx_v_c_rng, __pyx_v_mode_c, __pyx_v_c_result);
 
-  /* "generator.pyx":25
+  /* "generator.pyx":24
  *     random_matrix(c_size, c_rng, mode_c, c_result)
  * 
  *     result = [[c_result[i * c_size + j] for j in range(size)] for i in range(size)]             # <<<<<<<<<<<<<<
@@ -2674,18 +2674,18 @@ static PyObject *__pyx_pf_9generator_generate_random_matrix(CYTHON_UNUSED PyObje
  *     free(mode_c)
  */
   { /* enter inner scope */
-    __pyx_t_2 = PyList_New(0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 25, __pyx_L8_error)
+    __pyx_t_2 = PyList_New(0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 24, __pyx_L8_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_7 = __Pyx_PyObject_CallOneArg(__pyx_builtin_range, __pyx_v_size); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 25, __pyx_L8_error)
+    __pyx_t_7 = __Pyx_PyObject_CallOneArg(__pyx_builtin_range, __pyx_v_size); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 24, __pyx_L8_error)
     __Pyx_GOTREF(__pyx_t_7);
     if (likely(PyList_CheckExact(__pyx_t_7)) || PyTuple_CheckExact(__pyx_t_7)) {
       __pyx_t_8 = __pyx_t_7; __Pyx_INCREF(__pyx_t_8);
       __pyx_t_1 = 0;
       __pyx_t_10 = NULL;
     } else {
-      __pyx_t_1 = -1; __pyx_t_8 = PyObject_GetIter(__pyx_t_7); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 25, __pyx_L8_error)
+      __pyx_t_1 = -1; __pyx_t_8 = PyObject_GetIter(__pyx_t_7); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 24, __pyx_L8_error)
       __Pyx_GOTREF(__pyx_t_8);
-      __pyx_t_10 = __Pyx_PyObject_GetIterNextFunc(__pyx_t_8); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 25, __pyx_L8_error)
+      __pyx_t_10 = __Pyx_PyObject_GetIterNextFunc(__pyx_t_8); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 24, __pyx_L8_error)
     }
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     for (;;) {
@@ -2694,28 +2694,28 @@ static PyObject *__pyx_pf_9generator_generate_random_matrix(CYTHON_UNUSED PyObje
           {
             Py_ssize_t __pyx_temp = __Pyx_PyList_GET_SIZE(__pyx_t_8);
             #if !CYTHON_ASSUME_SAFE_MACROS
-            if (unlikely((__pyx_temp < 0))) __PYX_ERR(0, 25, __pyx_L8_error)
+            if (unlikely((__pyx_temp < 0))) __PYX_ERR(0, 24, __pyx_L8_error)
             #endif
             if (__pyx_t_1 >= __pyx_temp) break;
           }
           #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-          __pyx_t_7 = PyList_GET_ITEM(__pyx_t_8, __pyx_t_1); __Pyx_INCREF(__pyx_t_7); __pyx_t_1++; if (unlikely((0 < 0))) __PYX_ERR(0, 25, __pyx_L8_error)
+          __pyx_t_7 = PyList_GET_ITEM(__pyx_t_8, __pyx_t_1); __Pyx_INCREF(__pyx_t_7); __pyx_t_1++; if (unlikely((0 < 0))) __PYX_ERR(0, 24, __pyx_L8_error)
           #else
-          __pyx_t_7 = __Pyx_PySequence_ITEM(__pyx_t_8, __pyx_t_1); __pyx_t_1++; if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 25, __pyx_L8_error)
+          __pyx_t_7 = __Pyx_PySequence_ITEM(__pyx_t_8, __pyx_t_1); __pyx_t_1++; if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 24, __pyx_L8_error)
           __Pyx_GOTREF(__pyx_t_7);
           #endif
         } else {
           {
             Py_ssize_t __pyx_temp = __Pyx_PyTuple_GET_SIZE(__pyx_t_8);
             #if !CYTHON_ASSUME_SAFE_MACROS
-            if (unlikely((__pyx_temp < 0))) __PYX_ERR(0, 25, __pyx_L8_error)
+            if (unlikely((__pyx_temp < 0))) __PYX_ERR(0, 24, __pyx_L8_error)
             #endif
             if (__pyx_t_1 >= __pyx_temp) break;
           }
           #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-          __pyx_t_7 = PyTuple_GET_ITEM(__pyx_t_8, __pyx_t_1); __Pyx_INCREF(__pyx_t_7); __pyx_t_1++; if (unlikely((0 < 0))) __PYX_ERR(0, 25, __pyx_L8_error)
+          __pyx_t_7 = PyTuple_GET_ITEM(__pyx_t_8, __pyx_t_1); __Pyx_INCREF(__pyx_t_7); __pyx_t_1++; if (unlikely((0 < 0))) __PYX_ERR(0, 24, __pyx_L8_error)
           #else
-          __pyx_t_7 = __Pyx_PySequence_ITEM(__pyx_t_8, __pyx_t_1); __pyx_t_1++; if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 25, __pyx_L8_error)
+          __pyx_t_7 = __Pyx_PySequence_ITEM(__pyx_t_8, __pyx_t_1); __pyx_t_1++; if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 24, __pyx_L8_error)
           __Pyx_GOTREF(__pyx_t_7);
           #endif
         }
@@ -2725,7 +2725,7 @@ static PyObject *__pyx_pf_9generator_generate_random_matrix(CYTHON_UNUSED PyObje
           PyObject* exc_type = PyErr_Occurred();
           if (exc_type) {
             if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-            else __PYX_ERR(0, 25, __pyx_L8_error)
+            else __PYX_ERR(0, 24, __pyx_L8_error)
           }
           break;
         }
@@ -2734,18 +2734,18 @@ static PyObject *__pyx_pf_9generator_generate_random_matrix(CYTHON_UNUSED PyObje
       __Pyx_XDECREF_SET(__pyx_7genexpr__pyx_v_i, __pyx_t_7);
       __pyx_t_7 = 0;
       { /* enter inner scope */
-        __pyx_t_7 = PyList_New(0); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 25, __pyx_L13_error)
+        __pyx_t_7 = PyList_New(0); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 24, __pyx_L13_error)
         __Pyx_GOTREF(__pyx_t_7);
-        __pyx_t_11 = __Pyx_PyObject_CallOneArg(__pyx_builtin_range, __pyx_v_size); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 25, __pyx_L13_error)
+        __pyx_t_11 = __Pyx_PyObject_CallOneArg(__pyx_builtin_range, __pyx_v_size); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 24, __pyx_L13_error)
         __Pyx_GOTREF(__pyx_t_11);
         if (likely(PyList_CheckExact(__pyx_t_11)) || PyTuple_CheckExact(__pyx_t_11)) {
           __pyx_t_12 = __pyx_t_11; __Pyx_INCREF(__pyx_t_12);
           __pyx_t_13 = 0;
           __pyx_t_14 = NULL;
         } else {
-          __pyx_t_13 = -1; __pyx_t_12 = PyObject_GetIter(__pyx_t_11); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 25, __pyx_L13_error)
+          __pyx_t_13 = -1; __pyx_t_12 = PyObject_GetIter(__pyx_t_11); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 24, __pyx_L13_error)
           __Pyx_GOTREF(__pyx_t_12);
-          __pyx_t_14 = __Pyx_PyObject_GetIterNextFunc(__pyx_t_12); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 25, __pyx_L13_error)
+          __pyx_t_14 = __Pyx_PyObject_GetIterNextFunc(__pyx_t_12); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 24, __pyx_L13_error)
         }
         __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
         for (;;) {
@@ -2754,28 +2754,28 @@ static PyObject *__pyx_pf_9generator_generate_random_matrix(CYTHON_UNUSED PyObje
               {
                 Py_ssize_t __pyx_temp = __Pyx_PyList_GET_SIZE(__pyx_t_12);
                 #if !CYTHON_ASSUME_SAFE_MACROS
-                if (unlikely((__pyx_temp < 0))) __PYX_ERR(0, 25, __pyx_L13_error)
+                if (unlikely((__pyx_temp < 0))) __PYX_ERR(0, 24, __pyx_L13_error)
                 #endif
                 if (__pyx_t_13 >= __pyx_temp) break;
               }
               #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-              __pyx_t_11 = PyList_GET_ITEM(__pyx_t_12, __pyx_t_13); __Pyx_INCREF(__pyx_t_11); __pyx_t_13++; if (unlikely((0 < 0))) __PYX_ERR(0, 25, __pyx_L13_error)
+              __pyx_t_11 = PyList_GET_ITEM(__pyx_t_12, __pyx_t_13); __Pyx_INCREF(__pyx_t_11); __pyx_t_13++; if (unlikely((0 < 0))) __PYX_ERR(0, 24, __pyx_L13_error)
               #else
-              __pyx_t_11 = __Pyx_PySequence_ITEM(__pyx_t_12, __pyx_t_13); __pyx_t_13++; if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 25, __pyx_L13_error)
+              __pyx_t_11 = __Pyx_PySequence_ITEM(__pyx_t_12, __pyx_t_13); __pyx_t_13++; if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 24, __pyx_L13_error)
               __Pyx_GOTREF(__pyx_t_11);
               #endif
             } else {
               {
                 Py_ssize_t __pyx_temp = __Pyx_PyTuple_GET_SIZE(__pyx_t_12);
                 #if !CYTHON_ASSUME_SAFE_MACROS
-                if (unlikely((__pyx_temp < 0))) __PYX_ERR(0, 25, __pyx_L13_error)
+                if (unlikely((__pyx_temp < 0))) __PYX_ERR(0, 24, __pyx_L13_error)
                 #endif
                 if (__pyx_t_13 >= __pyx_temp) break;
               }
               #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-              __pyx_t_11 = PyTuple_GET_ITEM(__pyx_t_12, __pyx_t_13); __Pyx_INCREF(__pyx_t_11); __pyx_t_13++; if (unlikely((0 < 0))) __PYX_ERR(0, 25, __pyx_L13_error)
+              __pyx_t_11 = PyTuple_GET_ITEM(__pyx_t_12, __pyx_t_13); __Pyx_INCREF(__pyx_t_11); __pyx_t_13++; if (unlikely((0 < 0))) __PYX_ERR(0, 24, __pyx_L13_error)
               #else
-              __pyx_t_11 = __Pyx_PySequence_ITEM(__pyx_t_12, __pyx_t_13); __pyx_t_13++; if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 25, __pyx_L13_error)
+              __pyx_t_11 = __Pyx_PySequence_ITEM(__pyx_t_12, __pyx_t_13); __pyx_t_13++; if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 24, __pyx_L13_error)
               __Pyx_GOTREF(__pyx_t_11);
               #endif
             }
@@ -2785,7 +2785,7 @@ static PyObject *__pyx_pf_9generator_generate_random_matrix(CYTHON_UNUSED PyObje
               PyObject* exc_type = PyErr_Occurred();
               if (exc_type) {
                 if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-                else __PYX_ERR(0, 25, __pyx_L13_error)
+                else __PYX_ERR(0, 24, __pyx_L13_error)
               }
               break;
             }
@@ -2793,19 +2793,19 @@ static PyObject *__pyx_pf_9generator_generate_random_matrix(CYTHON_UNUSED PyObje
           }
           __Pyx_XDECREF_SET(__pyx_8genexpr1__pyx_v_j, __pyx_t_11);
           __pyx_t_11 = 0;
-          __pyx_t_11 = __Pyx_PyInt_From_int(__pyx_v_c_size); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 25, __pyx_L13_error)
+          __pyx_t_11 = __Pyx_PyInt_From_int(__pyx_v_c_size); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 24, __pyx_L13_error)
           __Pyx_GOTREF(__pyx_t_11);
-          __pyx_t_15 = PyNumber_Multiply(__pyx_7genexpr__pyx_v_i, __pyx_t_11); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 25, __pyx_L13_error)
+          __pyx_t_15 = PyNumber_Multiply(__pyx_7genexpr__pyx_v_i, __pyx_t_11); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 24, __pyx_L13_error)
           __Pyx_GOTREF(__pyx_t_15);
           __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
-          __pyx_t_11 = PyNumber_Add(__pyx_t_15, __pyx_8genexpr1__pyx_v_j); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 25, __pyx_L13_error)
+          __pyx_t_11 = PyNumber_Add(__pyx_t_15, __pyx_8genexpr1__pyx_v_j); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 24, __pyx_L13_error)
           __Pyx_GOTREF(__pyx_t_11);
           __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-          __pyx_t_16 = __Pyx_PyIndex_AsSsize_t(__pyx_t_11); if (unlikely((__pyx_t_16 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(0, 25, __pyx_L13_error)
+          __pyx_t_16 = __Pyx_PyIndex_AsSsize_t(__pyx_t_11); if (unlikely((__pyx_t_16 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(0, 24, __pyx_L13_error)
           __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
-          __pyx_t_11 = PyFloat_FromDouble((__pyx_v_c_result[__pyx_t_16])); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 25, __pyx_L13_error)
+          __pyx_t_11 = PyFloat_FromDouble((__pyx_v_c_result[__pyx_t_16])); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 24, __pyx_L13_error)
           __Pyx_GOTREF(__pyx_t_11);
-          if (unlikely(__Pyx_ListComp_Append(__pyx_t_7, (PyObject*)__pyx_t_11))) __PYX_ERR(0, 25, __pyx_L13_error)
+          if (unlikely(__Pyx_ListComp_Append(__pyx_t_7, (PyObject*)__pyx_t_11))) __PYX_ERR(0, 24, __pyx_L13_error)
           __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
         }
         __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
@@ -2816,7 +2816,7 @@ static PyObject *__pyx_pf_9generator_generate_random_matrix(CYTHON_UNUSED PyObje
         goto __pyx_L8_error;
         __pyx_L17_exit_scope:;
       } /* exit inner scope */
-      if (unlikely(__Pyx_ListComp_Append(__pyx_t_2, (PyObject*)__pyx_t_7))) __PYX_ERR(0, 25, __pyx_L8_error)
+      if (unlikely(__Pyx_ListComp_Append(__pyx_t_2, (PyObject*)__pyx_t_7))) __PYX_ERR(0, 24, __pyx_L8_error)
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     }
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
@@ -2830,7 +2830,7 @@ static PyObject *__pyx_pf_9generator_generate_random_matrix(CYTHON_UNUSED PyObje
   __pyx_v_result = ((PyObject*)__pyx_t_2);
   __pyx_t_2 = 0;
 
-  /* "generator.pyx":27
+  /* "generator.pyx":26
  *     result = [[c_result[i * c_size + j] for j in range(size)] for i in range(size)]
  * 
  *     free(mode_c)             # <<<<<<<<<<<<<<
@@ -2839,7 +2839,7 @@ static PyObject *__pyx_pf_9generator_generate_random_matrix(CYTHON_UNUSED PyObje
  */
   free(__pyx_v_mode_c);
 
-  /* "generator.pyx":28
+  /* "generator.pyx":27
  * 
  *     free(mode_c)
  *     free(c_result)             # <<<<<<<<<<<<<<
@@ -2848,7 +2848,7 @@ static PyObject *__pyx_pf_9generator_generate_random_matrix(CYTHON_UNUSED PyObje
  */
   free(__pyx_v_c_result);
 
-  /* "generator.pyx":30
+  /* "generator.pyx":29
  *     free(c_result)
  * 
  *     return result             # <<<<<<<<<<<<<<
@@ -2860,7 +2860,7 @@ static PyObject *__pyx_pf_9generator_generate_random_matrix(CYTHON_UNUSED PyObje
   __pyx_r = __pyx_v_result;
   goto __pyx_L0;
 
-  /* "generator.pyx":10
+  /* "generator.pyx":9
  * 
  * 
  * def generate_random_matrix(size, rng, mode):             # <<<<<<<<<<<<<<
@@ -2887,7 +2887,7 @@ static PyObject *__pyx_pf_9generator_generate_random_matrix(CYTHON_UNUSED PyObje
   return __pyx_r;
 }
 
-/* "generator.pyx":32
+/* "generator.pyx":31
  *     return result
  * 
  * def generate_random_vector(size, rng):             # <<<<<<<<<<<<<<
@@ -2951,7 +2951,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
           (void)__Pyx_Arg_NewRef_FASTCALL(values[0]);
           kw_args--;
         }
-        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 32, __pyx_L3_error)
+        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 31, __pyx_L3_error)
         else goto __pyx_L5_argtuple_error;
         CYTHON_FALLTHROUGH;
         case  1:
@@ -2959,14 +2959,14 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
           (void)__Pyx_Arg_NewRef_FASTCALL(values[1]);
           kw_args--;
         }
-        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 32, __pyx_L3_error)
+        else if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 31, __pyx_L3_error)
         else {
-          __Pyx_RaiseArgtupleInvalid("generate_random_vector", 1, 2, 2, 1); __PYX_ERR(0, 32, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("generate_random_vector", 1, 2, 2, 1); __PYX_ERR(0, 31, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
         const Py_ssize_t kwd_pos_args = __pyx_nargs;
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values + 0, kwd_pos_args, "generate_random_vector") < 0)) __PYX_ERR(0, 32, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values + 0, kwd_pos_args, "generate_random_vector") < 0)) __PYX_ERR(0, 31, __pyx_L3_error)
       }
     } else if (unlikely(__pyx_nargs != 2)) {
       goto __pyx_L5_argtuple_error;
@@ -2979,7 +2979,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   }
   goto __pyx_L6_skip;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("generate_random_vector", 1, 2, 2, __pyx_nargs); __PYX_ERR(0, 32, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("generate_random_vector", 1, 2, 2, __pyx_nargs); __PYX_ERR(0, 31, __pyx_L3_error)
   __pyx_L6_skip:;
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L3_error:;
@@ -3019,46 +3019,79 @@ static PyObject *__pyx_pf_9generator_2generate_random_vector(CYTHON_UNUSED PyObj
   double __pyx_t_3;
   int __pyx_t_4;
   int __pyx_t_5;
-  PyObject *__pyx_t_6 = NULL;
+  int __pyx_t_6;
+  PyObject *__pyx_t_7 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("generate_random_vector", 1);
 
-  /* "generator.pyx":33
+  /* "generator.pyx":32
  * 
  * def generate_random_vector(size, rng):
  *     cdef int c_size = int(size)             # <<<<<<<<<<<<<<
  *     cdef double c_rng = rng
  * 
  */
-  __pyx_t_1 = __Pyx_PyNumber_Int(__pyx_v_size); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 33, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyNumber_Int(__pyx_v_size); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 32, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyInt_As_int(__pyx_t_1); if (unlikely((__pyx_t_2 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 33, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyInt_As_int(__pyx_t_1); if (unlikely((__pyx_t_2 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 32, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_c_size = __pyx_t_2;
 
-  /* "generator.pyx":34
+  /* "generator.pyx":33
  * def generate_random_vector(size, rng):
  *     cdef int c_size = int(size)
  *     cdef double c_rng = rng             # <<<<<<<<<<<<<<
  * 
  *     cdef double* c_result = <double*>malloc(c_size*sizeof(double))
  */
-  __pyx_t_3 = __pyx_PyFloat_AsDouble(__pyx_v_rng); if (unlikely((__pyx_t_3 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 34, __pyx_L1_error)
+  __pyx_t_3 = __pyx_PyFloat_AsDouble(__pyx_v_rng); if (unlikely((__pyx_t_3 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 33, __pyx_L1_error)
   __pyx_v_c_rng = __pyx_t_3;
 
-  /* "generator.pyx":36
+  /* "generator.pyx":35
  *     cdef double c_rng = rng
  * 
  *     cdef double* c_result = <double*>malloc(c_size*sizeof(double))             # <<<<<<<<<<<<<<
  * 
- *     random_vector(c_size, c_rng, c_result)
+ *     if c_result == NULL:
  */
   __pyx_v_c_result = ((double *)malloc((__pyx_v_c_size * (sizeof(double)))));
 
-  /* "generator.pyx":38
+  /* "generator.pyx":37
  *     cdef double* c_result = <double*>malloc(c_size*sizeof(double))
+ * 
+ *     if c_result == NULL:             # <<<<<<<<<<<<<<
+ *         raise MemoryError("Failed to allocate memory")
+ * 
+ */
+  __pyx_t_4 = (__pyx_v_c_result == NULL);
+  if (unlikely(__pyx_t_4)) {
+
+    /* "generator.pyx":38
+ * 
+ *     if c_result == NULL:
+ *         raise MemoryError("Failed to allocate memory")             # <<<<<<<<<<<<<<
+ * 
+ *     random_vector(c_size, c_rng, c_result)
+ */
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_MemoryError, __pyx_tuple_, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 38, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_Raise(__pyx_t_1, 0, 0, 0);
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    __PYX_ERR(0, 38, __pyx_L1_error)
+
+    /* "generator.pyx":37
+ *     cdef double* c_result = <double*>malloc(c_size*sizeof(double))
+ * 
+ *     if c_result == NULL:             # <<<<<<<<<<<<<<
+ *         raise MemoryError("Failed to allocate memory")
+ * 
+ */
+  }
+
+  /* "generator.pyx":40
+ *         raise MemoryError("Failed to allocate memory")
  * 
  *     random_vector(c_size, c_rng, c_result)             # <<<<<<<<<<<<<<
  * 
@@ -3066,7 +3099,7 @@ static PyObject *__pyx_pf_9generator_2generate_random_vector(CYTHON_UNUSED PyObj
  */
   random_vector(__pyx_v_c_size, __pyx_v_c_rng, __pyx_v_c_result);
 
-  /* "generator.pyx":40
+  /* "generator.pyx":42
  *     random_vector(c_size, c_rng, c_result)
  * 
  *     result = [c_result[i] for i in range(c_size)]             # <<<<<<<<<<<<<<
@@ -3074,22 +3107,22 @@ static PyObject *__pyx_pf_9generator_2generate_random_vector(CYTHON_UNUSED PyObj
  *     free(c_result)
  */
   { /* enter inner scope */
-    __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 40, __pyx_L1_error)
+    __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 42, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __pyx_t_2 = __pyx_v_c_size;
-    __pyx_t_4 = __pyx_t_2;
-    for (__pyx_t_5 = 0; __pyx_t_5 < __pyx_t_4; __pyx_t_5+=1) {
-      __pyx_8genexpr2__pyx_v_i = __pyx_t_5;
-      __pyx_t_6 = PyFloat_FromDouble((__pyx_v_c_result[__pyx_8genexpr2__pyx_v_i])); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 40, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_6);
-      if (unlikely(__Pyx_ListComp_Append(__pyx_t_1, (PyObject*)__pyx_t_6))) __PYX_ERR(0, 40, __pyx_L1_error)
-      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __pyx_t_5 = __pyx_t_2;
+    for (__pyx_t_6 = 0; __pyx_t_6 < __pyx_t_5; __pyx_t_6+=1) {
+      __pyx_8genexpr2__pyx_v_i = __pyx_t_6;
+      __pyx_t_7 = PyFloat_FromDouble((__pyx_v_c_result[__pyx_8genexpr2__pyx_v_i])); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 42, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_7);
+      if (unlikely(__Pyx_ListComp_Append(__pyx_t_1, (PyObject*)__pyx_t_7))) __PYX_ERR(0, 42, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     }
   } /* exit inner scope */
   __pyx_v_result = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "generator.pyx":42
+  /* "generator.pyx":44
  *     result = [c_result[i] for i in range(c_size)]
  * 
  *     free(c_result)             # <<<<<<<<<<<<<<
@@ -3098,7 +3131,7 @@ static PyObject *__pyx_pf_9generator_2generate_random_vector(CYTHON_UNUSED PyObj
  */
   free(__pyx_v_c_result);
 
-  /* "generator.pyx":44
+  /* "generator.pyx":46
  *     free(c_result)
  * 
  *     return result             # <<<<<<<<<<<<<<
@@ -3108,7 +3141,7 @@ static PyObject *__pyx_pf_9generator_2generate_random_vector(CYTHON_UNUSED PyObj
   __pyx_r = __pyx_v_result;
   goto __pyx_L0;
 
-  /* "generator.pyx":32
+  /* "generator.pyx":31
  *     return result
  * 
  * def generate_random_vector(size, rng):             # <<<<<<<<<<<<<<
@@ -3119,7 +3152,7 @@ static PyObject *__pyx_pf_9generator_2generate_random_vector(CYTHON_UNUSED PyObj
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_XDECREF(__pyx_t_6);
+  __Pyx_XDECREF(__pyx_t_7);
   __Pyx_AddTraceback("generator.generate_random_vector", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
@@ -3178,8 +3211,8 @@ static int __Pyx_CreateStringTabAndInitStrings(void) {
 }
 /* #### Code section: cached_builtins ### */
 static CYTHON_SMALL_CODE int __Pyx_InitCachedBuiltins(void) {
-  __pyx_builtin_MemoryError = __Pyx_GetBuiltinName(__pyx_n_s_MemoryError); if (!__pyx_builtin_MemoryError) __PYX_ERR(0, 19, __pyx_L1_error)
-  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 25, __pyx_L1_error)
+  __pyx_builtin_MemoryError = __Pyx_GetBuiltinName(__pyx_n_s_MemoryError); if (!__pyx_builtin_MemoryError) __PYX_ERR(0, 18, __pyx_L1_error)
+  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 24, __pyx_L1_error)
   return 0;
   __pyx_L1_error:;
   return -1;
@@ -3190,40 +3223,40 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__Pyx_InitCachedConstants", 0);
 
-  /* "generator.pyx":19
+  /* "generator.pyx":18
  * 
  *     if mode_c == NULL or c_result == NULL:
  *         raise MemoryError("Failed to allocate memory")             # <<<<<<<<<<<<<<
  * 
  *     strcpy(mode_c, mode.encode('utf-8'))
  */
-  __pyx_tuple_ = PyTuple_Pack(1, __pyx_kp_s_Failed_to_allocate_memory); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 19, __pyx_L1_error)
+  __pyx_tuple_ = PyTuple_Pack(1, __pyx_kp_s_Failed_to_allocate_memory); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 18, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple_);
   __Pyx_GIVEREF(__pyx_tuple_);
 
-  /* "generator.pyx":10
+  /* "generator.pyx":9
  * 
  * 
  * def generate_random_matrix(size, rng, mode):             # <<<<<<<<<<<<<<
  *     cdef int mode_size = int(len(mode))
  *     cdef char* mode_c = <char*>malloc((mode_size + 1) * sizeof(char))  # Include space for null terminator
  */
-  __pyx_tuple__2 = PyTuple_Pack(11, __pyx_n_s_size, __pyx_n_s_rng, __pyx_n_s_mode, __pyx_n_s_mode_size, __pyx_n_s_mode_c, __pyx_n_s_c_size, __pyx_n_s_c_rng, __pyx_n_s_c_result, __pyx_n_s_result, __pyx_n_s_i, __pyx_n_s_j); if (unlikely(!__pyx_tuple__2)) __PYX_ERR(0, 10, __pyx_L1_error)
+  __pyx_tuple__2 = PyTuple_Pack(11, __pyx_n_s_size, __pyx_n_s_rng, __pyx_n_s_mode, __pyx_n_s_mode_size, __pyx_n_s_mode_c, __pyx_n_s_c_size, __pyx_n_s_c_rng, __pyx_n_s_c_result, __pyx_n_s_result, __pyx_n_s_i, __pyx_n_s_j); if (unlikely(!__pyx_tuple__2)) __PYX_ERR(0, 9, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__2);
   __Pyx_GIVEREF(__pyx_tuple__2);
-  __pyx_codeobj__3 = (PyObject*)__Pyx_PyCode_New(3, 0, 0, 11, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__2, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_lineq_generator_generator_pyx, __pyx_n_s_generate_random_matrix, 10, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__3)) __PYX_ERR(0, 10, __pyx_L1_error)
+  __pyx_codeobj__3 = (PyObject*)__Pyx_PyCode_New(3, 0, 0, 11, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__2, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_lineq_generator_generator_pyx, __pyx_n_s_generate_random_matrix, 9, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__3)) __PYX_ERR(0, 9, __pyx_L1_error)
 
-  /* "generator.pyx":32
+  /* "generator.pyx":31
  *     return result
  * 
  * def generate_random_vector(size, rng):             # <<<<<<<<<<<<<<
  *     cdef int c_size = int(size)
  *     cdef double c_rng = rng
  */
-  __pyx_tuple__4 = PyTuple_Pack(7, __pyx_n_s_size, __pyx_n_s_rng, __pyx_n_s_c_size, __pyx_n_s_c_rng, __pyx_n_s_c_result, __pyx_n_s_result, __pyx_n_s_i); if (unlikely(!__pyx_tuple__4)) __PYX_ERR(0, 32, __pyx_L1_error)
+  __pyx_tuple__4 = PyTuple_Pack(7, __pyx_n_s_size, __pyx_n_s_rng, __pyx_n_s_c_size, __pyx_n_s_c_rng, __pyx_n_s_c_result, __pyx_n_s_result, __pyx_n_s_i); if (unlikely(!__pyx_tuple__4)) __PYX_ERR(0, 31, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__4);
   __Pyx_GIVEREF(__pyx_tuple__4);
-  __pyx_codeobj__5 = (PyObject*)__Pyx_PyCode_New(2, 0, 0, 7, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__4, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_lineq_generator_generator_pyx, __pyx_n_s_generate_random_vector, 32, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__5)) __PYX_ERR(0, 32, __pyx_L1_error)
+  __pyx_codeobj__5 = (PyObject*)__Pyx_PyCode_New(2, 0, 0, 7, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__4, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_lineq_generator_generator_pyx, __pyx_n_s_generate_random_vector, 31, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__5)) __PYX_ERR(0, 31, __pyx_L1_error)
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -3587,34 +3620,34 @@ if (!__Pyx_RefNanny) {
   if (__Pyx_patch_abc() < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   #endif
 
-  /* "generator.pyx":10
+  /* "generator.pyx":9
  * 
  * 
  * def generate_random_matrix(size, rng, mode):             # <<<<<<<<<<<<<<
  *     cdef int mode_size = int(len(mode))
  *     cdef char* mode_c = <char*>malloc((mode_size + 1) * sizeof(char))  # Include space for null terminator
  */
-  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_9generator_1generate_random_matrix, 0, __pyx_n_s_generate_random_matrix, NULL, __pyx_n_s_generator, __pyx_d, ((PyObject *)__pyx_codeobj__3)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 10, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_9generator_1generate_random_matrix, 0, __pyx_n_s_generate_random_matrix, NULL, __pyx_n_s_generator, __pyx_d, ((PyObject *)__pyx_codeobj__3)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 9, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_generate_random_matrix, __pyx_t_2) < 0) __PYX_ERR(0, 10, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_generate_random_matrix, __pyx_t_2) < 0) __PYX_ERR(0, 9, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "generator.pyx":32
+  /* "generator.pyx":31
  *     return result
  * 
  * def generate_random_vector(size, rng):             # <<<<<<<<<<<<<<
  *     cdef int c_size = int(size)
  *     cdef double c_rng = rng
  */
-  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_9generator_3generate_random_vector, 0, __pyx_n_s_generate_random_vector, NULL, __pyx_n_s_generator, __pyx_d, ((PyObject *)__pyx_codeobj__5)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 32, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_CyFunction_New(&__pyx_mdef_9generator_3generate_random_vector, 0, __pyx_n_s_generate_random_vector, NULL, __pyx_n_s_generator, __pyx_d, ((PyObject *)__pyx_codeobj__5)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 31, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_generate_random_vector, __pyx_t_2) < 0) __PYX_ERR(0, 32, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_generate_random_vector, __pyx_t_2) < 0) __PYX_ERR(0, 31, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "generator.pyx":1
  * from libc.stdlib cimport malloc, free             # <<<<<<<<<<<<<<
  * from libc.string cimport strcpy, strlen
- * # cython: language_level=3str
+ * 
  */
   __pyx_t_2 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);

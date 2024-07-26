@@ -39,6 +39,10 @@ def determinant(matrix_a):
 
     cdef int size_a = int(rows_a * cols_a )
     cdef double* c_matrix_a = <double*>malloc(size_a * sizeof(double))
+
+    if c_matrix_a == NULL:
+        raise MemoryError("Failed to allocate memory")
+
     for i in range(rows_a):
         for j in range(cols_a):
             c_matrix_a[i * cols_a + j] = matrix_a[i][j]
@@ -61,6 +65,16 @@ def sum_matrices_wrapper(matrix_a, matrix_b):
     cdef double* c_matrix_b = <double*>malloc(size_a * sizeof(double))
     cdef double* result_matrix = <double*>malloc(size_a * sizeof(double))
     
+    if c_matrix_a == NULL or c_matrix_b == NULL or result_matrix == NULL:
+        if c_matrix_a != NULL:
+            free(c_matrix_a)
+        if c_matrix_b != NULL:
+            free(c_matrix_b)
+        if result_matrix != NULL:
+            free(result_matrix)
+
+        raise MemoryError("Failed to allocate memory")
+
     for i in range(rows_a):
         for j in range(cols_a):
             c_matrix_a[i * cols_a + j] = matrix_a[i][j]
@@ -87,6 +101,14 @@ def multiply_matrix_by_scalar_wrapper(matrix, scalar):
 
     cdef double* c_matrix = <double*>malloc(size * sizeof(double))
     cdef double* result_matrix = <double*>malloc(size * sizeof(double))
+
+    if c_matrix == NULL or result_matrix == NULL:
+        if c_matrix != NULL:
+            free(c_matrix)
+        if result_matrix != NULL:
+            free(result_matrix)
+
+        raise MemoryError("Failed to allocate memory")
 
     for i in range(rows):
         for j in range(cols):
@@ -115,7 +137,17 @@ def multiply_matrices_wrapper(matrix_a, matrix_b):
     cdef double* c_matrix_a = <double*>malloc(size_a * sizeof(double))
     cdef double* c_matrix_b = <double*>malloc(size_b * sizeof(double))
     cdef double* result_matrix = <double*>malloc(size_result * sizeof(double))
-    
+
+    if c_matrix_a == NULL or c_matrix_b == NULL or result_matrix == NULL:
+        if c_matrix_a != NULL:
+            free(c_matrix_a)
+        if c_matrix_b != NULL:
+            free(c_matrix_b)
+        if result_matrix != NULL:
+            free(result_matrix)
+
+        raise MemoryError("Failed to allocate memory")
+
     for i in range(rows_a):
         for j in range(cols_a):
             c_matrix_a[i * cols_a + j] = matrix_a[i][j]
@@ -165,7 +197,10 @@ def max_matrix(matrix):
     cdef int size = int(rows * cols)
 
     cdef double* c_matrix = <double*>malloc(size*sizeof(double))
-
+    
+    if c_matrix == NULL:
+        raise MemoryError("Failed to allocate memory")
+    
     for i in range(rows):
         for j in range(cols):
             c_matrix[i * cols + j] = matrix[i][j]
@@ -184,11 +219,17 @@ def inv(matrix):
 
     cdef double* c_matrix = <double*>malloc(size*size*sizeof(double))
 
+    if c_matrix == NULL:
+        raise MemoryError("Failed to allocate memory")
+
     for i in range(size):
         for j in range(size):
             c_matrix[i * size + j] = matrix[i][j]
 
     cdef double* result_m = <double*>malloc(size*size*sizeof(double))
+
+    if result_m == NULL:
+        raise MemoryError("Failed to allocate memory")
 
     inverse(c_matrix, result_m, size) 
 
@@ -205,6 +246,17 @@ def LU(matrix):
     cdef double* c_matrix = <double*>malloc(size*size*sizeof(double))
     cdef double* c_l_matrix = <double*>malloc(size*size*sizeof(double))
     cdef double* c_u_matrix = <double*>malloc(size*size*sizeof(double))
+
+    if c_matrix == NULL or c_l_matrix == NULL or c_u_matrix == NULL:
+        if c_matrix != NULL:
+            free(c_matrix)
+        if c_l_matrix != NULL:
+            free(c_l_matrix)
+        if c_u_matrix != NULL:
+            free(c_u_matrix)
+
+        raise MemoryError("Failed to allocate memory")
+
 
     for i in range(size):
         for j in range(size):
@@ -227,6 +279,17 @@ def cholv1(matrix):
     cdef double* c_l_matrix = <double*>malloc(size*size*sizeof(double))
     cdef double* c_u_matrix = <double*>malloc(size*size*sizeof(double))
     
+
+    if c_matrix == NULL or c_l_matrix == NULL or c_u_matrix == NULL:
+        if c_matrix != NULL:
+            free(c_matrix)
+        if c_l_matrix != NULL:
+            free(c_l_matrix)
+        if c_u_matrix != NULL:
+            free(c_u_matrix)
+
+        raise MemoryError("Failed to allocate memory")
+
     for i in range(size):
         for j in range(size):
             c_matrix[i*size+j] = matrix[i][j]
@@ -249,6 +312,18 @@ def cholv2(matrix):
     cdef double* c_l_matrix = <double*>malloc(size*size*sizeof(double))
     cdef double* c_u_matrix = <double*>malloc(size*size*sizeof(double))
     cdef double* c_d_matrix = <double*>malloc(size*size*sizeof(double))
+
+    if c_matrix == NULL or c_l_matrix == NULL or c_u_matrix == NULL or c_d_matrix == NULL:
+        if c_matrix != NULL:
+            free(c_matrix)
+        if c_l_matrix != NULL:
+            free(c_l_matrix)
+        if c_u_matrix != NULL:
+            free(c_u_matrix)
+        if c_d_matrix != NULL:
+            free(c_d_matrix)
+        
+        raise MemoryError("Failed to allocate memory")
 
     for i in range(size):
         for j in range(size):
@@ -276,6 +351,17 @@ def eigen(matrix, max_iter = 100, tol = 0.01):
     cdef double* c_minv = <double*>malloc(size*sizeof(double))
 
     cdef double* c_matrix = <double*>malloc(size*size*sizeof(double))
+
+    if c_maxv == NULL or c_minv == NULL or c_matrix == NULL:
+        if c_maxv != NULL:
+            free(c_maxv)
+        if c_minv != NULL:
+            free(c_minv)
+        if c_matrix != NULL:
+            free(c_matrix)
+                
+        raise MemoryError("Failed to allocate memory")
+
 
     for i in range(size):
         for j in range(size):
@@ -306,6 +392,15 @@ def power_method(matrix, max_iter = 100, tol = 0.01):
 
     cdef double* c_matrix = <double*>malloc(size*size*sizeof(double))
 
+    if c_matrix == NULL or c_maxv == NULL:
+        if c_matrix != NULL:
+            free(c_matrix)
+        if c_maxv != NULL:
+            free(c_maxv)
+        
+        raise MemoryError("Failed to allocate memory")
+
+
     for i in range(size):
         for j in range(size):
             c_matrix[i*size+j] = matrix[i][j]
@@ -326,6 +421,10 @@ def norm(vector):
 
     cdef double* c_vec = <double*>malloc(size*sizeof(double))
     cdef double c_res = 0
+
+    if c_vec == NULL:
+        raise MemoryError("Failed to allocate memory")
+
     for i in range(size):
         c_vec[i] = vector[i]
 
@@ -341,6 +440,14 @@ def vec_approx(vec_a, vec_b, tol = 0.01):
 
     cdef double* c_vec_a = <double*>malloc(size*sizeof(double)) 
     cdef double* c_vec_b = <double*>malloc(size*sizeof(double))
+
+    if c_vec_a == NULL or c_vec_b == NULL:
+        if c_vec_a != NULL:
+            free(c_vec_a)
+        if c_vec_b != NULL:
+            free(c_vec_b)
+        
+        raise MemoryError("Failed to allocate memory")
 
     for i in range(size):
         c_vec_a[i] = vec_a[i]
