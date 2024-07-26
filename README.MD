@@ -20,7 +20,7 @@ Rewrited [Generator](optimized/lineq/generator/).
 
 #### Update 26.07.2024 INFO:
 
-In [MM](LinEq/LinEq/Utils/Matrix_methods.py) fixed **`determinant`** function.  
+In [MM](Lineq/LinEq/Utils/Matrix_methods.py) fixed **`determinant`** function.  
 
 Started rewriting code. In [Optimized-Experimental](optimized) are experimental version of codes with optimization. (faster about 50 times)  |||| **NEED CYTHON LIBRARY!!!!!**
 
