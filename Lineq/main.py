@@ -6,7 +6,8 @@ matrix =   [[7, 1, 3],
 vec = [-8, -2, 5]
 
 
-
+mtr = [[2,4],[4,2]]
+print(Methods.eigen_get(mtr))
 
 
 def main(matrix, vec, mode = 'gauss', eps: float = 1e-15, iter: int = 1000, dig: int = 3, s_flag = False):

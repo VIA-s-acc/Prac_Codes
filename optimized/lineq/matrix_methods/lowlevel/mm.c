@@ -82,7 +82,7 @@ double det(double* matrix, int rows, int cols) {
 
         for ( int k = i+1; k < rows; ++k )
         {
-            if (abs(matrix[k * cols + i ] > abs(matrix[max_row * cols + i ])))
+            if (abs_(matrix[k * cols + i ] > abs_(matrix[max_row * cols + i ])))
             {
                 max_row = k;
             }
@@ -183,9 +183,19 @@ void inverse(double* matrix, double* result_matrix, int size) {
 }
 
 void LU_decomp(double* matrix, double* l_matrix, double* u_matrix, int size) {
-    
+
     for (int i = 0; i < size; ++i) {
-        l_matrix[i * size + i] = 1;
+        for (int j = 0; j < size; ++j) {
+            if (i == j) {
+                l_matrix[i * size + j] = 1;
+            } else {
+                l_matrix[i * size + j] = 0;
+            }
+            u_matrix[i * size + j] = 0;
+        }
+    }
+
+    for (int i = 0; i < size; ++i) {
 
         for (int j = i; j < size; ++j) {
             double sum = 0;
@@ -206,6 +216,12 @@ void LU_decomp(double* matrix, double* l_matrix, double* u_matrix, int size) {
 }
 
 void cholesky_decomp1(double* matrix, double* l_matrix, double* u_matrix, int size) {
+    for (int i = 0; i < size; ++i) {
+        for (int j = 0; j < size; ++j) {
+            l_matrix[i * size + j] = 0;
+            u_matrix[i * size + j] = 0;
+        }
+    }
     for (int i = 0; i < size; ++i) {
         for ( int j = 0; j < i+1; ++j) {
             if ( i == j )
@@ -231,6 +247,13 @@ void cholesky_decomp1(double* matrix, double* l_matrix, double* u_matrix, int si
 
 
 void cholesky_decomp2(double* matrix, double* l_matrix, double* u_matrix, double* diag_matrix, int size) {
+    for (int i = 0; i < size; ++i) {
+        for (int j = 0; j < size; ++j) {
+            l_matrix[i * size + j] = 0;
+            u_matrix[i * size + j] = 0;
+            diag_matrix[i * size + j] = 0;
+        }
+    }
     double* diagonal = (double*)malloc(sizeof(double) * size);
     for ( int i = 0; i < size; ++i) {
         diagonal[i] = 0;
@@ -277,6 +300,8 @@ void cholesky_decomp2(double* matrix, double* l_matrix, double* u_matrix, double
     }
 }
 
+#define RAND_MAX 31071
+
 double random_double(double min_value, double max_value) {
     return min_value + (double)rand() / RAND_MAX * (max_value - min_value);
 }
@@ -293,44 +318,49 @@ double max_el_in_matrix(double* matrix, int rows, int cols) {
     return max;
 }
 
-void power_meth(double* matrix, int size, double* result_vec, double result_eigen, double tolerance, int max_iterations) {
+double power_meth(double* matrix, int size, double* result_vec, double tolerance, int max_iterations) {
     double max_v = max_el_in_matrix(matrix, size, size);
+    double result_eigen = 0;
     double* start_vector = (double*)malloc(size*sizeof(double));
     double* eigen_value = (double*)malloc(sizeof(double));
     double* vec_ = (double*)malloc(sizeof(double) * size);
     double* new_vec = (double*) malloc(sizeof(double)*size);
     double* new_eigen_value = (double*)malloc(sizeof(double));
     double eigenvalue = 0;
+    double new_eigenvalue = 0;
+    double new_norm = 0;
     for (int i = 0; i < size; ++i) {
         start_vector[i] = random_double(0, max_v+1);
     }
+
+
     double norm = e_norm(start_vector, size);
     for (int i = 0; i < size; ++i) {
         start_vector[i] = start_vector[i] / norm;
     }
-
     for (int i = 0; i < max_iterations; ++i) {
 
         multiply_matrices(start_vector, matrix, vec_, 1, size, size, size);
         multiply_matrices(vec_, start_vector , eigen_value, 1, size, size, 1);
-        double eigenvalue = eigen_value[0] / norm;
-
-
+        eigenvalue = eigen_value[0];
         multiply_matrices(matrix, start_vector, new_vec, size, size, size, 1);
-        double new_norm = e_norm(new_vec, size);
+        new_norm = e_norm(new_vec, size);
         if ( new_norm == 0 )
         {
             for ( int i = 0; i < size; ++i) {
                 result_vec[i] = start_vector[i];
             }
             result_eigen = eigenvalue;
+            return result_eigen;
         } 
+
         for (int i = 0; i < size; ++i) {
             new_vec[i] = new_vec[i] / new_norm;
         }
         multiply_matrices(new_vec, matrix, vec_, 1, size, size, size);
         multiply_matrices(vec_, new_vec , new_eigen_value, 1, size, size, 1);
-        double new_eigenvalue = new_eigen_value[0] / new_norm;
+        new_eigenvalue = new_eigen_value[0] ;
+
         if ( abs_(eigenvalue - new_eigenvalue) < tolerance ) {
             for ( int i = 0; i < size; ++i) {
                 result_vec[i] = new_vec[i];
@@ -341,7 +371,7 @@ void power_meth(double* matrix, int size, double* result_vec, double result_eige
             free(vec_);
             free(new_vec);
             free(new_eigen_value);
-            break;
+            return result_eigen;
         }
         else{
             for ( int i = 0; i < size; ++i) {
@@ -360,10 +390,13 @@ void power_meth(double* matrix, int size, double* result_vec, double result_eige
     free(vec_);
     free(new_vec);
     free(new_eigen_value);
+
+    return result_eigen;
 }
 
-void get_eigen(double* matrix, int size, double* res_maxv, double res_max, double* res_minv, double res_min, int max_iterations, double tolerance) {
-    power_meth(matrix, size, res_maxv, res_max, tolerance, max_iterations);
+double* get_eigen(double* matrix, int size, double* res_maxv, double* res_minv, int max_iterations, double tolerance) {
+    double* res_eigen = (double*)malloc(sizeof(double) * 2);
+    double res_max = power_meth(matrix, size, res_maxv, tolerance, max_iterations);
     double* E_matrix = (double*)malloc(sizeof(double) * size * size);
     for (int i = 0; i < size; ++i) {
         for (int j = 0; j < size; ++j) {
@@ -383,7 +416,8 @@ void get_eigen(double* matrix, int size, double* res_maxv, double res_max, doubl
             transform_matrix[i * size + j] = matrix[i * size + j] - res_max * E_matrix[i * size + j];
         }
     }
-    power_meth(transform_matrix, size, res_minv, res_min, tolerance, max_iterations);
+    double res_min = power_meth(transform_matrix, size, res_minv, tolerance, max_iterations);
+    
     free(E_matrix);
     free(transform_matrix);
     if ( res_max > 0)
@@ -396,6 +430,11 @@ void get_eigen(double* matrix, int size, double* res_maxv, double res_max, doubl
         res_min = res_max;
         res_max = res_max + temp;
     }
+    
+    res_eigen[0] = res_max;
+    res_eigen[1] = res_min;
+
+    return res_eigen;
 }
 
 

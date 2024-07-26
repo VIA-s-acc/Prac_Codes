@@ -1,5 +1,10 @@
 # PracCodes
 
+#### Update 26.07.2024 INFO:
+
+Updated [optimized.lineq.matrix_methods](optimized/lineq/matrix_methods/) python interface ready for 100 %.
+New Code is faster an average of about 50+ times.
+
 
 #### Update 26.07.2024 INFO:
 ---

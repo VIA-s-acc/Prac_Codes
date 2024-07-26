@@ -23,8 +23,8 @@ cdef extern from "lowlevel\mm.c" nogil:
     void cholesky_decomp2(double* matrix, double* l_matrix, double* u_matrix, double* diag_matrix, int size) 
 
     # eigen
-    void get_eigen(double* matrix, int size, double* res_maxv, double res_max, double* res_minv, double res_min, int max_iterations, double tolerance) 
-    void power_meth(double* matrix, int size, double* result_vec, double result_eigen, double tolerance, int max_iterations) 
+    double* get_eigen(double* matrix, int size, double* res_maxv, double* res_minv, int max_iterations, double tolerance) 
+    double power_meth(double* matrix, int size, double* result_vec, double tolerance, int max_iterations)
     
     #vectors
     double e_norm(double* vector, int size)
@@ -206,6 +206,10 @@ def LU(matrix):
     cdef double* c_l_matrix = <double*>malloc(size*size*sizeof(double))
     cdef double* c_u_matrix = <double*>malloc(size*size*sizeof(double))
 
+    for i in range(size):
+        for j in range(size):
+            c_matrix[i*size+j] = matrix[i][j]
+    
     LU_decomp(c_matrix, c_l_matrix, c_u_matrix, size)
 
     result_l = [[c_l_matrix[i*size+j] for j in range(size)] for i in range(size)]
@@ -222,8 +226,13 @@ def cholv1(matrix):
     cdef double* c_matrix = <double*>malloc(size*size*sizeof(double))
     cdef double* c_l_matrix = <double*>malloc(size*size*sizeof(double))
     cdef double* c_u_matrix = <double*>malloc(size*size*sizeof(double))
-
+    
+    for i in range(size):
+        for j in range(size):
+            c_matrix[i*size+j] = matrix[i][j]
+    
     cholesky_decomp1(c_matrix, c_l_matrix, c_u_matrix, size)
+    
 
     result_l = [[c_l_matrix[i*size+j] for j in range(size)] for i in range(size)]
     result_u = [[c_u_matrix[i*size+j] for j in range(size)] for i in range(size)]
@@ -240,6 +249,10 @@ def cholv2(matrix):
     cdef double* c_l_matrix = <double*>malloc(size*size*sizeof(double))
     cdef double* c_u_matrix = <double*>malloc(size*size*sizeof(double))
     cdef double* c_d_matrix = <double*>malloc(size*size*sizeof(double))
+
+    for i in range(size):
+        for j in range(size):
+            c_matrix[i*size+j] = matrix[i][j]
 
     cholesky_decomp2(c_matrix, c_l_matrix, c_u_matrix, c_d_matrix, size)
 
@@ -259,10 +272,8 @@ def eigen(matrix, max_iter = 100, tol = 0.01):
     cdef double c_tol = tol
     
     cdef double* c_maxv = <double*>malloc(size*sizeof(double))
-    cdef double c_max = 0
 
     cdef double* c_minv = <double*>malloc(size*sizeof(double))
-    cdef double c_min = 0
 
     cdef double* c_matrix = <double*>malloc(size*size*sizeof(double))
 
@@ -270,13 +281,13 @@ def eigen(matrix, max_iter = 100, tol = 0.01):
         for j in range(size):
             c_matrix[i*size+j] = matrix[i][j]
 
-    get_eigen(c_matrix, size, c_maxv, c_max, c_minv, c_min, c_iter, c_tol)
+    cdef double* c_res = get_eigen(c_matrix, size, c_maxv, c_minv, c_iter, c_tol)
 
     res_maxv = [c_maxv[i] for i in range(size)]
     res_minv = [c_minv[i] for i in range(size)]
+    res_min = c_res[1]
+    res_max = c_res[0]
 
-    res_min = c_min
-    res_max = c_max 
 
     free(c_matrix)
     free(c_maxv)
@@ -298,31 +309,30 @@ def power_method(matrix, max_iter = 100, tol = 0.01):
         for j in range(size):
             c_matrix[i*size+j] = matrix[i][j]
 
-    power_meth(c_matrix, size, c_maxv, c_max, c_tol, c_iter)
+    c_max = power_meth(c_matrix, size, c_maxv, c_tol, c_iter)
 
     res_maxv = [c_maxv[i] for i in range(size)]
 
-    res_max = c_max 
 
     free(c_matrix)
     free(c_maxv)
 
-    return (res_max, res_maxv)
+    return (c_max, res_maxv)
 
 def norm(vector):
 
     cdef int size = int(len(vector))
-    cdef double c_result = 0
 
     cdef double* c_vec = <double*>malloc(size*sizeof(double))
+    cdef double c_res = 0
     for i in range(size):
         c_vec[i] = vector[i]
 
-    result = e_norm(c_vec, size)
+    c_res = e_norm(c_vec, size)
 
     free(c_vec)
 
-    return result
+    return c_res
 
 def vec_approx(vec_a, vec_b, tol = 0.01):
     cdef double c_tol = tol
@@ -330,6 +340,10 @@ def vec_approx(vec_a, vec_b, tol = 0.01):
 
     cdef double* c_vec_a = <double*>malloc(size*sizeof(double)) 
     cdef double* c_vec_b = <double*>malloc(size*sizeof(double))
+
+    for i in range(size):
+        c_vec_a[i] = vec_a[i]
+        c_vec_b[i] = vec_b[i]
 
     cdef bint c_res = vector_approx(c_vec_a, c_vec_b, size, c_tol)
 
