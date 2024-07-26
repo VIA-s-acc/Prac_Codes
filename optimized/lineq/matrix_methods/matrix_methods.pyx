@@ -292,6 +292,7 @@ def eigen(matrix, max_iter = 100, tol = 0.01):
     free(c_matrix)
     free(c_maxv)
     free(c_minv)
+    free(c_res)
 
     return (res_max, res_maxv), (res_min, res_minv)
 

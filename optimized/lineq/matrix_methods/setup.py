@@ -9,6 +9,9 @@ ext_modules = [
             sources=sourceFiles),
 ]
 
+for e in ext_modules:
+    e.cython_directives = {'language_level': "3str"} 
+
 setup(name = 'Matrix_Methods',
     cmdclass={'build_ext': build_ext},
     ext_modules=ext_modules

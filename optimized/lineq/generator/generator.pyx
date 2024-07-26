@@ -7,9 +7,9 @@ cdef extern from "lowlevel\gn.c" nogil:
 
 
 def generate_random_matrix(size, rng, mode):
-    cdef int mode_size = len(mode)
+    cdef int mode_size = int(len(mode))
     cdef char* mode_c = <char*>malloc((mode_size + 1) * sizeof(char))  # Include space for null terminator
-    cdef int c_size = size
+    cdef int c_size = int(size)
     cdef double c_rng = rng
 
     cdef double* c_result = <double*>malloc(c_size * c_size * sizeof(double))
