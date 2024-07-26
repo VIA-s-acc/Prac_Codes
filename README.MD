@@ -5,35 +5,36 @@
 
 
 ### Optimized Experimental
+To use the optimized codes, run the `build.bat` file from the `optimized` directory. The script will automatically build all the C libraries for you. All the codes will be available in this directory.
 
-TO USE OPTIMIZED CODES, RUN `build.bat` FROM `optimized` DIRECTORY ( script will build all c-libraries for you). ( ALL CODES WILL BE USED IN THIS DIRECTORY ) 
-OR DOWNLOAD RELEASE FROM GITHUB. 
+Alternatively, you can download the release from GitHub. 
 
 ---
 #### Update 26.07.2024 INFO:
+The updated Python interface for [optimized.lineq.matrix_methods](optimized/lineq/matrix_methods/) is now ready for use. It is optimized for 100% efficiency.
 
-Updated [optimized.lineq.matrix_methods](optimized/lineq/matrix_methods/) python interface ready for 100 %.
-New Code is faster an average of about 50+ times.
+The new code is significantly faster, with an average improvement of more than 50 times.
 
-Rewrited [Generator](optimized/lineq/generator/). 
+The [Generator](optimized/lineq/generator/) has also been rewritten. 
 
 ---
 
 #### Update 26.07.2024 INFO:
 
-In [MM](Lineq/LinEq/Utils/Matrix_methods.py) fixed **`determinant`** function.  
+In the `lineq/LinEq/Utils/Matrix_methods.py` file, the **`determinant`** function has been fixed.
 
-Started rewriting code. In [Optimized-Experimental](optimized) are experimental version of codes with optimization. (faster about 50 times)  |||| **NEED CYTHON LIBRARY!!!!!**
+I have started rewriting the code. In the `Optimized-Experimental` directory, you will find experimental versions of the codes with optimizations. These versions are about 50 times faster. **However, you need the Cython library for this!**
 
-Rewrited lineq.matrix_methods [module](optimized/lineq/matrix_methods/)
+I have rewritten the `lineq.matrix_methods` module in the `optimized/lineq/matrix_methods/` directory.
 
-- link to source [code](optimized/lineq/matrix_methods/lowlevel/mm.c)
-- link to python [code](optimized/lineq/matrix_methods/Module/module.py) `( Ready for 50 % (all functions work if import from build.matrix_methods, in python file realized only 50 % ) )`
+Here are the links to the source code:
 
-Source codes in ***`optimized/{module_name}/{util_name}/lowlevel`*** 
-where {module_name} is module name and {util_name} is utility name
+- The C code can be found in the [code](optimized/lineq/matrix_methods/lowlevel/mm.c) file.
+- The Python code is available in the [code](optimized/lineq/matrix_methods/Module/module.py) file. This file is ready for 50% use. All functions work if imported from the `build.matrix_methods` file. However, in the Python file, only 50% of the code is implemented.
 
-To build the optimized version, run [`build.bat`](optimized/build.bat) from (optimized)[optimized] directory ( dont work with old verison of project, please wait for new version to be ready ( with all optimizations ) ).  
+The source codes are located in the `optimized/{module_name}/{util_name}/lowlevel` directory, where {module_name} represents the module name and {util_name} represents the utility name.
+
+To build the optimized version, run the `build.bat` file from the `optimized` directory. Please note that this feature does not work with older versions of the project. Wait for a new version to be ready with all optimizations implemented.  
 
 
 ## Overview
