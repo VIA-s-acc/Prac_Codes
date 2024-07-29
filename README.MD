@@ -7,22 +7,9 @@
 ### Optimized Experimental
 To use the optimized codes, run the `build.bat` file from the `optimized` directory. The script will automatically build all the C libraries for you. All the codes will be available in this directory.
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 Alternatively, you can download the release from GitHub. 
-=======
-TO USE OPTIMIZED CODES, RUN `build.bat` FROM `optimized` DIRECTORY ( script will build all c-libraries for you). ( ALL CODES WILL BE USED IN THIS DIRECTORY ) 
-OR DOWNLOAD RELEASE FROM GITHUB. 
->>>>>>> 264b341 (fix)
-=======
-Alternatively, you can download the release from GitHub. 
->>>>>>> 84865e8 (Update README.MD)
-
----
 
 #### Update 29.07.2024 INFO:
-
-
 
 I have rewritten the `Checker` module and updated matrix filling in `matrix_methods` module.
 
