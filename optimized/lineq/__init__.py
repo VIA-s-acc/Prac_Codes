@@ -1,6 +1,6 @@
 from .matrix_methods import MatrixMethods
 from .generator import Generator
-
+from .checker import Checker
 
 __doc__ = """
 Lineq module:

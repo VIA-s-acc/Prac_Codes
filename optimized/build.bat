@@ -16,3 +16,14 @@ if exist lineq\generator\lowlevel\generator.c del /Q lineq\generator\lowlevel\ge
 python lineq\generator\setup.py build_ext -b build
 move /Y build lineq\generator\build
 move /Y lineq\generator\generator.c lineq\generator\lowlevel\generator.c
+
+
+
+
+REM сборка checker
+
+if exist lineq\checker\build rmdir /S /Q lineq\checker\build 
+if exist lineq\checker\lowlevel\checker.c del /Q lineq\checker\lowlevel\checker.c
+python lineq\checker\setup.py build_ext -b build
+move /Y build lineq\checker\build
+move /Y lineq\checker\checker.c lineq\checker\lowlevel\checker.c
