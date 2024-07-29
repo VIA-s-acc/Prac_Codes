@@ -10,6 +10,21 @@ To use the optimized codes, run the `build.bat` file from the `optimized` direct
 Alternatively, you can download the release from GitHub. 
 
 ---
+
+#### Update 29.07.2024 INFO:
+
+
+
+I have rewritten the `Checker` module and updated matrix filling in `matrix_methods` module.
+
+- Introduced the Checker class for matrix validation
+  - Methods included:
+    - diagonal_domination(matrix) -> bool: Checks matrix diagonal domination
+    - symmetric_check(matrix) -> bool: Checks matrix symmetry
+    - sylvesters_criterion(matrix) -> bool: Checks matrix against Sylvester's criterion
+- Updated matrix filling in `matrix_methods` and `Checker` modules. Replaced cycle with for memset(*, 0, sizeof(*))
+
+
 #### Update 26.07.2024 INFO:
 The updated Python interface for [optimized.lineq.matrix_methods](optimized/lineq/matrix_methods/) is now ready for use. It is optimized for 100% efficiency.
 
