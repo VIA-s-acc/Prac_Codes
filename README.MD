@@ -18,7 +18,8 @@ I have rewritten the `Checker` module and updated matrix filling in `matrix_meth
     - diagonal_domination(matrix) -> bool: Checks matrix diagonal domination
     - symmetric_check(matrix) -> bool: Checks matrix symmetry
     - sylvesters_criterion(matrix) -> bool: Checks matrix against Sylvester's criterion
-- Updated matrix filling in `matrix_methods` and `Checker` modules. Replaced cycle with for memset(*, 0, sizeof(*))
+
+- I also updated the matrix filling in both the `matrix_methods` and `Checker` modules. I replaced the cycle with a for loop and used `memset(*, 0, sizeof(*))` to set the matrix elements to zero.
 
 
 #### Update 26.07.2024 INFO:
