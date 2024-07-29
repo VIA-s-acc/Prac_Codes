@@ -118,14 +118,10 @@ double det(double* matrix, int rows, int cols) {
 }
 
 void inverse(double* matrix, double* result_matrix, int size) {
-    for (int i = 0; i < size; ++i) {
-        for (int j = 0; j < size; ++j) {
-            if (i == j) {
-                result_matrix[i * size + j] = 1;
-            } else {
-                result_matrix[i * size + j] = 0;
-            }
-        }
+    memset(result_matrix, 0, sizeof(double) * size * size);
+
+    for (int i = 0; i < size; ++i) {          
+        result_matrix[i * size + i] = 1;
     }
 
     for ( int i = 0; i < size; ++i) {
@@ -154,7 +150,7 @@ void inverse(double* matrix, double* result_matrix, int size) {
         diag = matrix[i * size + i];
         if ( diag == 0.0 )
         {
-            printf("Warning!!!!! Matrix is not invertible\nResult is zeros matrix\n");
+            printf("Warning!!!!! Matrix is not invertible ( determinant = 0 )\nResult is zeros matrix\n");
             for (int j = 0; j < size; ++j) {
                 for (int k = 0; k < size; ++k) {
                     result_matrix[j * size + k] = 0;
@@ -183,16 +179,10 @@ void inverse(double* matrix, double* result_matrix, int size) {
 }
 
 void LU_decomp(double* matrix, double* l_matrix, double* u_matrix, int size) {
-
+    memset(l_matrix, 0, sizeof(double) * size * size);
+    memset(u_matrix, 0, sizeof(double) * size * size);
     for (int i = 0; i < size; ++i) {
-        for (int j = 0; j < size; ++j) {
-            if (i == j) {
-                l_matrix[i * size + j] = 1;
-            } else {
-                l_matrix[i * size + j] = 0;
-            }
-            u_matrix[i * size + j] = 0;
-        }
+        l_matrix[i * size + i] = 1;
     }
 
     for (int i = 0; i < size; ++i) {
@@ -216,12 +206,9 @@ void LU_decomp(double* matrix, double* l_matrix, double* u_matrix, int size) {
 }
 
 void cholesky_decomp1(double* matrix, double* l_matrix, double* u_matrix, int size) {
-    for (int i = 0; i < size; ++i) {
-        for (int j = 0; j < size; ++j) {
-            l_matrix[i * size + j] = 0;
-            u_matrix[i * size + j] = 0;
-        }
-    }
+    memset(l_matrix, 0, sizeof(double) * size * size);
+    memset(u_matrix, 0, sizeof(double) * size * size);
+
     for (int i = 0; i < size; ++i) {
         for ( int j = 0; j < i+1; ++j) {
             if ( i == j )
@@ -247,17 +234,13 @@ void cholesky_decomp1(double* matrix, double* l_matrix, double* u_matrix, int si
 
 
 void cholesky_decomp2(double* matrix, double* l_matrix, double* u_matrix, double* diag_matrix, int size) {
-    for (int i = 0; i < size; ++i) {
-        for (int j = 0; j < size; ++j) {
-            l_matrix[i * size + j] = 0;
-            u_matrix[i * size + j] = 0;
-            diag_matrix[i * size + j] = 0;
-        }
-    }
+    memset(l_matrix, 0, sizeof(double) * size * size);
+    memset(u_matrix, 0, sizeof(double) * size * size);
+    memset(diag_matrix, 0, sizeof(double) * size * size);
+
     double* diagonal = (double*)malloc(sizeof(double) * size);
-    for ( int i = 0; i < size; ++i) {
-        diagonal[i] = 0;
-    }
+    memset(diagonal, 0, sizeof(double) * size);
+
     for ( int i = 0; i < size; ++i) {
         for ( int j = i; j < size; ++j)
         {
@@ -398,15 +381,10 @@ double* get_eigen(double* matrix, int size, double* res_maxv, double* res_minv, 
     double* res_eigen = (double*)malloc(sizeof(double) * 2);
     double res_max = power_meth(matrix, size, res_maxv, tolerance, max_iterations);
     double* E_matrix = (double*)malloc(sizeof(double) * size * size);
+    memset(E_matrix, 0, sizeof(double) * size * size);
     for (int i = 0; i < size; ++i) {
-        for (int j = 0; j < size; ++j) {
-            if (i == j) {
-                E_matrix[i * size + j] = 1;
-            }
-            else {
-                E_matrix[i * size + j] = 0;
-            }
-        }
+        E_matrix[i * size + i] = 1;
+
     }
     double* transform_matrix = (double*)malloc(sizeof(double) * size * size);
     for (int i = 0; i < size; ++i)

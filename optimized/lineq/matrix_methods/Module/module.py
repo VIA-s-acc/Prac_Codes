@@ -38,37 +38,37 @@ class MatrixMethods():
     version = '0.0.1'
     __doc__ = """MatrixMethods module\nMethods\n---
     \n
-    determinant(matrix_a):\t Returns determinant of matrix_a
+    determinant(matrix_a) -> double :\t Returns determinant of matrix_a
     \n
-    sum_matrices(matrix_a, matrix_b):\t Returns sum of matrices
+    sum_matrices(matrix_a, matrix_b) -> matrix :\t Returns sum of matrices
     \n
-    multiply_matrix_by_scalar(matrix_a, scalar)\t:\t Returns multiplied matrix
+    multiply_matrix_by_scalar(matrix_a, scalar) -> matrix :\t Returns multiplied matrix
     \n
-    multiply_matrices(matrix_a, matrix_b):\t Returns multiplied matrix
+    multiply_matrices(matrix_a, matrix_b) -> matrix :\t Returns multiplied matrix
     \n
-    sig(x):\t Returns -1 if x < 0, 0 if x == 0, 1 if x > 0
+    sig(x) -> int :\t Returns -1 if x < 0, 0 if x == 0, 1 if x > 0
     \n
-    absolute(x):\t Returns absolute value of number
+    absolute(x) -> double :\t Returns absolute value of number
     \n
-    random(matrix_a, matrix_b):\t Returns random number in range (min, max)
+    random(matrix_a, matrix_b) -> double :\t Returns random number in range (min, max)
     \n
-    max_matrix(matrix_a):\t Returns max value in matrix
+    max_matrix(matrix_a) -> double :\t Returns max value in matrix
     \n
-    inv(matrix_a):\t Returns inverted matrix
+    inv(matrix_a) -> matrix :\t Returns inverted matrix
     \n
-    LU(matrix_a):\t Returns LU decomposition
+    LU(matrix_a) -> tuple[matrix, matrix] :\t Returns LU decomposition
     \n
-    cholv1(matrix_a):\t Returns cholesky decomposition
+    cholv1(matrix_a) -> tuple[matrix, matrix] :\t Returns cholesky decomposition
     \n
-    cholv2(matrix_a):\t Returns cholesky decomposition
+    cholv2(matrix_a) -> tuple[matrix, matrix, matrix] :\t Returns cholesky decomposition
     \n
-    eigen(matrix_a):\t Returns eigenvalues and eigenvectors (max, min)
+    eigen(matrix_a) -> tuple[tuple[double, vector], tuple[double, vector]] :\t Returns eigenvalues and eigenvectors (max, min)
     \n
-    power_method(matrix_a):\t Returns eigenvector (iterative method, max)
+    power_method(matrix_a) -> tuple[double, vector]:\t Returns eigenvector (iterative method, max)
     \n
-    norm(matrix_a):\t Returns norm (euclidian)
+    norm(matrix_a) -> double:\t Returns norm (euclidian)
     \n
-    vec_approx(matrix_a):\t Returns vector approximation ( True or False )
+    vec_approx(matrix_a) -> bool:\t Returns vector approximation ( True or False )
     \n
     """
     

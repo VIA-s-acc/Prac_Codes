@@ -12,6 +12,15 @@ vector: TypeAlias = list[double]
 string: TypeAlias = str
 
 class Generator():
+    """Class for matrix and vector generation"""
+    
+    __doc__ = """Generator module\nMethods\n
+    generate_matrix(size: int, rng: double, mode: string) -> matrix :\t Generate matrix of random numbers ( modes -> 'else': random, '3diag': three diagonal, 'symm': symmetric )
+    generate_vector(size: int, rng: double) -> vector: \t Generate vector of random numbers
+    """
+    
+    version = '0.0.1'
+    
     
     @staticmethod
     def generate_matrix(size: int, rng: double, mode: string) -> matrix:
