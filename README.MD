@@ -9,8 +9,8 @@ To use the optimized codes, run the `build.bat` file from the `optimized` direct
 
 Alternatively, you can download the release from GitHub. 
 
+---
 #### Update 29.07.2024 INFO:
-
 I have rewritten the `Checker` module and updated matrix filling in `matrix_methods` module.
 
 - Introduced the Checker class for matrix validation
