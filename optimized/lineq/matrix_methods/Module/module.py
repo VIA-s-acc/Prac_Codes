@@ -75,18 +75,19 @@ class MatrixMethods():
     @staticmethod
     def determinant(matrix_a) -> double:
         """
-        Determinant of matrix 
-        
+        Calculate the determinant of a square matrix.
+
         Args:
-            matrix_a (list): matrix 2d
-            
+            matrix_a (list): A 2D list representing the matrix.
+
         Returns:
-            result (float): determinant of matrix
-        
-        Example:
-        ---
-        >>> MatrixMethods.determinant([[1,0],[3,4]])
+            double: The determinant of the matrix.
+
+        Raises:
+            MatrixShapeError: If the matrix is not square.
+            MatrixMethodsError: If there is an undefined error in the C module or the matrix is invalid.
         """
+
         
         if len(matrix_a) != len(matrix_a[0]):
             raise(MatrixShapeError(f'Matrix must be square | curr shape: {len(matrix_a)}x{len(matrix_a[0])}'))
@@ -98,19 +99,24 @@ class MatrixMethods():
     @staticmethod
     def sum_matrices(matrix_a, matrix_b) -> matrix:
         """
-        Sum of matrices
-        
+        Calculate the sum of two matrices.
+
         Args:
-            matrix_a (list): matrix 2d
-            matrix_b (list): matrix 2d
-            
+            matrix_a (list): The first matrix.
+            matrix_b (list): The second matrix.
+
         Returns:
-            result (list): sum of matrices
-        
+            matrix: The sum of the two matrices.
+
+        Raises:
+            MatrixShapeError: If the matrices do not have the same shape.
+            MatrixMethodsError: If there is an undefined error in the C module or the matrix is invalid.
+
         Example:
-        ---
-        >>> MatrixMethods.sum_matrices([[1,0],[3,4]],[[1,0],[3,4]])
+            >>> MatrixMethods.sum_matrices([[1, 0], [3, 4]], [[1, 0], [3, 4]])
+            [[2, 0], [6, 8]]
         """
+        
         if len(matrix_a) != len(matrix_b) or len(matrix_a[0]) != len(matrix_b[0]):
             raise(MatrixShapeError(f'Matrices must have same shape | curr shapes: {len(matrix_a)}x{len(matrix_a[0])} and {len(matrix_b)}x{len(matrix_b[0])}'))
         try:
@@ -121,19 +127,19 @@ class MatrixMethods():
     @staticmethod
     def multiply_matrix_by_scalar(matrix, scalar) -> matrix:
         """
-        Multiply matrix by scalar
-        
+        Multiply a matrix by a scalar.
+
         Args:
-            matrix (list): matrix 2d
-            scalar (float): scalar
-            
+            matrix (list): A 2D list representing the matrix.
+            scalar (float): The scalar to multiply the matrix by.
+
         Returns:
-            result (list): multiplied matrix
-        
-        Example:
-        ---
-        >>> MatrixMethods.multiply_matrix_by_scalar([[1,0],[3,4]],[[1,0],[3,4]])
+            matrix: The multiplied matrix.
+
+        Raises:
+            MatrixMethodsError: If there is an undefined error in the C module or the matrix is invalid.
         """
+
         try:
             return multiply_matrix_by_scalar_wrapper(matrix, scalar)
         except:
@@ -142,19 +148,20 @@ class MatrixMethods():
     @staticmethod
     def multiply_matrices(matrix_a, matrix_b) -> matrix:
         """
-        Multiply matrices
-        
+        Multiply two matrices.
+
         Args:
-            matrix_a (list): matrix 2d
-            matrix_b (list): matrix 2d
-            
+            matrix_a (list): The first matrix.
+            matrix_b (list): The second matrix.
+
         Returns:
-            result (list): multiplied matrix
-        
-        Example:
-        ---
-        >>> MatrixMethods.multiply_matrices([[1,0],[3,4]],[[1,0],[3,4]])
+            matrix: The multiplied matrix.
+
+        Raises:
+            MatrixShapeError: If the number of columns in matrix_a is not equal to the number of rows in matrix_b.
+            MatrixMethodsError: If there is an undefined error in the C module or the matrices are invalid.
         """
+        
         if len(matrix_a[0]) != len(matrix_b):
             raise(MatrixShapeError(f'Matrices A columns must be equal to B rows | curr shapes: {len(matrix_a)}x{len(matrix_a[0])} and {len(matrix_b)}x{len(matrix_b[0])}'))
         try:
@@ -203,45 +210,52 @@ class MatrixMethods():
         try:
             return absolute(x)
         except:
-            raise(MatrixMethodsError('Undefined error | in .C module. | Check matrix'))
+            raise(MatrixMethodsError('Undefined error | in .C module.'))
 
     @staticmethod
     def random(minv, maxv) -> double:
         """
-        Random number generator
-        
+        Generate a random number between the specified minimum and maximum values.
+
         Args:
-            minv (float): min value
-            maxv (float): max value
-            
+            minv (float): The minimum value of the range.
+            maxv (float): The maximum value of the range.
+
         Returns:
-            result (float): random number ( very low precision )
-            
+            double: The randomly generated number.
+
+        Raises:
+            MatrixMethodsError: If an undefined error occurs in the C module.
+
         Example:
-        ---
-        >>> MatrixMethods.random(0,10)
+        >>> MatrixMethods.random(0, 10)
+        5.2
         """
+        
         try:
             return random(minv, maxv)
         except:
-            raise(MatrixMethodsError('Undefined error | in .C module. | Check matrix'))
+            raise(MatrixMethodsError('Undefined error | in .C module.'))
 
     @staticmethod
     def max_matrix(matrix) -> double:
         """
-        Max value in matrix
-        
+        Returns the maximum value in a 2D matrix.
+
         Args:
-            matrix (list): matrix 2d
-            
+            matrix (list): A 2D list representing the matrix.
+
         Returns:
-            result (float): max value in matrix
-            
+            double: The maximum value in the matrix.
+
+        Raises:
+            MatrixMethodsError: If an undefined error occurs in the C module or if the matrix is not valid.
+
         Example:
-        ---
-        >>> MatrixMethods.max_matrix([[1,0],[3,4]])
+        >>> MatrixMethods.max_matrix([[1, 2], [3, 4]])
         4
         """
+        
         try:
             return max_matrix(matrix)
         except:
@@ -250,18 +264,23 @@ class MatrixMethods():
     @staticmethod
     def inverse(matrix) -> matrix:
         """
-        Inverse matrix
-        
+        Calculates the inverse of a matrix.
+
         Args:
-            matrix (list): matrix 2d
-            
+            matrix (list): A 2D list representing the matrix.
+
         Returns:
-            result (list): inverse matrix
-            
+            matrix: The inverse of the matrix.
+
+        Raises:
+            MatrixValueError: If the matrix is singular (determinant is 0).
+            MatrixMethodsError: If an undefined error occurs in the C module or if the matrix is invalid.
+
         Example:
-        ---
-        >>> MatrixMethods.inv([[1,0],[3,4]])
+        >>> MatrixMethods.inverse([[1, 2], [3, 4]])
+        [[-2.0, 1.0], [1.5, -0.5]]
         """
+        
         if determinant(matrix) == 0:
             raise MatrixValueError('Matrix must be non-singular')
         try:
@@ -272,19 +291,23 @@ class MatrixMethods():
     @staticmethod
     def LU(matrix) -> tuple[matrix, matrix]:
         """
-        LU decomposition \\
-        A = LU
-        
+        Perform LU decomposition on a square matrix.
+
         Args:
-            matrix (list): matrix 2d
-            
+            matrix (list): A 2D list representing the matrix.
+
         Returns:
-            result (tuple): LU decomposition L and U Matrices (L, U)
-            
+            tuple[matrix, matrix]: A tuple containing the L and U matrices of the LU decomposition.
+
+        Raises:
+            MatrixShapeError: If the matrix is not square.
+            MatrixMethodsError: If an undefined error occurs in the C module or if the matrix is invalid.
+
         Example:
-        ---
-        >>> MatrixMethods.LU([[1,0],[3,4]])
+        >>> MatrixMethods.LU([[1, 0], [3, 4]])
+        ([[1.0, 0.0], [0.3333333333333333, 1.0]], [[4.0, 0.0], [0.0, 1.0]])
         """
+        
         if len(matrix) != len(matrix[0]):
             raise(MatrixShapeError(f'Matrix must be square | curr shape: {len(matrix)}x{len(matrix[0])}'))
         try:
@@ -295,24 +318,23 @@ class MatrixMethods():
     @staticmethod
     def cholv1(matrix) -> tuple[matrix, matrix]:
         """
-        Cholesky decomposition \\
-        A = LL^T
-        
+        Perform Cholesky decomposition on a symmetric and positive definite matrix.
+
         Args:
-            matrix (list): matrix 2d ( symmetric and positive definite )
-            
+            matrix (list): A 2D list representing the matrix.
+
         Returns:
-            result (tuple): Cholesky decomposition CL and CU matrices (CL, CU)
-            
-        Warning:
-        ---
-        Cholesky decomposition is only for symmetric positive definite matrices
-        If you want, you can write checker for that.
-        
+            tuple[matrix, matrix]: A tuple containing the L and U matrices of the Cholesky decomposition.
+
+        Raises:
+            MatrixShapeError: If the matrix is not square.
+            MatrixMethodsError: If an undefined error occurs in the C module or if the matrix is invalid.
+
         Example:
-        ---
-        >>> MatrixMethods.cholv1([[1,0],[3,4]])
+            >>> MatrixMethods.cholv1([[1, 0], [3, 4]])
+            ([[1.0, 0.0], [0.3333333333333333, 1.0]], [[4.0, 0.0], [0.0, 1.0]])
         """
+        
         if len(matrix) != len(matrix[0]):
             raise(MatrixShapeError(f'Matrix must be square | curr shape: {len(matrix)}x{len(matrix[0])}'))
         try:
@@ -323,24 +345,23 @@ class MatrixMethods():
     @staticmethod
     def cholv2(matrix) -> tuple[matrix, matrix, matrix]:
         """
-        Cholesky decomposition \\
-        A = LDL^T
-        
+        Perform Cholesky decomposition on a symmetric and positive definite matrix.
+
         Args:
-            matrix (list): matrix 2d ( symmetric and positive definite )
-            
+            matrix (list): A 2D list representing the matrix.
+
         Returns:
-            result (tuple): Cholesky decomposition CL, CD, CU matrices (CL, CD, CU)
-            
-        Warning:
-        ---
-        Cholesky decomposition is only for symmetric positive definite matrices
-        If you want, you can write checker for that.
-        
+            tuple[matrix, matrix, matrix]: A tuple containing the L, D, and U matrices of the Cholesky decomposition.
+
+        Raises:
+            MatrixShapeError: If the matrix is not square.
+            MatrixMethodsError: If an undefined error occurs in the C module or if the matrix is invalid.
+
         Example:
-        ---
-        >>> MatrixMethods.cholv2([[1,0],[3,4]])
+            >>> MatrixMethods.cholv2([[1, 0], [0, 4]])
+            ([[1.0, 0.0], [0.0, 2.0]], [[2.0, 0.0], [0.0, 2.0]], [[1.0, 0.0], [0.0, 1.0]])
         """
+        
         if len(matrix) != len(matrix[0]):
             raise(MatrixShapeError(f'Matrix must be square | curr shape: {len(matrix)}x{len(matrix[0])}'))
         try:
@@ -351,20 +372,25 @@ class MatrixMethods():
     @staticmethod
     def eigen(matrix, max_iter = 100, tol = 0.01) -> tuple[tuple[double, vector], tuple[double, vector]]:
         """
-        Eigenvalues and eigenvectors
-        
+        Calculates the eigenvalues and eigenvectors of a square matrix using the power method.
+
         Args:
-            matrix (list): matrix 2d
-            max_iter (int): max number of iterations
-            tol (float): tolerance
-            
+            matrix (list): A 2D list representing the square matrix.
+            max_iter (int, optional): The maximum number of iterations for the power method. Defaults to 100.
+            tol (float, optional): The tolerance for convergence. Defaults to 0.01.
+
         Returns:
-            result (tuple): eigenvalues and eigenvectors
-            
+            tuple[tuple[double, vector], tuple[double, vector]]: A tuple containing the eigenvalues and eigenvectors.
+
+        Raises:
+            MatrixShapeError: If the matrix is not square.
+            MatrixMethodsError: If an undefined error occurs in the C module or if the matrix is invalid.
+
         Example:
-        ---
-        >>> MatrixMethods.eigen([[1,0],[3,4]])
+            >>> MatrixMethods.eigen([[1, 0], [0, 4]])
+            ((2.0, [0.0, 1.0]), (2.0, [-1.0, 0.0]))
         """
+        
         if len(matrix) != len(matrix[0]):
             raise(MatrixShapeError(f'Matrix must be square | curr shape: {len(matrix)}x{len(matrix[0])}'))
         try:
@@ -375,20 +401,21 @@ class MatrixMethods():
     @staticmethod
     def power_method(matrix, max_iter = 100, tol = 0.01) -> tuple[double, vector]:
         """
-        Power method
-        
+        Calculates the eigenvalues and eigenvectors of a square matrix using the power method.
+
         Args:
-            matrix (list): matrix 2d
-            max_iter (int): max number of iterations
-            tol (float): tolerance
-            
+            matrix (list): A 2D list representing the square matrix.
+            max_iter (int, optional): The maximum number of iterations for the power method. Defaults to 100.
+            tol (float, optional): The tolerance for convergence. Defaults to 0.01.
+
         Returns:
-            result (tuple): eigenvalues and eigenvectors (res_maxvalue, res_maxvector)
-            
-        Example:
-        ---
-        >>> MatrixMethods.power_method([[1,0],[3,4]])
+            tuple[double, vector]: A tuple containing the eigenvalues and eigenvectors.
+
+        Raises:
+            MatrixShapeError: If the matrix is not square.
+            MatrixMethodsError: If an undefined error occurs in the C module or if the matrix is invalid.
         """
+        
         if len(matrix) != len(matrix[0]):
             raise(MatrixShapeError(f'Matrix must be square | curr shape: {len(matrix)}x{len(matrix[0])}'))
         try:
@@ -399,18 +426,18 @@ class MatrixMethods():
     @staticmethod
     def norm(vector) -> double:
         """
-        Norm of vector
-        
+        Calculate the norm of a vector.
+
         Args:
-            vector (list): vector 1d
-            
+            vector (list): A 1D list representing the vector.
+
         Returns:
-            result (float): norm of vector
-            
-        Example:
-        ---
-        >>> MatrixMethods.norm([1,2,3])
+            double: The norm of the vector.
+
+        Raises:
+            MatrixMethodsError: If an undefined error occurs in the C module or if the matrix is invalid.
         """
+        
         try:
             return norm(vector)
         except:
@@ -420,38 +447,28 @@ class MatrixMethods():
     @staticmethod
     def vec_approx(vec_a, vec_b, tol = 0.01):
         """
-        Approximate vector equality
-        
+        Approximate vector equality.
+
         Args:
-            vec_a (list): vector 1d
-            vec_b (list): vector 1d
-            tol (float): tolerance
-            
+            vec_a (list): A 1D list representing the first vector.
+            vec_b (list): A 1D list representing the second vector.
+            tol (float, optional): The tolerance for vector equality. Defaults to 0.01.
+
         Returns:
-            result (bool): vector equality
-            
-        Example:
-        ---
-        >>> MatrixMethods.vec_approx([1,2,3], [1,2,3])
+            bool: True if the vectors are approximately equal, False otherwise.
+
+        Raises:
+            MatrixShapeError: If the vectors do not have the same shape.
+            MatrixMethodsError: If there is an undefined error in the C module or if the matrix is invalid.
         """
+        
         if len(vec_a) != len(vec_b):
             raise(MatrixShapeError(f'Vectors must be same shape | curr shape: {len(vec_a)}x{len(vec_b)}'))
         try:
             return vec_approx(vec_a, vec_b, tol)
         except:
-            raise(MatrixMethodsError('Undefined error | in .C module. | Check matrix'))
+            raise(MatrixMethodsError('Undefined error | in .C module. | Check vectors'))
 
 
-
-def matmult(a, b):
-    if len(a[0]) != len(b):
-        raise ValueError("The number of columns in the first matrix must be equal to the number of rows in the second matrix")
-    result = [[0 for _ in range(len(b[0]))] for _ in range(len(a))]
-    for i in range(len(a)):
-        for j in range(len(b[0])):
-            for k in range(len(b)):
-                result[i][j] += a[i][k] * b[k][j]
-                
-    return result
 
 
