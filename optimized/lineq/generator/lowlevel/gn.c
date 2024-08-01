@@ -1,4 +1,4 @@
-#include "../matrix_methods/lowlevel/mm.c"
+#include "../../matrix_methods/lowlevel/mm.c"
 #include <string.h>
 
 void random_matrix(int size, double rng, char* mode, double* result) {
