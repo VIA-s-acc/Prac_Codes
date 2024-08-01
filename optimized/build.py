@@ -26,5 +26,5 @@ for lib in libs:
     if os.path.exists('{lib}/TEST/test.pyc'):
         os.remove('{lib}/TEST/test.pyc')
 
-    print("Testing {lib}...")
+    print(f"Testing {lib}...")
     subprocess.check_call([sys.executable, '-m', f'{lib}.TEST.test'])
