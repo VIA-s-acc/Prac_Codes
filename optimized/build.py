@@ -19,3 +19,9 @@ for module in modules:
     subprocess.check_call([sys.executable, f'lineq/{module}/setup.py', 'build_ext', '-b', 'build'])
     shutil.move('build', f'lineq/{module}/build')
     shutil.move(f'lineq/{module}/{module}.c', f'lineq/{module}/lowlevel/{module}.c')
+
+if os.path.exists('lineq/TEST/test.pyc'):
+    os.remove('lineq/TEST/test.pyc')
+
+print("Testing...")
+subprocess.check_call([sys.executable, '-m', 'lineq.TEST.test'])

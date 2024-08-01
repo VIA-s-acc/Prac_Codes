@@ -54,7 +54,7 @@ class MatrixMethods():
     \n
     max_matrix(matrix_a) -> double :\t Returns max value in matrix
     \n
-    inv(matrix_a) -> matrix :\t Returns inverted matrix
+    inverse(matrix_a) -> matrix :\t Returns inverted matrix
     \n
     LU(matrix_a) -> tuple[matrix, matrix] :\t Returns LU decomposition
     \n
@@ -73,7 +73,7 @@ class MatrixMethods():
     """
     
     @staticmethod
-    def determinant(matrix_a) -> double:
+    def determinant(matrix_a: matrix) -> double:
         """
         Calculate the determinant of a square matrix.
 
@@ -97,7 +97,7 @@ class MatrixMethods():
             raise(MatrixMethodsError('Undefined error | in .C module. | Check matrix'))
     
     @staticmethod
-    def sum_matrices(matrix_a, matrix_b) -> matrix:
+    def sum_matrices(matrix_a: matrix, matrix_b: matrix) -> matrix:
         """
         Calculate the sum of two matrices.
 
@@ -125,7 +125,7 @@ class MatrixMethods():
             raise(MatrixMethodsError('Undefined error | in .C module. | Check matrix'))
         
     @staticmethod
-    def multiply_matrix_by_scalar(matrix, scalar) -> matrix:
+    def multiply_matrix_by_scalar(matrix: matrix, scalar: double) -> matrix:
         """
         Multiply a matrix by a scalar.
 
@@ -146,7 +146,7 @@ class MatrixMethods():
             raise(MatrixMethodsError('Undefined error | in .C module. | Check matrix'))
         
     @staticmethod
-    def multiply_matrices(matrix_a, matrix_b) -> matrix:
+    def multiply_matrices(matrix_a: matrix, matrix_b: matrix) -> matrix:
         """
         Multiply two matrices.
 
@@ -170,7 +170,7 @@ class MatrixMethods():
             raise(MatrixMethodsError('Undefined error | in .C module. | Check matrix'))
             
     @staticmethod
-    def sig(x) -> int:
+    def sig(x: double) -> int:
         """
         Signum function
         Returns -1 if x < 0, 0 if x == 0, 1 if x > 0
@@ -192,7 +192,7 @@ class MatrixMethods():
             raise(MatrixMethodsError('Undefined error | in .C module. | Check matrix'))
 
     @staticmethod    
-    def absolute(x) -> double:
+    def absolute(x: double) -> double:
         """
         Absolute value of number
         
@@ -213,7 +213,7 @@ class MatrixMethods():
             raise(MatrixMethodsError('Undefined error | in .C module.'))
 
     @staticmethod
-    def random(minv, maxv) -> double:
+    def random(minv: double, maxv: double) -> double:
         """
         Generate a random number between the specified minimum and maximum values.
 
@@ -238,7 +238,7 @@ class MatrixMethods():
             raise(MatrixMethodsError('Undefined error | in .C module.'))
 
     @staticmethod
-    def max_matrix(matrix) -> double:
+    def max_matrix(matrix: matrix) -> double:
         """
         Returns the maximum value in a 2D matrix.
 
@@ -262,7 +262,7 @@ class MatrixMethods():
             raise(MatrixMethodsError('Undefined error | in .C module. | Check matrix'))
 
     @staticmethod
-    def inverse(matrix) -> matrix:
+    def inverse(matrix: matrix) -> matrix:
         """
         Calculates the inverse of a matrix.
 
@@ -289,7 +289,7 @@ class MatrixMethods():
             raise(MatrixMethodsError('Undefined error | in .C module. | Check matrix'))
 
     @staticmethod
-    def LU(matrix) -> tuple[matrix, matrix]:
+    def LU(matrix: matrix) -> tuple[matrix, matrix]:
         """
         Perform LU decomposition on a square matrix.
 
@@ -316,7 +316,7 @@ class MatrixMethods():
             raise(MatrixMethodsError('Undefined error | in .C module. | Check matrix'))
 
     @staticmethod
-    def cholv1(matrix) -> tuple[matrix, matrix]:
+    def cholv1(matrix: matrix) -> tuple[matrix, matrix]:
         """
         Perform Cholesky decomposition on a symmetric and positive definite matrix.
 
@@ -343,7 +343,7 @@ class MatrixMethods():
             raise(MatrixMethodsError('Undefined error | in .C module. | Check matrix'))
 
     @staticmethod
-    def cholv2(matrix) -> tuple[matrix, matrix, matrix]:
+    def cholv2(matrix: matrix) -> tuple[matrix, matrix, matrix]:
         """
         Perform Cholesky decomposition on a symmetric and positive definite matrix.
 
@@ -370,7 +370,7 @@ class MatrixMethods():
             raise(MatrixMethodsError('Undefined error | in .C module. | Check matrix'))
 
     @staticmethod
-    def eigen(matrix, max_iter = 100, tol = 0.01) -> tuple[tuple[double, vector], tuple[double, vector]]:
+    def eigen(matrix: matrix, max_iter: int = 100, tol: double = 0.01) -> tuple[tuple[double, vector], tuple[double, vector]]:
         """
         Calculates the eigenvalues and eigenvectors of a square matrix using the power method.
 
@@ -399,7 +399,7 @@ class MatrixMethods():
             raise(MatrixMethodsError('Undefined error | in .C module. | Check matrix'))
 
     @staticmethod
-    def power_method(matrix, max_iter = 100, tol = 0.01) -> tuple[double, vector]:
+    def power_method(matrix: matrix, max_iter: int = 100, tol: double = 0.01) -> tuple[double, vector]:
         """
         Calculates the eigenvalues and eigenvectors of a square matrix using the power method.
 
@@ -424,7 +424,7 @@ class MatrixMethods():
             raise(MatrixMethodsError('Undefined error | in .C module. | Check matrix'))
 
     @staticmethod
-    def norm(vector) -> double:
+    def norm(vector: vector) -> double:
         """
         Calculate the norm of a vector.
 
@@ -445,7 +445,7 @@ class MatrixMethods():
         
 
     @staticmethod
-    def vec_approx(vec_a, vec_b, tol = 0.01):
+    def vec_approx(vec_a: vector, vec_b: vector, tol: double = 0.01):
         """
         Approximate vector equality.
 

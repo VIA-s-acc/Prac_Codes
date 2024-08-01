@@ -38,3 +38,5 @@ for %%i in (matrix_methods generator checker) do (
     )
 )
 
+REM запуск тестов 
+python -m lineq.TEST.test

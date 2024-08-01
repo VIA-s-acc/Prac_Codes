@@ -23,7 +23,7 @@ class Generator():
     
     
     @staticmethod
-    def generate_matrix(size: int, rng: double, mode: string) -> matrix:
+    def generate_matrix(size: int, rng: double, mode: string = 'else') -> matrix:
         """
         Generate matrix of random numbers
         Args:
