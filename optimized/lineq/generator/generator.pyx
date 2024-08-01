@@ -1,7 +1,7 @@
 from libc.stdlib cimport malloc, free
 from libc.string cimport strcpy, strlen
 
-cdef extern from "lowlevel\gn.c" nogil:
+cdef extern from "lowlevel/gn.c" nogil:
     void random_matrix(int size, double rng, char* mode, double* result)
     void random_vector(int size, double rng, double* result)
 

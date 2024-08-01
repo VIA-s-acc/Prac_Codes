@@ -1,6 +1,6 @@
 from libc.stdlib cimport malloc, free
 
-cdef extern from "lowlevel\mm.c" nogil:
+cdef extern from "lowlevel/mm.c" nogil:
     
     #opers
     void multiply_matrices(double* matrix_a, double* matrix_b, double* result_matrix, int rows_a, int cols_a, int rows_b, int cols_b)

@@ -1,6 +1,6 @@
 from libc.stdlib cimport malloc, free
 
-cdef extern from "lowlevel\ckr.c" nogil:
+cdef extern from "lowlevel/ckr.c" nogil:
     bint _symmetric_check(double* matrix, int rows, int cols)
     bint _diagonal_domination(double* matrix, int rows, int cols) 
     bint _sylvesters_criterion(double* matrix, int size)
