@@ -9,34 +9,40 @@ if "%OS%"=="Windows_NT" (
 )
 
 REM цикл по всем модулям
-for %%i in (matrix_methods generator checker) do (
-    REM удаление каталога build
-    if exist lineq\%%i\build (
-        if "%IS_WINDOWS%"=="true" (
-            rmdir /S /Q lineq\%%i\build
-        ) else (
-            rm -rf lineq/%%i/build
+for %%l in (lineq) do (
+    for %%i in (matrix_methods generator checker) do (
+        REM удаление каталога build
+        if exist %%l\%%i\build (
+            if "%IS_WINDOWS%"=="true" (
+                rmdir /S /Q %%l\%%i\build
+            ) else (
+                rm -rf %%l/%%i/build
+            )
         )
-    )
-    REM удаление файла lowlevel/matrix_methods.c
-    if exist lineq\%%i\lowlevel\%%i.c (
-        del /Q lineq\%%i\lowlevel\%%i.c
-    )
-    REM сборка
-    python lineq\%%i\setup.py build_ext -b build
-    REM перемещение каталога build
-    if "%IS_WINDOWS%"=="true" (
-        move /Y build lineq\%%i\build
-    ) else (
-        mv build lineq/%%i/build
-    )
-    REM перемещение файла matrix_methods.c
-    if "%IS_WINDOWS%"=="true" (
-        move /Y lineq\%%i\%%i.c lineq\%%i\lowlevel\%%i.c
-    ) else (
-        mv lineq/%%i/%%i.c lineq/%%i/lowlevel/%%i.c
+        REM удаление файла lowlevel/matrix_methods.c
+        if exist %%l\%%i\lowlevel\%%i.c (
+            del /Q %%l\%%i\lowlevel\%%i.c
+        )
+        REM сборка
+        python %%l\%%i\setup.py build_ext -b build
+        REM перемещение каталога build
+        if "%IS_WINDOWS%"=="true" (
+            move /Y build %%l\%%i\build
+        ) else (
+            mv build %%l/%%i/build
+        )
+        REM перемещение файла matrix_methods.c
+        if "%IS_WINDOWS%"=="true" (
+            move /Y %%l\%%i\%%i.c %%l\%%i\lowlevel\%%i.c
+        ) else (
+            mv %%l/%%i/%%i.c %%l/%%i/lowlevel/%%i.c
+        )
     )
 )
 
-REM запуск тестов 
-python -m lineq.TEST.test
+for %%l in (lineq) do (
+    REM запуск тестов 
+    echo.
+    echo Testing %%l...
+    python -m %%l.TEST.test
+)
