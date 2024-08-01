@@ -5,7 +5,7 @@
 
 
 ### Optimized Experimental
-To use the optimized codes, run the `build.bat` ( for Windows ) or '`build.py` ( universal )  file from the `optimized` directory. The script will automatically build all the C libraries for you. All the codes will be available in this directory.
+To use the optimized codes, run the `build.bat` ( for Windows ) or `build.py` ( universal )  file from the `optimized` directory. The script will automatically build all the C libraries for you. All the codes will be available in this directory.
 
 Alternatively, you can download the release from GitHub. 
 
