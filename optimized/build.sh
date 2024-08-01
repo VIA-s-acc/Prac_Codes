@@ -24,7 +24,7 @@ for module in matrix_methods generator checker; do
     fi  
 
     # Сборка
-    python lineq/$module/setup.py build_ext -b build
+    command -v python3 >/dev/null 2>&1 && python3 lineq/$module/setup.py build_ext -b build || python lineq/$module/setup.py build_ext -b build
 
     # Перемещение каталога build
     if [[ "$IS_WINDOWS" == true ]]; then
