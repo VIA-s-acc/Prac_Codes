@@ -39,6 +39,9 @@ for %%l in (lineq) do (
         )
     )
 )
+echo.
+echo BUILD DONE
+echo RUNNING TESTS
 
 for %%l in (lineq) do (
     REM запуск тестов 

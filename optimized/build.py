@@ -22,9 +22,10 @@ for lib in libs:
         shutil.move('build', f'{lib}/{module}/build')
         shutil.move(f'{lib}/{module}/{module}.c', f'{lib}/{module}/lowlevel/{module}.c')
         
+print('\n\n\nBUILD DONE\nRUNNING TESTS\n\n\n')
 for lib in libs:        
     if os.path.exists('{lib}/TEST/test.pyc'):
         os.remove('{lib}/TEST/test.pyc')
-
+   
     print(f"Testing {lib}...")
     subprocess.check_call([sys.executable, '-m', f'{lib}.TEST.test'])
