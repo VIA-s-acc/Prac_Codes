@@ -10,7 +10,11 @@ except ImportError:
     subprocess.check_call([sys.executable, "-m", "pip", "install", "Cython"])
 
 
-modules = {'lineq': ['matrix_methods', 'generator', 'checker']}
+import json
+
+with open('build_cfg/build_modules.json') as f:
+    modules = json.load(f)
+
 libs = list(modules.keys())
 for lib in libs:
     for module in modules[lib]:
