@@ -11,9 +11,9 @@ except ImportError:
 
 
 libs = ['lineq']
-modules = ['matrix_methods', 'generator', 'checker']
+modules = {'lineq': ['matrix_methods', 'generator', 'checker']}
 for lib in libs:
-    for module in modules:
+    for module in modules[lib]:
         if os.path.exists(f'{lib}/{module}/build'):
             shutil.rmtree(f'{lib}/{module}/build')
         if os.path.exists(f'{lib}/{module}/lowlevel/{module}.c'):
