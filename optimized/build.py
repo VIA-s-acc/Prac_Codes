@@ -10,8 +10,8 @@ except ImportError:
     subprocess.check_call([sys.executable, "-m", "pip", "install", "Cython"])
 
 
-libs = ['lineq']
 modules = {'lineq': ['matrix_methods', 'generator', 'checker']}
+libs = list(modules.keys())
 for lib in libs:
     for module in modules[lib]:
         if os.path.exists(f'{lib}/{module}/build'):
