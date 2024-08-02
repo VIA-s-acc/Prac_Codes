@@ -1,7 +1,10 @@
 # PracCodes
 
-- [Overview](#overview)
-- [Optimized Experimental](#optimized-experimental)
+- [Overview (NON OPTIMIZED)](#overview)
+    - [Table of Contents (NON OPTIMIZED)](#table-of-content-non-optimized-python-version)
+- [Optimized Experimental (build) ](#optimized-experimental)
+    - [Overview (OPTIMIZED)](#overview-optimiezed)
+    - [Table of Contents (OPTIMIZED)](#table-of-content-optimized) still in development
 - [Last Update](#last-update)
 
 
@@ -65,6 +68,13 @@ The source codes are located in the `optimized/{module_name}/{util_name}/lowleve
 
 To build the optimized version, run the `build.bat` file from the `optimized` directory. Please note that this feature does not work with older versions of the project. Wait for a new version to be ready with all optimizations implemented.  
 
+## Overview optimiezed
+
+still in development
+
+## Table of Content (OPTIMIZED)
+
+still in development
 
 ## Overview
 
@@ -109,7 +119,7 @@ Each module is designed to be user-friendly. Refer to the example scripts in eac
 ## Contact
 For any inquiries or support, please contact [VIA-s-acc](https://github.com/VIA-s-acc).
 
-## Table Of Content
+## Table Of Content (NON OPTIMIZED, PYTHON VERSION)
 
 <p><em><a href="https://github.com/VIA-s-acc/Prac_Codes/tree/main/Lineq">Lineq Source</a></em></p>
 
