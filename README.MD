@@ -78,7 +78,7 @@ The names of the functions and classes in the **NON OPTIMIZED PYTHON VERSION** a
 also you can import raw functions from the `optimized/lib_name/module_name/build` directory. For functions names look at `optimized/lib_name/module_name/*.pyx` file.
 
 Example: 
-
+---
 Python Interface:
 - [lienq.class_names](optimized/lineq/__init__.py) 
 - [lineq.MatrixMethods.funcs](optimized/lineq/matrix_methods/Module/module.py)
