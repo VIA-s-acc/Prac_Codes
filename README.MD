@@ -66,15 +66,63 @@ Here are the links to the source code:
 
 The source codes are located in the `optimized/{module_name}/{util_name}/lowlevel` directory, where {module_name} represents the module name and {util_name} represents the utility name.
 
-To build the optimized version, run the `build.bat` file from the `optimized` directory. Please note that this feature does not work with older versions of the project. Wait for a new version to be ready with all optimizations implemented.  
+To build the optimized version, run the ~~`build.bat`~~ **`[DELETED, use python script]`**[UPD 02.08.2024](#update-02082024-info) `build.py` file from the `optimized` directory. Please note that this feature does not work with older versions of the project. Wait for a new version to be ready with all optimizations implemented.  
 
 ## Overview optimiezed
 
-still in development
+Still in development. ([Last Update](#last-update)), build and use the optimized codes in the `optimized` directory. 
+(Modules ready to use [Ready](#ready)) 
+
+The names of the functions and classes in the **NON OPTIMIZED PYTHON VERSION** are different from their counterparts after the build in the `optimized` version. Stay tuned for a table of content that includes all of them. For now, you can look at the `__init__.py` files in the respective directories and modules. For modules you can look at `optimized/lib_name/module_name/Module/*.py file`
+
+also you can import raw functions from the `optimized/lib_name/module_name/build` directory. For functions names look at `optimized/lib_name/module_name/*.pyx` file.
+
+Example: 
+
+Python Interface:
+- [lienq.class_names](optimized/lineq/__init__.py) 
+- [lineq.MatrixMethods.funcs](optimized/lineq/matrix_methods/Module/module.py)
+
+Raw import:
+```py
+from optimized.lineq.matrix_methods.build import determinant
+``` 
+( all functions names also in `optimized/lib_name/module_name/Module/*.py` file). Example - [lineq.MatrixMethods.funcs](optimized/lineq/matrix_methods/Module/module.py) line 1:18
+```py 
+from ..build.matrix_methods import (
+    determinant,
+    sum_matrices_wrapper,
+    multiply_matrix_by_scalar_wrapper,
+    multiply_matrices_wrapper,
+    sig,
+    absolute,
+    random,
+    max_matrix,
+    inv,
+    LU,
+    cholv1,
+    cholv2,
+    eigen,
+    power_method,
+    norm,
+    vec_approx,
+)
+```
+Functions names are `determinant`, `sum_matrices_wrapper`, `multiply_matrix_by_scalar_wrapper`, `multiply_matrices_wrapper`, `sig`, `absolute`, `random`, `max_matrix`, `inv`, `LU`, `cholv1`, `cholv2`, `eigen`, `power_method`, `norm`, `vec_approx`.
+
+
 
 ## Table of Content (OPTIMIZED)
 
-still in development
+Still in development. ([Last Update](#last-update)), build and use the optimized codes in the `optimized` directory.
+
+### Ready: 
+-   [**Optimized.lineq.matrix_methods**](optimized/lineq/matrix_methods/)
+    -   [**Optimized.lineq.matrix_methods python interface**](optimized/lineq/matrix_methods/Module/module.py)
+-   [**Optimized.lineq.generator**](optimized/lineq/generator/)
+    -   [**Optimized.lineq.generator python interface**](optimized/lineq/generator/Module/generator.py)
+-   [**Optimized.lineq.checker**](optimized/lineq/checker/)
+    -   [**Optimized.lineq.checker python interface**](optimized/lineq/checker/Module/checker.py)
 
 ## Overview
 
