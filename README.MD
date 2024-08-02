@@ -1,7 +1,8 @@
 # PracCodes
 
-[<h2>Overview](#overview)
-
+- [Overview](#overview)
+- [Optimized Experimental](#optimized-experimental)
+- [Last Update](#last-update)
 
 
 ### Optimized Experimental
@@ -10,6 +11,7 @@ To use the optimized codes, run the ~~`build.bat` ( for Windows )~~ **`[DELETED,
 Alternatively, you can download the release from GitHub. 
 
 ---
+### Last Update
 #### Update 02.08.2024 INFO:
 
 Rewritted [build.py](optimized/build.py) script.
