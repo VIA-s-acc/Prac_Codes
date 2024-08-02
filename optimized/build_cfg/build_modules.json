@@ -1,7 +1,19 @@
 {
-    "lineq": [
-        "matrix_methods", 
-        "generator", 
-        "checker"]
-    
+    "modules":
+    {
+        "lineq": [
+                "matrix_methods", 
+                "generator", 
+                "checker"
+            ]
+    },
+
+    "settings":
+    {
+        "check_cython": true,
+        "run_tests": false,
+        "print_result": false,
+        "traceback": false,
+        "prefix": ""
+    }
 }

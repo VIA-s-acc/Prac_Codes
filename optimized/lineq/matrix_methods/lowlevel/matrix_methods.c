@@ -1239,7 +1239,7 @@ static CYTHON_INLINE float __PYX_NAN() {
 /* Early includes */
 #include <string.h>
 #include <stdlib.h>
-#include "lowlevel\mm.c"
+#include "lowlevel/mm.c"
 #ifdef _OPENMP
 #include <omp.h>
 #endif /* _OPENMP */
@@ -11726,7 +11726,7 @@ if (!__Pyx_RefNanny) {
   /* "matrix_methods.pyx":1
  * from libc.stdlib cimport malloc, free             # <<<<<<<<<<<<<<
  * 
- * cdef extern from "lowlevel\mm.c" nogil:
+ * cdef extern from "lowlevel/mm.c" nogil:
  */
   __pyx_t_2 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);

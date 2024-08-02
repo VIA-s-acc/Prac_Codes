@@ -95,7 +95,7 @@ def sum_matrices_wrapper(matrix_a, matrix_b):
 def multiply_matrix_by_scalar_wrapper(matrix, scalar):
     cdef int rows = int(len(matrix))
     cdef int cols = int(len(matrix[0]))
-
+    
     cdef double c_scalar = scalar
     cdef int size = int(rows * cols)
 

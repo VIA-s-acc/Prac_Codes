@@ -10,6 +10,6 @@ symm = lin.Checker.symmetric_check(matrix)
 
 print(symm)
 sylv = lin.Checker.sylvesters_criterion([[1,0],
-                                         [3,4]])
+                                         [3,-4]])
 
 print(sylv)

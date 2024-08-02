@@ -1239,7 +1239,7 @@ static CYTHON_INLINE float __PYX_NAN() {
 /* Early includes */
 #include <string.h>
 #include <stdlib.h>
-#include "lowlevel\gn.c"
+#include "lowlevel/gn.c"
 #ifdef _OPENMP
 #include <omp.h>
 #endif /* _OPENMP */
