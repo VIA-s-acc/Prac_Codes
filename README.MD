@@ -5,12 +5,26 @@
 
 
 ### Optimized Experimental
-To use the optimized codes, run the ~~`build.bat` ( for Windows )~~ **`[DELETED, use python script]`** or `build.py` ( universal )  file from the `optimized` directory. The script will automatically build all the C libraries for you. All the codes will be available in this directory.
+To use the optimized codes, run the ~~`build.bat` ( for Windows )~~ **`[DELETED, use python script]`**[UPD 02.08.2024](#update-02082024-info) or `build.py` ( universal )  file from the `optimized` directory. The script will automatically build all the C libraries for you. All the codes will be available in this directory.
 
 Alternatively, you can download the release from GitHub. 
 
 ---
+#### Update 02.08.2024 INFO:
+
+Rewritted [build.py](optimized/build.py) script.
+
+**`New Build System`**
+
+* **Build Management:** Manages cleaning up previous builds, compiling modules, and organizing build artifacts.
+* **Dependency Check:** Automatically checks for and installs necessary dependencies such as Cython.
+* **Configuration Loading:** Loads build settings and module configurations from the file [cfg](optimized/build_cfg/build_modules.json). If the file does not exist, a default configuration is created.
+* **Build Result Visualization:** Displays a tree structure with icons indicating the success or failure of each module.
+* **Automated Testing:** Runs tests on successfully built libraries to ensure their correctness.
+
+---
 #### Update 29.07.2024 INFO:
+
 I have rewritten the `Checker` module and updated matrix filling in `matrix_methods` module.
 
 - Introduced the Checker class for matrix validation
@@ -21,6 +35,7 @@ I have rewritten the `Checker` module and updated matrix filling in `matrix_meth
 
 - I also updated the matrix filling in both the `matrix_methods` and `Checker` modules. I replaced the cycle with a for loop and used `memset(*, 0, sizeof(*))` to set the matrix elements to zero.
 
+---
 
 #### Update 26.07.2024 INFO:
 The updated Python interface for [optimized.lineq.matrix_methods](optimized/lineq/matrix_methods/) is now ready for use. It is optimized for 100% efficiency.
