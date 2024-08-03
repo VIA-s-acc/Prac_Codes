@@ -10,3 +10,4 @@ error_log.txt
 /LinEqRework
 build/
 venv/
+backup/
