@@ -9,7 +9,7 @@
 
 
 ### Optimized Experimental
-To use the optimized codes, run the ~~`build.bat` ( for Windows )~~ **`[DELETED, use python script]`**[UPD 02.08.2024](#update-02082024-info) `build.py` ( universal )  file from the `optimized` directory. The script will automatically build all the C libraries for you. All the codes will be available in this directory.
+To use the optimized codes,create virtual environment, install all the dependencies and run the ~~`build.bat` ( for Windows )~~ **`[DELETED, use python script]`**[UPD 02.08.2024](#update-02082024-info) `build.py` ( universal )  file from the `optimized` directory. The script will automatically build all the C libraries for you. All the codes will be available in this directory.
 
 Alternatively, you can download the release from GitHub. 
 
