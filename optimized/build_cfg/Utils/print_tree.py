@@ -1,3 +1,4 @@
+import pprint
 def check_lib_failed(lib, failed):
     return lib in failed.keys()
 
@@ -33,7 +34,10 @@ def print_tree_structure(libs, modules, prefix="", failed={}):
     print(f"builded_libs {res}")
     print_branch(libs)
     if res == "🔴":
-        print("\n🔴 Some libraries failed to build. Do not use them.\nFailed: {}".format(failed)) 
+        print("\n🔴 Some libraries failed to build. Do not use them.\n")
+        pprint.pprint([
+            'Failed_libs', failed
+            ], indent=2, width=50)
     else:
         print("\n🟢 Build Done")
     
