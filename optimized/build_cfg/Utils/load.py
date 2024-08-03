@@ -24,6 +24,9 @@ keys = list(standart_cfg.keys())
 settings_list = list(standart_cfg['settings'].keys())
 
 def path_f():
+    if not os.path.exists('build_cfg/backup'):
+        os.mkdir('build_cfg/backup')
+        
     path = f'build_cfg/backup/build_modules_backup.json'
     max_ = 0
     index = len('build_modules_backup_')
