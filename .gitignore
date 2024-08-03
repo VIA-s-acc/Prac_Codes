@@ -9,3 +9,4 @@ error_log.txt
 .VSCodeCounter
 /LinEqRework
 build/
+venv/
