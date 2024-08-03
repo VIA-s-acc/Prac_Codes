@@ -32,6 +32,10 @@ def print_tree_structure(libs, modules, prefix="", failed={}):
     print("\nbuilder result:\n")
     print(f"builded_libs {res}")
     print_branch(libs)
+    if res == "🔴":
+        print("\n🔴 Some libraries failed to build. Do not use them.\nFailed: {}".format(failed)) 
+    else:
+        print("\n🟢 Build Done")
     
 def res_print(settings, modules, libs, failed):
     if settings['print_result']:   

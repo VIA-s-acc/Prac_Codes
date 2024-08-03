@@ -11,9 +11,9 @@
     "settings":
     {
         "check_cython": true,
-        "run_tests": false,
-        "print_result": false,
-        "traceback": false,
+        "run_tests": true,
+        "print_result": true,
+        "traceback": true,
         "prefix": ""
     }
 }

@@ -31,8 +31,7 @@ def main():
                 test_libs.remove(lib) # remove failed libs from test
         run_tests(settings, test_libs) # run tests 
         res_print(settings, modules, libs, failed) # print result
-        if len(list(failed.keys())) > 0:
-            print("\n🔴 Some libraries failed to build. Do not use them.\nFailed: {}".format(failed)) 
+
     except Exception as e:
         print("Error: " + str(e))
         if settings['traceback']:
