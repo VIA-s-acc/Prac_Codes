@@ -17,7 +17,7 @@ Alternatively, you can download the release from GitHub.
 ### Last Update
 #### Update 04.08.2024 INFO:
 Started developing the [API](optimized/optimized_api/) for the optimized codes. Already ready for use determinant function API. 
-Info in [data](optimized/optimized_api/static/data.json). To run the API, run [run_api](run_api.py). Local API is available at [http://127.0.0.1:8000/](http://127.0.0.1:8000/). \
+Info in [data](optimized/optimized_api/static/data.json). To run the API, run [run_api](run_api.py). Local API is available at [http://127.0.0.1:8000/](http://127.0.0.1:8000/). 
 - Use examples: 
     - browser list mode `(img1)`: **`http://127.0.0.1:5000/det/?type=list&matrix=[[1,2,3],[4,5,6],[7,1.2,7]]`**
     
