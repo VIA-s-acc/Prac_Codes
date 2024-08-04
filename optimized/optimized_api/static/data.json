@@ -68,7 +68,7 @@
                         {
                             "args": {
                                 "type": "type POST data ( 'str' or 'list' )",
-                                "matrix": "matrix POST data ( tpye(str) or type(list) )"
+                                "matrix": "matrix POST data ( type(str) or type(list) )"
                             },
                             "pattern": "link_to_api/lu/?type=type&matrix=matrix ( list or str )"
                         },
