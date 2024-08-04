@@ -10,20 +10,154 @@
     },    
 
     "Instructions": {   
-        "Determinant calculator": 
-            {
-                "name": "/det/",
-                "use": "link_to_api/det/?matrix=matrix ( list or str )",
-                "example_str": "link_to_api/det/?matrix=1 2 3\n4 5 6\n7 8 9",
-                "example_list": "link_to_api/det/?matrix=[[1,2,3],[4,5,6],[7,8,9]]",
-                "returns": {
-                        "det": "Determinant of the matrix (NULL if error)", 
-                        "error": "Error | NULL if not occupied", 
-                        "matrix": "Input matrix", 
-                        "spent": "Spent until end of processing", 
-                        "det_calc_time": "Determinant calculating time"
-                }
+        "lineq module":
+        {
+            "Determinant calculator": 
+                {
+                    "name": "/det/",
+                    "use": 
+                        {
+                            "args": {
+                                "type": "type POST data ( 'str' or 'list' )",
+                                "matrix": "matrix POST data ( tpye(str) or type(list) )"
+                            },
+                            "pattern": "link_to_api/det/?type=type&matrix=matrix ( list or str )"
+                        },
+                    "Examples":
+                        {
+                            "example_str": "link_to_api/det/?matrix=1 2 3\n4 5 6\n7 8 9",
+                            "example_list": "link_to_api/det/?type=list&matrix=[[1,2,3],[4,5,6],[7,8,9]]"
+                        },
+                    "returns": {
+                            "result": "Determinant of the matrix (NULL if error)", 
+                            "error": "Error | NULL if not occupied", 
+                            "matrix": "Input matrix", 
+                            "spent": "Spent until end of processing", 
+                            "result_calc_time": "Determinant calculating time"
+                    }
 
-            }
+                },
+            "Maximal element of the matrix": 
+                {
+                    "name": "/max_matrix/",
+                    "use": 
+                        {
+                            "args": {
+                                "type": "type POST data ( 'str' or 'list' )",
+                                "matrix": "matrix POST data ( tpye(str) or type(list) )"
+                            },
+                            "pattern": "link_to_api/max_matrix/?type=type&matrix=matrix ( list or str )"
+                        },
+                    "Examples":
+                        {
+                            "example_str": "link_to_api/max_matrix/?matrix=1 2 3\n4 5 6\n7 8 9",
+                            "example_list": "link_to_api/max_matrix/?type=list&matrix=[[1,2,3],[4,5,6],[7,8,9]]"
+                        },
+                    "returns": {
+                            "result": "Maximal element of the matrix (NULL if error)", 
+                            "error": "Error | NULL if not occupied", 
+                            "matrix": "Input matrix", 
+                            "spent": "Spent until end of processing", 
+                            "result_calc_time": "Calculating time"
+                    }
+                },
+            "LU decomposition": 
+                {
+                    "name": "/lu/",
+                    "use": 
+                        {
+                            "args": {
+                                "type": "type POST data ( 'str' or 'list' )",
+                                "matrix": "matrix POST data ( tpye(str) or type(list) )"
+                            },
+                            "pattern": "link_to_api/lu/?type=type&matrix=matrix ( list or str )"
+                        },
+                    "Examples":
+                        {
+                            "example_str": "link_to_api/lu/?matrix=1 2 3\n4 5 6\n7 8 9",
+                            "example_list": "link_to_api/lu/?type=list&matrix=[[1,2,3],[4,5,6],[7,8,9]]"
+                        },
+                    "returns": {
+                            "result": "LU decomposition of the matrix dict('l',: (None if error), 'u',: (None if error))", 
+                            "error": "Error | NULL if not occupied", 
+                            "matrix": "Input matrix", 
+                            "spent": "Spent until end of processing", 
+                            "result_calc_time": "Determinant calculating time"
+                    }
+                },
+            "Cholesky decomposition v1 (A = LL^*)": 
+                {
+                    "name": "/cholv1/",
+                    "use": 
+                        {
+                            "args": {
+                                "type": "type POST data ( 'str' or 'list' )",
+                                "matrix": "matrix POST data ( tpye(str) or type(list) )"
+                            },
+                            "pattern": "link_to_api/cholv1/?type=type&matrix=matrix ( list or str )"
+                        },
+                    "Examples":
+                        {
+                            "example_str": "link_to_api/cholv1/?matrix=1 2 3\n4 5 6\n7 8 9",
+                            "example_list": "link_to_api/cholv1/?type=list&matrix=[[1,2,3],[4,5,6],[7,8,9]]"
+                        },
+                    "returns": {
+                            "result": "Cholesky decomposition of the matrix dict('l',: (None if error), 'u',: (None if error))", 
+                            "error": "Error | NULL if not occupied", 
+                            "matrix": "Input matrix", 
+                            "spent": "Spent until end of processing", 
+                            "result_calc_time": "Determinant calculating time"
+                    }
+                },
+            "Cholesky decomposition v2 (A = LDL^*)": 
+                {
+                    "name": "/cholv2/",
+                    "use": 
+                        {
+                            "args": {
+                                "type": "type POST data ( 'str' or 'list' )",
+                                "matrix": "matrix POST data ( tpye(str) or type(list) )"
+                            },
+                            "pattern": "link_to_api/cholv2/?type=type&matrix=matrix ( list or str )"
+                        },
+                    "Examples":
+                        {
+                            "example_str": "link_to_api/cholv2/?matrix=1 2 3\n4 5 6\n7 8 9",
+                            "example_list": "link_to_api/cholv2/?type=list&matrix=[[1,2,3],[4,5,6],[7,8,9]]"
+                        },
+                    "returns": {
+                            "result": "Cholesky decomposition of the matrix dict('l': (None if error), 'd': (None if error), 'u': (None if error))", 
+                            "error": "Error | NULL if not occupied", 
+                            "matrix": "Input matrix", 
+                            "spent": "Spent until end of processing", 
+                            "result_calc_time": "Determinant calculating time"
+                    }
+                },
+            "Inverse matrix (A_I*A = E)": 
+                {
+                    "name": "/inv/",
+                    "use": 
+                        {
+                            "args": {
+                                "type": "type POST data ( 'str' or 'list' )",
+                                "matrix": "matrix POST data ( tpye(str) or type(list) )"
+                            },
+                            "pattern": "link_to_api/inv/?type=type&matrix=matrix ( list or str )"
+                        },
+                    "Examples":
+                        {
+                            "example_str": "link_to_api/inv/?matrix=1 2 3\n4 5 6\n7 8 9",
+                            "example_list": "link_to_api/inv/?type=list&matrix=[[1,2,3],[4,5,6],[7,8,9]]"
+                        },
+                    "returns": {
+                            "result": "inverted matrix (NULL if error)", 
+                            "error": "Error | NULL if not occupied", 
+                            "matrix": "Input matrix", 
+                            "spent": "Spent until end of processing", 
+                            "result_calc_time": "Determinant calculating time"
+                    }
+
+                }
         }
+    }
 }

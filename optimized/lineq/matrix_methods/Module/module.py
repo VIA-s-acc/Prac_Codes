@@ -38,9 +38,9 @@ class MatrixMethods():
     version = '0.0.1'
     __doc__ = """MatrixMethods module\nMethods\n---
     \n
-    determinant(matrix_a) -> double :\t Returns determinant of matrix_a
+    determinant(matrix_a) -> double :\t Returns determinant of matrix_a | API +
     \n
-    sum_matrices(matrix_a, matrix_b) -> matrix :\t Returns sum of matrices
+    sum_matrices(matrix_a, matrix_b) -> matrix :\t Returns sum of matrices 
     \n
     multiply_matrix_by_scalar(matrix_a, scalar) -> matrix :\t Returns multiplied matrix
     \n
@@ -52,15 +52,15 @@ class MatrixMethods():
     \n
     random(matrix_a, matrix_b) -> double :\t Returns random number in range (min, max)
     \n
-    max_matrix(matrix_a) -> double :\t Returns max value in matrix
+    max_matrix(matrix_a) -> double :\t Returns max value in matrix | API +
     \n
-    inverse(matrix_a) -> matrix :\t Returns inverted matrix
+    inverse(matrix_a) -> matrix :\t Returns inverted matrix | API +
     \n
-    LU(matrix_a) -> tuple[matrix, matrix] :\t Returns LU decomposition
+    LU(matrix_a) -> tuple[matrix, matrix] :\t Returns LU decomposition | API +
     \n
-    cholv1(matrix_a) -> tuple[matrix, matrix] :\t Returns cholesky decomposition
+    cholv1(matrix_a) -> tuple[matrix, matrix] :\t Returns cholesky decomposition | API +
     \n
-    cholv2(matrix_a) -> tuple[matrix, matrix, matrix] :\t Returns cholesky decomposition
+    cholv2(matrix_a) -> tuple[matrix, matrix, matrix] :\t Returns cholesky decomposition | API +
     \n
     eigen(matrix_a) -> tuple[tuple[double, vector], tuple[double, vector]] :\t Returns eigenvalues and eigenvectors (max, min)
     \n

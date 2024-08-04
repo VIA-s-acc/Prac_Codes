@@ -15,6 +15,19 @@ Alternatively, you can download the release from GitHub.
 
 ---
 ### Last Update
+
+#### Update #2 04.08.2024 INFO:
+Add new API functions
+```py
+determinant(matrix_a) -> double : Returns determinant of matrix_a | API +
+max_matrix(matrix_a) -> double : Returns max value in matrix | API +
+inverse(matrix_a) -> matrix : Returns inverted matrix | API +
+LU(matrix_a) -> tuple[matrix, matrix] : Returns LU decomposition | API +
+cholv1(matrix_a) -> tuple[matrix, matrix] : Returns cholesky decomposition | API +
+cholv2(matrix_a) -> tuple[matrix, matrix, matrix] : Returns cholesky decomposition | API +
+```
+Check usage instructions in [API-DATA](optimized/optimized_api/static/data.json) or just run [run_api.py](run_api.py) and check home page.
+
 #### Update 04.08.2024 INFO:
 Started developing the [API](optimized/optimized_api/) for the optimized codes. Already ready for use determinant function API. 
 Info in [data](optimized/optimized_api/static/data.json). To run the API, run [run_api](run_api.py). Local API is available at [http://127.0.0.1:8000/](http://127.0.0.1:8000/). 
