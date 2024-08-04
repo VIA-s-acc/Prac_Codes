@@ -23,7 +23,7 @@ Info in [data](optimized/optimized_api/static/data.json). To run the API, run [r
     
     
     - browser str mode `(img2)`: **`http://127.0.0.1:5000/det/?matrix=1%202%203\n4%205%206\n7%208%209`**
-    - curl: 
+    - curl list mode `(img3)`: 
     ```shell
     curl `http://127.0.0.1:5000/det/?type=list&matrix=%5B%5B1%2C2%2C3%5D%2C%5B4%2C5%2C6%5D%2C%5B7%2C1.2%2C7%5D%5D`
     ```
