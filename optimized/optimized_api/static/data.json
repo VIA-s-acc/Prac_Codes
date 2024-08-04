@@ -1,0 +1,29 @@
+{
+    "global_info":
+    {
+    "link_to_api": null, 
+    "page": "home page of the https://github.com/VIA-s-acc/Prac_Codes api",
+    "github": "https://github.com/VIA-s-acc/Prac_Codes",
+    "libs": {
+            "lineq": ["matrix_methods", "generator", "checker"]
+        }
+    },    
+
+    "Instructions": {   
+        "Determinant calculator": 
+            {
+                "name": "/det/",
+                "use": "link_to_api/det/?matrix=matrix ( list or str )",
+                "example_str": "link_to_api/det/?matrix=1 2 3\n4 5 6\n7 8 9",
+                "example_list": "link_to_api/det/?matrix=[[1,2,3],[4,5,6],[7,8,9]]",
+                "returns": {
+                        "det": "Determinant of the matrix (NULL if error)", 
+                        "error": "Error | NULL if not occupied", 
+                        "matrix": "Input matrix", 
+                        "spent": "Spent until end of processing", 
+                        "det_calc_time": "Determinant calculating time"
+                }
+
+            }
+        }
+}
