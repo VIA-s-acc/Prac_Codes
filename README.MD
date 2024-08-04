@@ -27,9 +27,9 @@ Info in [data](optimized/optimized_api/static/data.json). To run the API, run [r
     ```shell
     curl `http://127.0.0.1:5000/det/?type=list&matrix=%5B%5B1%2C2%2C3%5D%2C%5B4%2C5%2C6%5D%2C%5B7%2C1.2%2C7%5D%5D`
     ```
-    [<img src="images/img_api_lm.png" width="333"  height = "162"/>](images/img_api_lm.png)
-    [<img src="images/img_api_sm.png" width="333"  height = "162"/>](images/img_api_sm.png)
-    [<img src="images/img_api_cm.png" width="333" height = "162"/>](images/img_api_cm.png)
+    [<img src="images/img_api_lm.png" width="240"  height = "150"/>](images/img_api_lm.png)
+    [<img src="images/img_api_sm.png" width="240"  height = "150"/>](images/img_api_sm.png)
+    [<img src="images/img_api_cm.png" width="240" height = "150"/>](images/img_api_cm.png)
 
 
 
