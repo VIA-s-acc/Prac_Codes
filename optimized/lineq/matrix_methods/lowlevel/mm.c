@@ -151,11 +151,7 @@ void inverse(double* matrix, double* result_matrix, int size) {
         if ( diag == 0.0 )
         {
             printf("Warning!!!!! Matrix is not invertible ( determinant = 0 )\nResult is zeros matrix\n");
-            for (int j = 0; j < size; ++j) {
-                for (int k = 0; k < size; ++k) {
-                    result_matrix[j * size + k] = 0;
-                }
-            }
+            memset(result_matrix, 0, sizeof(double) * size * size);
             return;
         }
         for ( int k = 0; k < size; ++k )
