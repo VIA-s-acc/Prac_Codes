@@ -1,24 +1,24 @@
 import json, os, shutil
 
-standart_cfg = {
-    "modules":
-    {
-        "lineq": [
-                "matrix_methods", 
-                "generator", 
-                "checker"
-            ]
-    },
+# standart_cfg = {
+#     "modules":
+#     {
+#         "lineq": [
+#                 "matrix_methods", 
+#                 "generator", 
+#                 "checker"
+#             ]
+#     },
 
-    "settings":
-    {
-        "check_cython": True,
-        "run_tests": True,
-        "print_result": True,
-        "traceback": True,
-        "prefix": ""
-    }
-}
+#     "settings":
+#     {
+#         "check_cython": True,
+#         "run_tests": True,
+#         "print_result": True,
+#         "traceback": True,
+#         "prefix": ""
+#     }
+# }
 
 keys = list(standart_cfg.keys())
 settings_list = list(standart_cfg['settings'].keys())
