@@ -58,13 +58,15 @@ Still in development. ([Last Update](../README.MD#last-update)), build and use t
     -   [**Optimized.lineq.generator python interface**](../optimized/lineq/generator/Module/generator.py)
 -   [**Optimized.lineq.checker**](../optimized/lineq/checker/)
     -   [**Optimized.lineq.checker python interface**](../optimized/lineq/checker/Module/checker.py)
-
+---
 ### Api
+---
 Version - `API-v0.1A2`
 
 To run api local host use `run_api.py` script. ( I will add CLI for API usage in future [CLI-API](#cli-api)) \
 Check usage instructions in [API-DATA](../optimized/optimized_api/static/data.json) or just run [run_api.py](../run_api.py) and check home page.
 
+---
 #### Current Api Support:
 Current version of API supports the following functions:
 ```py
@@ -81,7 +83,7 @@ LU(matrix_a) -> tuple[matrix, matrix] : Returns LU decomposition
 cholv1(matrix_a) -> tuple[matrix, matrix] : Returns cholesky decomposition 
 cholv2(matrix_a) -> tuple[matrix, matrix, matrix] : Returns cholesky decomposition 
 ```
-
+---
 #### CLI-API:
 
 still in development
