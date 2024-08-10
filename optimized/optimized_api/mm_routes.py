@@ -27,7 +27,7 @@ def get_GlobalRet(requset):
                 "api_key": "",
         }
     }
-    data['global_info']['link_to_api'] = request.url
+    data['global_info']['link_to_api'] = request.base_url
     if request.args.get('api_key') is not None:
         data['global_info']['api_key'] = request.args.get('api_key')
     for key in request.headers:
