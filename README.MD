@@ -21,6 +21,12 @@ Repository for mathematical codes ( 2 variants - optimized, non-optimized )
 - Updated the docstrings in the `optimized.lineq.generator.python_interface` module. [optimized.lineq.generator.python_interface](optimized/lineq/generator/Module/generator.py)
 - Added new information to the `API data.json` file. [API-DATA](optimized/optimized_api/static/data.json).
 - Added new API functions. Check the [Current Api Support](#current-api-support) for all functions.
+- New API return system -> Added in each return global_info -> request.headers, host, url, etc...
+    - some screenshots
+    
+    [<img src="images/im1example_api_new.png" width="240"  height = "150"/>](images/im1example_api_new.png)
+    [<img src="images/im2example_api_new.png" width="240"  height = "150"/>](images/im2example_api_new.png)
+    [<img src="images/im3example_api_new.png" width="240"  height = "150"/>](images/im3example_api_new.png)
 
 ---
 #### Update #2 04.08.2024 INFO:
@@ -45,9 +51,11 @@ Info in [data](optimized/optimized_api/static/data.json). To run the API, run [r
     ```shell
     curl `http://127.0.0.1:5000/det/?type=list&matrix=%5B%5B1%2C2%2C3%5D%2C%5B4%2C5%2C6%5D%2C%5B7%2C1.2%2C7%5D%5D`
     ```
+    
     [<img src="images/img_api_lm.png" width="240"  height = "150"/>](images/img_api_lm.png)
     [<img src="images/img_api_sm.png" width="240"  height = "150"/>](images/img_api_sm.png)
     [<img src="images/img_api_cm.png" width="240" height = "150"/>](images/img_api_cm.png)
+    
 
 ---
 #### Update 02.08.2024 INFO:
