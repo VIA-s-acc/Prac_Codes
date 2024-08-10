@@ -1,22 +1,22 @@
 from flask import request, jsonify
 import ast
-def matirx_input_g(request):
+def matrix_input_g(request, name = 'matrix') -> (str, str):
     tpe = request.args.get('type', 'str', type=str)
     if tpe == 'list':
         try:
-            matrix_input = request.args.get('matrix', type=str)
+            matrix_input = request.args.get(name, type=str)
             matrix_input = ast.literal_eval(matrix_input)
  
         except:
             return None, tpe
     
     elif tpe == 'str':
-        matrix_input = request.args.get('matrix', type=str)
+        matrix_input = request.args.get(name, type=str)
         
     return matrix_input, tpe
 
 
-def matrix_read(matrix_input, tpe):
+def matrix_read(matrix_input, tpe) -> (list, bool):
     matrix = []
     prev_row = []
     flag = False
@@ -42,7 +42,7 @@ def matrix_read(matrix_input, tpe):
                     
     return matrix, flag
 
-def check_matrix_shape(matrix):
+def check_matrix_shape(matrix) -> bool:
     for row in matrix:
         if len(row) != len(matrix[0]):
             return False

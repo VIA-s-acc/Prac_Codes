@@ -40,17 +40,17 @@ class MatrixMethods():
     \n
     determinant(matrix_a) -> double :\t Returns determinant of matrix_a | API +
     \n
-    sum_matrices(matrix_a, matrix_b) -> matrix :\t Returns sum of matrices 
+    sum_matrices(matrix_a, matrix_b) -> matrix :\t Returns sum of matrices | API + 
     \n
-    multiply_matrix_by_scalar(matrix_a, scalar) -> matrix :\t Returns multiplied matrix
+    multiply_matrix_by_scalar(matrix_a, scalar) -> matrix :\t Returns multiplied matrix | API +
     \n
-    multiply_matrices(matrix_a, matrix_b) -> matrix :\t Returns multiplied matrix
+    multiply_matrices(matrix_a, matrix_b) -> matrix :\t Returns multiplied matrix | API + 
     \n
-    sig(x) -> int :\t Returns -1 if x < 0, 0 if x == 0, 1 if x > 0
+    sig(x) -> int :\t Returns -1 if x < 0, 0 if x == 0, 1 if x > 0 | API +
     \n
-    absolute(x) -> double :\t Returns absolute value of number
+    absolute(x) -> double :\t Returns absolute value of number | API +
     \n
-    random(matrix_a, matrix_b) -> double :\t Returns random number in range (min, max)
+    random(min, max) -> double :\t Returns random number in range (min, max) | API +
     \n
     max_matrix(matrix_a) -> double :\t Returns max value in matrix | API +
     \n
@@ -62,13 +62,13 @@ class MatrixMethods():
     \n
     cholv2(matrix_a) -> tuple[matrix, matrix, matrix] :\t Returns cholesky decomposition | API +
     \n
-    eigen(matrix_a) -> tuple[tuple[double, vector], tuple[double, vector]] :\t Returns eigenvalues and eigenvectors (max, min)
+    eigen(matrix_a, max_iter, tol) -> tuple[tuple[double, vector], tuple[double, vector]] :\t Returns eigenvalues and eigenvectors (max, min)
     \n
-    power_method(matrix_a) -> tuple[double, vector]:\t Returns eigenvector (iterative method, max)
+    power_method(matrix_a, max_iter, tol) -> tuple[double, vector]:\t Returns eigenvector (iterative method, max)
     \n
-    norm(matrix_a) -> double:\t Returns norm (euclidian)
+    norm(vector) -> double:\t Returns norm (euclidian)
     \n
-    vec_approx(matrix_a) -> bool:\t Returns vector approximation ( True or False )
+    vec_approx(vector_a, vector_b) -> bool:\t Returns vector approximation ( True or False )
     \n
     """
     
@@ -215,6 +215,7 @@ class MatrixMethods():
     @staticmethod
     def random(minv: double, maxv: double) -> double:
         """
+        ### ( TESTED ONLY IN LINUX )
         Generate a random number between the specified minimum and maximum values.
 
         Args:

@@ -4,7 +4,7 @@
 {
     "distutils": {
         "depends": [
-            "lineq\\matrix_methods\\lowlevel\\mm.c"
+            "lineq/matrix_methods/lowlevel/mm.c"
         ],
         "include_dirs": [
             "lineq/matrix_methods"
@@ -1488,7 +1488,7 @@ static const char *__pyx_filename;
 /* #### Code section: filename_table ### */
 
 static const char *__pyx_f[] = {
-  "lineq\\\\matrix_methods\\\\matrix_methods.pyx",
+  "lineq/matrix_methods/matrix_methods.pyx",
 };
 /* #### Code section: utility_code_proto_before_types ### */
 /* ForceInitThreads.proto */
@@ -2183,7 +2183,7 @@ static const char __pyx_k_cline_in_traceback[] = "cline_in_traceback";
 static const char __pyx_k_sum_matrices_wrapper[] = "sum_matrices_wrapper";
 static const char __pyx_k_Failed_to_allocate_memory[] = "Failed to allocate memory";
 static const char __pyx_k_multiply_matrices_wrapper[] = "multiply_matrices_wrapper";
-static const char __pyx_k_lineq_matrix_methods_matrix_meth[] = "lineq\\matrix_methods\\matrix_methods.pyx";
+static const char __pyx_k_lineq_matrix_methods_matrix_meth[] = "lineq/matrix_methods/matrix_methods.pyx";
 static const char __pyx_k_multiply_matrix_by_scalar_wrappe[] = "multiply_matrix_by_scalar_wrapper";
 /* #### Code section: decls ### */
 static PyObject *__pyx_pf_14matrix_methods_determinant(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_matrix_a); /* proto */

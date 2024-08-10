@@ -4,7 +4,7 @@
 {
     "distutils": {
         "depends": [
-            "lineq\\generator\\lowlevel\\gn.c"
+            "lineq/generator/lowlevel/gn.c"
         ],
         "include_dirs": [
             "lineq/generator"
@@ -1488,7 +1488,7 @@ static const char *__pyx_filename;
 /* #### Code section: filename_table ### */
 
 static const char *__pyx_f[] = {
-  "lineq\\\\generator\\\\generator.pyx",
+  "lineq/generator/generator.pyx",
 };
 /* #### Code section: utility_code_proto_before_types ### */
 /* ForceInitThreads.proto */
@@ -2102,7 +2102,7 @@ static const char __pyx_k_cline_in_traceback[] = "cline_in_traceback";
 static const char __pyx_k_generate_random_matrix[] = "generate_random_matrix";
 static const char __pyx_k_generate_random_vector[] = "generate_random_vector";
 static const char __pyx_k_Failed_to_allocate_memory[] = "Failed to allocate memory";
-static const char __pyx_k_lineq_generator_generator_pyx[] = "lineq\\generator\\generator.pyx";
+static const char __pyx_k_lineq_generator_generator_pyx[] = "lineq/generator/generator.pyx";
 /* #### Code section: decls ### */
 static PyObject *__pyx_pf_9generator_generate_random_matrix(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_size, PyObject *__pyx_v_rng, PyObject *__pyx_v_mode); /* proto */
 static PyObject *__pyx_pf_9generator_2generate_random_vector(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_size, PyObject *__pyx_v_rng); /* proto */

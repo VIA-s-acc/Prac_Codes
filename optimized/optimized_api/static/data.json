@@ -1,18 +1,26 @@
 {
     "global_info":
     {
-    "link_to_api": null, 
-    "page": "home page of the https://github.com/VIA-s-acc/Prac_Codes api",
-    "github": "https://github.com/VIA-s-acc/Prac_Codes",
-    "libs": {
-            "lineq": ["matrix_methods", "generator", "checker"]
+        "link_to_api": null, 
+        "page": "home page of the https://github.com/VIA-s-acc/Prac_Codes api",
+        "github": "https://github.com/VIA-s-acc/Prac_Codes",
+        "libs": {
+                "lineq": ["matrix_methods", "generator", "checker"]
+            },
+        "version": {
+            "major": 0, 
+            "minor": 1,
+            "build": "Alpha",
+            "snap": 2,
+            "shortcut": "API-v0.1A2",
+            "explanation": "Second snapshot of API v0.1 Alpha build"
         }
     },    
 
     "Instructions": {   
         "lineq module":
         {
-            "Determinant calculator": 
+            "Determinant calculator (shortcut: det)": 
                 {
                     "name": "/det/",
                     "use": 
@@ -33,11 +41,11 @@
                             "error": "Error | NULL if not occupied", 
                             "matrix": "Input matrix", 
                             "spent": "Spent until end of processing", 
-                            "result_calc_time": "Determinant calculating time"
+                            "result_calc_time": "Calculating time"
                     }
 
                 },
-            "Maximal element of the matrix": 
+            "Maximal element of the matrix (shortcut: maxm)": 
                 {
                     "name": "/max_matrix/",
                     "use": 
@@ -61,7 +69,7 @@
                             "result_calc_time": "Calculating time"
                     }
                 },
-            "LU decomposition": 
+            "LU decomposition (shortcut: lu)": 
                 {
                     "name": "/lu/",
                     "use": 
@@ -82,10 +90,10 @@
                             "error": "Error | NULL if not occupied", 
                             "matrix": "Input matrix", 
                             "spent": "Spent until end of processing", 
-                            "result_calc_time": "Determinant calculating time"
+                            "result_calc_time": "Calculating time"
                     }
                 },
-            "Cholesky decomposition v1 (A = LL^*)": 
+            "Cholesky decomposition v1 (A = LL^*) (shortcut: chl1)": 
                 {
                     "name": "/cholv1/",
                     "use": 
@@ -106,10 +114,10 @@
                             "error": "Error | NULL if not occupied", 
                             "matrix": "Input matrix", 
                             "spent": "Spent until end of processing", 
-                            "result_calc_time": "Determinant calculating time"
+                            "result_calc_time": "Calculating time"
                     }
                 },
-            "Cholesky decomposition v2 (A = LDL^*)": 
+            "Cholesky decomposition v2 (A = LDL^*) (shortcut: chl2)": 
                 {
                     "name": "/cholv2/",
                     "use": 
@@ -130,10 +138,10 @@
                             "error": "Error | NULL if not occupied", 
                             "matrix": "Input matrix", 
                             "spent": "Spent until end of processing", 
-                            "result_calc_time": "Determinant calculating time"
+                            "result_calc_time": "Calculating time"
                     }
                 },
-            "Inverse matrix (A_I*A = E)": 
+            "Inverse matrix (A_I*A = E) (shortcut: inv)": 
                 {
                     "name": "/inv/",
                     "use": 
@@ -154,10 +162,156 @@
                             "error": "Error | NULL if not occupied", 
                             "matrix": "Input matrix", 
                             "spent": "Spent until end of processing", 
-                            "result_calc_time": "Determinant calculating time"
+                            "result_calc_time": "Calculating time"
                     }
 
+                },
+            "Sum of matrices (R = A + B) (shortcut: summ)": 
+                {
+                    "name": "/sum_m/",
+                    "use": 
+                        {
+                            "args": {
+                                "type": "type POST data ( 'str' or 'list' )",
+                                "matrix1": "matrix1 POST data ( tpye(str) or type(list) )",
+                                "matrix2": "matrix2 POST data ( tpye(str) or type(list) )"
+                            },
+                            "pattern": "link_to_api/sum_m/?type=type&matrix1=matrix1&matrix2=matrix2 ( list or str )"
+                        },
+                    "Examples":
+                        {
+                            "example_str": "link_to_api/sum_m/?matrix1=1 2 3\n4 5 6\n7 8 9&matrix2 = 1 2 3\n4 5 6\n7 8 9",
+                            "example_list": "link_to_api/sum_m/?type=list&matrix1=[[2,2,3],[4,5,5],[7,1.2,7]]&matrix2=[[1,2,3],[7,4,6],[7,1.2,7]]"
+                        },
+                    "returns": {
+                            "result": "Sum matrix (NULL if error)", 
+                            "error": "Error | NULL if not occupied", 
+                            "matrix1": "Input matrix1",
+                            "matrix2": "Input matrix2", 
+                            "spent": "Spent until end of processing", 
+                            "result_calc_time": "Calculating time"
+                    }
+                },
+            "Multiplication of matrices (R = A * B) (shortcut: multm)": 
+                {
+                    "name": "/mult_m/",
+                    "use": 
+                        {
+                            "args": {
+                                "type": "type POST data ( 'str' or 'list' )",
+                                "matrix1": "matrix1 POST data ( tpye(str) or type(list) )",
+                                "matrix2": "matrix2 POST data ( tpye(str) or type(list) )"
+                            },
+                            "pattern": "link_to_api/mult_m/?type=type&matrix1=matrix1&matrix2=matrix2 ( list or str )"
+                        },
+                    "Examples":
+                        {
+                            "example_str": "link_to_api/mult_m/?matrix1=1 2 3\n4 5 6\n7 8 9&matrix2 = 1 2 3\n4 5 6\n7 8 9",
+                            "example_list": "link_to_api/mult_m/?type=list&matrix1=[[2,2,3],[4,5,5],[7,1.2,7]]&matrix2=[[1,2,3],[7,4,6],[7,1.2,7]]"
+                        },
+                    "returns": {
+                            "result": "Multiplication matrix (NULL if error)", 
+                            "error": "Error | NULL if not occupied", 
+                            "matrix1": "Input matrix1",
+                            "matrix2": "Input matrix2", 
+                            "spent": "Spent until end of processing", 
+                            "result_calc_time": "calculating time"
+                    }
+                },
+            "Multiplication of matrice to scalar (R = A * scalar) (shortcut: multms)":
+                {
+                    "name": "/mult_m/",
+                    "use": 
+                        {
+                            "args": {
+                                "type": "type POST data ( 'str' or 'list' )",
+                                "matrix1": "matrix POST data ( tpye(str) or type(list) )",
+                                "double": "double POST data ( int | float )"
+                            },
+                            "pattern": "link_to_api/mult_m_s/?type=type&matrix=matrix1&double=double ( list or str for matrix, int or float for double )"
+                        },
+                    "Examples":
+                        {
+                            "example_str": "link_to_api/mult_m_s/?matrix=1 2 3\n4 5 6\n7 8 9&double=1.23",
+                            "example_list": "link_to_api/mult_m_s/?type=list&matrix=[[2,2,3],[4,5,5],[7,1.2,7]]&double=1.23"
+                        },
+                    "returns": {
+                            "result": "Multiplication matrix (NULL if error)", 
+                            "error": "Error | NULL if not occupied", 
+                            "matrix": "Input matrix",
+                            "scalar": "Input double", 
+                            "spent": "Spent until end of processing", 
+                            "result_calc_time": "calculating time"
+                    }
+                },
+            "Signum calculator (shortcut: sig)": 
+                {
+                    "name": "/sig/",
+                    "use": 
+                        {
+                            "args": {
+                                "double": "double POST data ( int | float )"
+                            },
+                            "pattern": "link_to_api/sig/?double=double"
+                        },
+                    "Examples":
+                        {
+                            "example": "link_to_api/sig/?double=1.23"
+                        },
+                    "returns": {
+                            "result": "Signum (NULL if error)", 
+                            "error": "Error | NULL if not occupied", 
+                            "scalar": "Input double",
+                            "spent": "Spent until end of processing", 
+                            "result_calc_time": "Calculating time"
+                    }
+                },
+            "Absolute value calculator (shortcut: abs)": 
+                {
+                    "name": "/abs/",
+                    "use": 
+                        {
+                            "args": {
+                                "double": "double POST data ( int | float )"
+                            },
+                            "pattern": "link_to_api/abs/?double=double"
+                        },
+                    "Examples":
+                        {
+                            "example": "link_to_api/abs/?double=1.23"
+                        },
+                    "returns": {
+                            "result": "abs value (NULL if error)", 
+                            "error": "Error | NULL if not occupied", 
+                            "scalar": "Input double",
+                            "spent": "Spent until end of processing", 
+                            "result_calc_time": "Calculating time"
+                    }
+                },
+            "Random value in range from mind to maxd (shortcut: rnd)": 
+            {
+                "name": "/rand/",
+                "use": 
+                    {
+                        "args": {
+                            "double1": "double1 POST data ( int | float )",
+                            "double2": "double2 POST data ( int | float )"
+                        },
+                        "pattern": "link_to_api/rand/?double1=double1&double2=double2"
+                    },
+                "Examples":
+                    {
+                        "example": "link_to_api/rand/?double1=1.23&double2=1.43"
+                    },
+                "returns": {
+                        "result": "rand value (NULL if error)", 
+                        "error": "Error | NULL if not occupied", 
+                        "scalar1": "Input double1",
+                        "scalar2": "Input double2",
+                        "spent": "Spent until end of processing", 
+                        "result_calc_time": "Calculating time"
                 }
+            }
         }
     }
 }

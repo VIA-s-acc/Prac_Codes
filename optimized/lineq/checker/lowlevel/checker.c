@@ -4,7 +4,7 @@
 {
     "distutils": {
         "depends": [
-            "lineq\\checker\\lowlevel\\ckr.c"
+            "lineq/checker/lowlevel/ckr.c"
         ],
         "include_dirs": [
             "lineq/checker"
@@ -1488,7 +1488,7 @@ static const char *__pyx_filename;
 /* #### Code section: filename_table ### */
 
 static const char *__pyx_f[] = {
-  "lineq\\\\checker\\\\checker.pyx",
+  "lineq/checker/checker.pyx",
 };
 /* #### Code section: utility_code_proto_before_types ### */
 /* ForceInitThreads.proto */
@@ -2107,7 +2107,7 @@ static const char __pyx_k_symmetric_check_pyx[] = "symmetric_check_pyx";
 static const char __pyx_k_diagonal_domination_pyx[] = "diagonal_domination_pyx";
 static const char __pyx_k_sylvesters_criterion_pyx[] = "sylvesters_criterion_pyx";
 static const char __pyx_k_Failed_to_allocate_memory[] = "Failed to allocate memory";
-static const char __pyx_k_lineq_checker_checker_pyx[] = "lineq\\checker\\checker.pyx";
+static const char __pyx_k_lineq_checker_checker_pyx[] = "lineq/checker/checker.pyx";
 /* #### Code section: decls ### */
 static PyObject *__pyx_pf_7checker_symmetric_check_pyx(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_matrix); /* proto */
 static PyObject *__pyx_pf_7checker_2diagonal_domination_pyx(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_matrix); /* proto */

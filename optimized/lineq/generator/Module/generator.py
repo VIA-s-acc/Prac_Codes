@@ -28,7 +28,7 @@ class Generator():
         Generate matrix of random numbers
         Args:
             size (int): size of matrix
-            rng (int): random number generator ( in generator uses +-1 of min(max). for example: if min is -1 -> real min that used is -2)
+            rng (int): random number generator  
             mode (str): mode of matrix
         Returns:
             matrix (list): matrix
@@ -49,7 +49,7 @@ class Generator():
         
         Args:
             size (int): size of vector
-            rng (float): random number generator ( in generator uses +-1 of min(max). for example: if min is -1 -> real min that used is -2)
+            rng (float): random number generator
 
         Returns:
             vector (list): vector of random numbers
