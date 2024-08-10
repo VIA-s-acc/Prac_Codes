@@ -7,6 +7,8 @@ import copy
 import traceback
 
 
+### RUN THIS SCRIPT FROM ROOT.OPTIMIZED FOLDER ###
+
 def main():
     """
     This function is the main entry point of the program. It performs the following steps:
