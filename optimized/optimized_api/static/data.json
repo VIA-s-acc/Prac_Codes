@@ -2,6 +2,7 @@
     "global_info":
     {
         "link_to_api": null, 
+        "api_key": null,
         "page": "home page of the https://github.com/VIA-s-acc/Prac_Codes api",
         "github": "https://github.com/VIA-s-acc/Prac_Codes",
         "libs": {
@@ -14,11 +15,46 @@
             "snap": 2,
             "shortcut": "API-v0.1A2",
             "explanation": "Second snapshot of API v0.1 Alpha build"
+        },
+        "GlobalRet":
+        {
+            "headers": {},
+            "path": null,
+            "full_path": null,
+            "script_root": null,
+            "url": null,
+            "base_url": null,
+            "url_root": null,
+            "host_url": null,
+            "host": null,
+            "method": null
         }
     },    
 
-    "Instructions": {   
-        "lineq module":
+    "Instructions": {
+        "Return note":
+        {
+            "note": "All functions returns -> function return ( you can see it in data[Instructions][module_short][function_short][returns] ) and global return -> return[global_info] ( you can see in data[Instructions][Note][global_return] ) ",
+            "global_return": 
+            {   "link_to_api": "link_to_api",
+                "api_key": "api_key",
+                "GlobalRet": 
+                {
+                    "headers": "request.headers",
+                    "path": "request.path",
+                    "full_path": "request.full_path",
+                    "script_root": "request.script_root",
+                    "url": "request.url",
+                    "base_url": "request.base_url",
+                    "url_root": "request.url_root",
+                    "host_url": "request.host_url",
+                    "host": "request.host",
+                    "method": "request.method"
+                }
+            
+            }
+        },
+        "lineq module (shortcut: lineq)":
         {
             "Determinant calculator (shortcut: det)": 
                 {
@@ -47,19 +83,19 @@
                 },
             "Maximal element of the matrix (shortcut: maxm)": 
                 {
-                    "name": "/max_matrix/",
+                    "name": "/max_m/",
                     "use": 
                         {
                             "args": {
                                 "type": "type POST data ( 'str' or 'list' )",
                                 "matrix": "matrix POST data ( tpye(str) or type(list) )"
                             },
-                            "pattern": "link_to_api/max_matrix/?type=type&matrix=matrix ( list or str )"
+                            "pattern": "link_to_api/max_m/?type=type&matrix=matrix ( list or str )"
                         },
                     "Examples":
                         {
-                            "example_str": "link_to_api/max_matrix/?matrix=1 2 3\n4 5 6\n7 8 9",
-                            "example_list": "link_to_api/max_matrix/?type=list&matrix=[[1,2,3],[4,5,6],[7,8,9]]"
+                            "example_str": "link_to_api/max_m/?matrix=1 2 3\n4 5 6\n7 8 9",
+                            "example_list": "link_to_api/max_m/?type=list&matrix=[[1,2,3],[4,5,6],[7,8,9]]"
                         },
                     "returns": {
                             "result": "Maximal element of the matrix (NULL if error)", 
