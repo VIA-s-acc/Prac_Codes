@@ -23,7 +23,7 @@ Repository for mathematical codes ( 2 variants - optimized, non-optimized )
 - Added new API functions. Check the [Current Api Support](#current-api-support) for all functions.
 - New API return system -> Added in each return global_info -> request.headers, host, url, etc...
     - some screenshots
-    
+
     [<img src="images/im1example_api_new.png" width="240"  height = "150"/>](images/im1example_api_new.png)
     [<img src="images/im2example_api_new.png" width="240"  height = "150"/>](images/im2example_api_new.png)
     [<img src="images/im3example_api_new.png" width="240"  height = "150"/>](images/im3example_api_new.png)
