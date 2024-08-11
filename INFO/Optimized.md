@@ -82,6 +82,8 @@ inverse(matrix_a) -> matrix : Returns inverted matrix
 LU(matrix_a) -> tuple[matrix, matrix] : Returns LU decomposition 
 cholv1(matrix_a) -> tuple[matrix, matrix] : Returns cholesky decomposition 
 cholv2(matrix_a) -> tuple[matrix, matrix, matrix] : Returns cholesky decomposition 
+eigen(matrix_a, max_iter, tol) -> tuple[tuple[double, vector], tuple[double, vector]] : Returns eigenvalues and eigenvectors (max, min) 
+
 ```
 ---
 #### CLI-API:

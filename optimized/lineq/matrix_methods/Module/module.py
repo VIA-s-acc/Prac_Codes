@@ -62,9 +62,9 @@ class MatrixMethods():
     \n
     cholv2(matrix_a) -> tuple[matrix, matrix, matrix] :\t Returns cholesky decomposition | API +
     \n
-    eigen(matrix_a, max_iter, tol) -> tuple[tuple[double, vector], tuple[double, vector]] :\t Returns eigenvalues and eigenvectors (max, min)
-    \n
-    power_method(matrix_a, max_iter, tol) -> tuple[double, vector]:\t Returns eigenvector (iterative method, max)
+    eigen(matrix_a, max_iter, tol) -> tuple[tuple[double, vector], tuple[double, vector]] :\t Returns eigenvalues and eigenvectors (max, min) | API +
+    \n 
+    power_method(matrix_a, max_iter, tol) -> tuple[double, vector]:\t Returns eigenvector (iterative method, max) | WIHTOUT API
     \n
     norm(vector) -> double:\t Returns norm (euclidian)
     \n
