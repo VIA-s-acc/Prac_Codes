@@ -325,29 +325,56 @@
                     }
                 },
             "Random value in range from mind to maxd (shortcut: rnd)": 
-            {
-                "name": "/rand/",
-                "use": 
-                    {
-                        "args": {
-                            "double1": "double1 POST data ( int | float )",
-                            "double2": "double2 POST data ( int | float )"
+                {
+                    "name": "/rand/",
+                    "use": 
+                        {
+                            "args": {
+                                "double1": "double1 POST data ( int | float )",
+                                "double2": "double2 POST data ( int | float )"
+                            },
+                            "pattern": "link_to_api/rand/?double1=double1&double2=double2"
                         },
-                        "pattern": "link_to_api/rand/?double1=double1&double2=double2"
-                    },
-                "Examples":
-                    {
-                        "example": "link_to_api/rand/?double1=1.23&double2=1.43"
-                    },
-                "returns": {
-                        "result": "rand value (NULL if error)", 
-                        "error": "Error | NULL if not occupied", 
-                        "scalar1": "Input double1",
-                        "scalar2": "Input double2",
-                        "spent": "Spent until end of processing", 
-                        "result_calc_time": "Calculating time"
+                    "Examples":
+                        {
+                            "example": "link_to_api/rand/?double1=1.23&double2=1.43"
+                        },
+                    "returns": {
+                            "result": "rand value (NULL if error)", 
+                            "error": "Error | NULL if not occupied", 
+                            "scalar1": "Input double1",
+                            "scalar2": "Input double2",
+                            "spent": "Spent until end of processing", 
+                            "result_calc_time": "Calculating time"
+                    }
+                },
+            "Get (max, min) eigenvalues and eigenvectors of matrix (shortcut: eigmm)":
+                {
+                    "name": "/eig_mm/",
+                    "use": 
+                        {
+                            "args": {
+                                "type": "type POST data ( 'str' or 'list' )",
+                                "matrix": "matrix POST data ( tpye(str) or type(list) )",
+                                "itern": "int POST data ( int )",
+                                "tol": "double POST data ( int | float )"
+                            },
+                            "pattern": "link_to_api/eig_mm/?type=type&matrix=matrix1&itern=itern&tol=double ( list or str for matrix, int or float for double )"
+                        },
+                    "Examples":
+                        {
+                            "example_str": "link_to_api/eig_mm/?matrix=1 2 3\n4 5 6\n7 8 9&itern=10&tol=0.01",
+                            "example_list": "link_to_api/eig_mm/?type=list&matrix=[[2,2,3],[4,5,5],[7,1.2,7]]&itern=10&tol=0.01"
+                        },
+                    "returns": {
+                            "result": "max, min eigenvalues and eigenvectors of matrix -> dict('max': {'eigenvalue': eigenvalue, 'eigenvector': eigenvector}, 'min': {'eigenvalue': eigenvalue, 'eigenvector': eigenvector}) (NULL if error)", 
+                            "error": "Error | NULL if not occupied", 
+                            "matrix": "Input matrix",
+                            "scalar": "Input double", 
+                            "spent": "Spent until end of processing", 
+                            "result_calc_time": "calculating time"
+                    }
                 }
-            }
         }
     }
 }

@@ -72,20 +72,44 @@ def home():
     
     return jsonify(data)
 
-def rand():
-    # headers: EnvironHeaders
-    # path: Text
-    # full_path: Text
-    # script_root: Text
-    # url: Text
-    # base_url: Text
-    # url_root: Text
-    # host_url: Text
-    # host: Text
-    # query_string: bytes
-    # method: Text
+def eigen():
+    start = time.time()
+    matrix_input, tpe = matrix_input_g(request)
+    double_input1 = double_input_g(request, name='itern')
+    double_input2 = double_input_g(request, name='tol')
+    upd_dict = get_GlobalRet(request)
+    if matrix_input is None or double_input1 is None or double_input2 is None:
+        err_str_help = " | Matrix_input | " if matrix_input is None else ""
+        err_str_help += " | Scalar1_input | " if double_input1 is None else ""
+        err_str_help += " | Scalar2_input | " if double_input2 is None else ""
+        return jsonify(add_dicts(upd_dict, {'result': None, 'error': f'Invalid input (error in [{err_str_help}])', 'input_type ': tpe, 'matrix': matrix_input, 'scalar1': double_input1, 'scalar2': double_input2, 'spent': None, 'result_calc_time': None}))
     
+    matrix, flag = matrix_read(matrix_input, tpe)
+    double1, flag_s = double_read(double_input1)
+    double2, flag_s2 = double_read(double_input2)
     
+    if flag or flag_s or flag_s2:
+        err_str_help = " | non numeric elements in matrix | " if flag else ""
+        err_str_help += " | invalid scalar1 | " if flag_s else ""
+        err_str_help += " | invalid scalar2 | " if flag_s2 else ""
+        return jsonify(add_dicts(upd_dict, {'result': None, 'error': f'Invalid arg ([{err_str_help}])', 'input_type': tpe, 'matrix': matrix, 'scalar1': double1, 'scalar2': double2, 'spent': time.time() - start, 'result_calc_time': None}))
+    
+    if len(matrix[0]) == 0:
+        return jsonify(add_dicts(upd_dict, {'result': None, 'error': 'Empty matrix', 'input_type': tpe, 'matrix': matrix, 'scalar1': double1, 'scalar2': double2, 'spent': time.time() - start, 'result_calc_time': None}))
+
+    if not check_matrix_shape(matrix):
+        return jsonify(add_dicts(upd_dict, {'result': None, 'error': 'Matrix must be rectangular', 'input_type': tpe, 'matrix': matrix, 'scalar1': double1, 'scalar2': double2, 'spent': time.time() - start, 'result_calc_time': None}))
+
+    calc_start = time.time()
+    
+    try:
+        max_, min_ = MatrixMethods.eigen(matrix, int(double1), int(double2))
+        return jsonify(add_dicts(upd_dict, {'result': {"max": {"eigenvector": max_[1], "eigenvalue": max_[0]}, "min": {"eigenvector": min_[1], "eigenvalue": min_[0]}}, 'error': None, 'input_type': tpe,  'matrix': matrix, 'scalar1': double1, 'scalar2': double2, 'spent': time.time() - start, 'result_calc_time': time.time() - calc_start }))
+    
+    except Exception as ex:
+        return jsonify(add_dicts(upd_dict, {'result': None, 'error': str(ex), 'input_type': tpe, 'matrix': matrix, 'scalar1': double1, 'scalar2': double2, 'spent': time.time() - start, 'result_calc_time': time.time() - calc_start }))
+
+def rand():    
     start = time.time()
     double_input1 = double_input_g(request, name = 'double1')
     double_input2 = double_input_g(request, name = 'double2')
@@ -169,13 +193,13 @@ def mult_m_s():
     if flag or flag_s:
         err_str_help = " | non numeric elements in matrix | " if flag else ""
         err_str_help += " | invalid scalar | " if flag_s else ""
-        return jsonify(add_dicts(upd_dict, {'result': None, 'error': f'Invalid matrix ([{err_str_help}])', 'input_type': tpe, 'matrix': matrix, 'scalar': double, 'spent': time.time() - start, 'result_calc_time': None}))
+        return jsonify(add_dicts(upd_dict, {'result': None, 'error': f'Invalid arg ([{err_str_help}])', 'input_type': tpe, 'matrix': matrix, 'scalar': double, 'spent': time.time() - start, 'result_calc_time': None}))
     
     if len(matrix[0]) == 0:
         return jsonify(add_dicts(upd_dict, {'result': None, 'error': 'Empty matrix', 'input_type': tpe, 'matrix': matrix, 'scalar': double, 'spent': time.time() - start, 'result_calc_time': None}))
 
     if not check_matrix_shape(matrix):
-        return jsonify(add_dicts(upd_dict, {'result': None, 'error': 'Matrix must be rectangular', 'input_type': tpe, 'matrix': matrix, scalar: double,'spent': time.time() - start, 'result_calc_time': None}))
+        return jsonify(add_dicts(upd_dict, {'result': None, 'error': 'Matrix must be rectangular', 'input_type': tpe, 'matrix': matrix, 'scalar': double,'spent': time.time() - start, 'result_calc_time': None}))
 
     calc_start = time.time()
     

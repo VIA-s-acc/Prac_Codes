@@ -1,9 +1,54 @@
 import subprocess
-from ..lineq import MatrixMethods
 import configparser
+import os, json, sys
 
-__LOCAL__: bool = True # True if it is running in local ( DISABLE API_KEY CHECK )
+def check_config_parser():
+    try:
+        import configparser
+        print("🟢 ConfigParser found.")
+    except:
+        print("🔴 ConfigParser not found. Installing...")
+        subprocess.check_call([sys.executable, "-m", "pip", "install", "configparser"])
+        print("🟢 ConfigParser installed.")
+   
+def run_build():
+    os.chdir('optimized')
+    subprocess.check_call([sys.executable, 'build.py'])
+    os.chdir('..')
+    
+def check_lib_builds():
+    cfg = json.load(open('optimized/build_cfg/build_modules.json'))
+    modules = cfg['modules']
+    for lib in modules.keys():
+        for module in modules[lib]:
+            if not os.path.exists(f'optimized/{lib}/{module}/build'):
+                print(f'🔴 Error in libs build | REBUILDING.')
+                run_build()
+                return True
+    return True
 
+def check_config():
+    check_config_parser()
+    if not os.path.exists('optimized/optimized_api/static/config.ini'):
+
+        config = configparser.ConfigParser()
+        config["DEFAULT"] = {
+                "API_KEY": "",
+                "__LOCAL__": "True",
+                "__DEBUG__": "True"
+            }
+
+        with open('optimized/optimized_api/static/config.ini', 'w') as configfile:
+            config.write(configfile)
+        
+        
+        
+def load_config(profile='DEFAULT'):
+    check_config()
+    check_lib_builds()
+    config = configparser.ConfigParser()
+    config.read('optimized/optimized_api/static/config.ini')
+    return config[profile]
 
 def check_flask():
     try:
@@ -15,9 +60,18 @@ def check_flask():
         print("🟢 Flask installed.")
 
 
-
 def main():
     check_flask()
+    config = load_config('DEFAULT')
+    try:
+        __LOCAL__ = True if config["__LOCAL__"] == "True" else False
+        __DEDBUG__ = True if config["__DEBUG__"] == "True" else False
+        __API__ = str(config["API_KEY"])
+    except Exception as EX: 
+        print(f"🔴 {EX}")
+        exit(-1)
+    
+    print(f"🟢 __LOCAL__ = {__LOCAL__}")   
     from flask import Flask, jsonify
     from .mm_routes import (
         home,  # no input 
@@ -26,6 +80,7 @@ def main():
         mult_m_s, # matrice and scalar
         signum, absoulte, # 1 scalar
         rand, # 2 scalar
+        eigen, # 1 matrix, 2 scalars
         )
 
     app = Flask(__name__)
@@ -33,14 +88,12 @@ def main():
     if not __LOCAL__:
         from flask import request
         from .api_key.generate import is_valid_api_key ### realise your own api key generator and chekcer )    
-        
+        @app.before_request
         def before_request(): ### 
-            api = request.args.get("api_key")
-            if api and is_valid_api_key(api):
+            nonlocal __API__
+            if __API__ and is_valid_api_key(__API__):
                 return
-            return jsonify(error="Invalid API key", status=401), 401
-
-        app.before_request(before_request)
+            return jsonify(error="Invalid API key", status=401, API=__API__), 401
 
     app.add_url_rule('/', 'home', home, methods=['GET'])
     app.add_url_rule('/det/', 'determinant', det, methods=['GET'])
@@ -55,7 +108,7 @@ def main():
     app.add_url_rule("/sig/", 'sig', signum, methods=['GET'])
     app.add_url_rule("/abs/", 'abs', absoulte, methods=['GET'])
     app.add_url_rule("/rand/", "rand", rand, methods=['GET'])
-    
+    app.add_url_rule("/eig_mm/", "eig_mm", eigen, methods=['GET'])
     
     @app.errorhandler(404)
     def page_not_found(e):
@@ -64,8 +117,9 @@ def main():
     @app.errorhandler(500)
     def internal_server_error(e):
         return jsonify(error="Internal server error", status=500), 500
-    
+
     app.run(debug=True)
     
 if __name__ == "__main__":
     main()
+
