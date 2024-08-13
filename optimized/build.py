@@ -1,5 +1,5 @@
 from build_cfg.Utils.print_tree import res_print
-from build_cfg.Utils.check import check_cython
+from build_cfg.Utils.check import check_cython, check_setuptools
 from build_cfg.Utils.load import load_cfg
 from build_cfg.Utils.build import build
 from build_cfg.Utils.test import run_tests
@@ -25,6 +25,7 @@ def main():
     modules = cfg['modules'] # get modules
     try:
         check_cython(settings) # check cython installation
+        check_setuptools(settings)
         libs, failed = build(modules, settings) # build modules
         test_libs = copy.copy(libs)
         for lib in libs:

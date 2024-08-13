@@ -31,6 +31,7 @@ from .m_err.m_err import (
     MatrixValueError
 )
 
+import random, sys
 
 class MatrixMethods():
     """Class for matrix methods (multiplication, determinant, sum, decomposition, ...) for all check __doc__"""
@@ -215,7 +216,7 @@ class MatrixMethods():
     @staticmethod
     def random(minv: double, maxv: double) -> double:
         """
-        ### ( TESTED ONLY IN LINUX )
+        ### ( WORK CORRECT ONLY IN LINUX )
         Generate a random number between the specified minimum and maximum values.
 
         Args:
@@ -224,7 +225,9 @@ class MatrixMethods():
 
         Returns:
             double: The randomly generated number.
-
+        
+        Note:
+            If the platform is Windows, it returns a random number using random.uniform(minv, maxv).
         Raises:
             MatrixMethodsError: If an undefined error occurs in the C module.
 
@@ -232,11 +235,14 @@ class MatrixMethods():
         >>> MatrixMethods.random(0, 10)
         5.2
         """
+        if sys.platform == 'win32':
+            return random.uniform(minv, maxv)
         
-        try:
-            return random(minv, maxv)
-        except:
-            raise(MatrixMethodsError('Undefined error | in .C module.'))
+        else:
+            try:
+                return random(minv, maxv)
+            except:
+                raise(MatrixMethodsError('Undefined error | in .C module.'))
 
     @staticmethod
     def max_matrix(matrix: matrix) -> double:

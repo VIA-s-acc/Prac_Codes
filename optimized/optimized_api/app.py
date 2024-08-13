@@ -71,7 +71,10 @@ def main():
         print(f"🔴 {EX}")
         exit(-1)
     
-    print(f"🟢 __LOCAL__ = {__LOCAL__}")   
+    print(f"API: {__API__}")
+    print(f"LOCAL: {__LOCAL__}")
+    print(f"DEBUG: {__DEDBUG__}")
+    
     from flask import Flask, jsonify
     from .mm_routes import (
         home,  # no input 

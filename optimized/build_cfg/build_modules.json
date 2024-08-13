@@ -11,6 +11,7 @@
     "settings":
     {
         "check_cython": true,
+        "check_setuptools": true,
         "run_tests": true,
         "print_result": true,
         "traceback": true,

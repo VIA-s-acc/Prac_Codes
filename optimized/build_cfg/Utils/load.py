@@ -13,6 +13,7 @@ standart_cfg = {
     "settings":
     {
         "check_cython": True,
+        "check_setuptools": True,
         "run_tests": True,
         "print_result": True,
         "traceback": True,

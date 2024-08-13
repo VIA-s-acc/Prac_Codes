@@ -370,7 +370,8 @@
                             "result": "max, min eigenvalues and eigenvectors of matrix -> dict('max': {'eigenvalue': eigenvalue, 'eigenvector': eigenvector}, 'min': {'eigenvalue': eigenvalue, 'eigenvector': eigenvector}) (NULL if error)", 
                             "error": "Error | NULL if not occupied", 
                             "matrix": "Input matrix",
-                            "scalar": "Input double", 
+                            "iternm": "Input int itern",
+                            "tol": "Input double tol", 
                             "spent": "Spent until end of processing", 
                             "result_calc_time": "calculating time"
                     }
