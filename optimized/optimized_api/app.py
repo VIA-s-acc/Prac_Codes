@@ -67,6 +67,7 @@ def main():
         __LOCAL__ = True if config["__LOCAL__"] == "True" else False
         __DEDBUG__ = True if config["__DEBUG__"] == "True" else False
         __API__ = str(config["API_KEY"])
+    
     except Exception as EX: 
         print(f"🔴 {EX}")
         exit(-1)
