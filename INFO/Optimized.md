@@ -1,3 +1,6 @@
+## Microsoft Visual C++ 14.0 or greater is required
+Get it with "Microsoft C++ Build Tools": https://visualstudio.microsoft.com/visual-cpp-build-tools/
+
 ### Optimized Experimental
 To use the optimized codes,create virtual environment, install all the dependencies and run the ~~`build.bat` ( for Windows )~~ **`[DELETED, use python script]`**[UPD 02.08.2024](../README.MD#update-02082024-info) `build.py` ( universal )  file from the `optimized` directory. The script will automatically build all the C libraries for you. All the codes will be available in this directory.
 
