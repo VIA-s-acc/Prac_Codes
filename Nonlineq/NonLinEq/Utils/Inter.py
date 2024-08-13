@@ -49,21 +49,21 @@ class Interpolation:
 
         Parameters:
             func (function): The function to interpolate.
-            - mode (str): The interpolation mode. Defaults to 'lagrange'.
+            - mode (str) : The interpolation mode. Defaults to 'lagrange'.
                 - modes 
                 - lagrange: lagrange interpolation
                 - lagrange_vold: lagrange interpolation with vandermonde matrix
                 - newton: newton interpolation
                 - cspline: cubic spline interpolation ( in cspline intervals[2] is number of splines, work only in auto mode)
 
-            - points (str): The method for determining the interpolation points. Defaults to 'auto'. for manual use 'manual'
+            - points (str) : The method for determining the interpolation points. Defaults to 'auto'. for manual use 'manual'
                 - if 'manual' then points must be a list/tuple of lists/tuples of the form [(x1, y1), (x2, y2), ...] or [[x1, y1], [x2, y2], ...]] or ((x1, y1), (x2, y2), ...) in kwargs['pts']
 
-            - intervals (tuple): The range and number of points for automatically determining the interpolation points. Defaults to (-3, 3, n).| n = 10 -> degree = 10 -> points_num = 11  
+            - intervals (tuple) : The range and number of points for automatically determining the interpolation points. Defaults to (-3, 3, n).| n = 10 -> degree = 10 -> points_num = 11  
                 - n (int): n+1 is The number of points. n is the degree of the polynomial.
                         
             - kwargs: Additional arguments to pass to the interpolation function .
-                - lineqmethod (str): The lineq method to use for solving the lineq system. Defaults to 'gauss' if mode is lagrange_vold.
+                - lineqmethod (str) : The lineq method to use for solving the lineq system. Defaults to 'gauss' if mode is lagrange_vold.
                     - The method list
                     - chol_v1, chol_v2, gauss, lu, thm, iter_sim, iter_sei, iter_jac, iter_rel, iter_exp, iter_minr, iter_std
                     - iter_minc (advanced for minc -> if end by sim, jac or sei, uses specified matrix for minc, see `min_chg_iteration` in `../../Lineq/LinEq/Lineq.py` for more), 

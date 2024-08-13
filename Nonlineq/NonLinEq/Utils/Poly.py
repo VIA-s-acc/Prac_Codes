@@ -293,15 +293,25 @@ class Polynom:
         Plot the polynomial.
 
         Parameters:
-            variable (str): The variable to plot the polynomial on.
-            range (list): The range of the x-axis.
-            step (float): The step size for the x-axis.
-            colors (list): The colors to use for the plot first color uses to self, others to additional points.
-            legend (bool): Whether to show the legend.
-            grid (bool): Whether to show the grid.
-            self_flag (bool): Whether to plot the self Poly.
-            title (str): The title of the plot.
+        
+            variable (str) : The variable to plot the polynomial on. 
+            
+            range (list): The range of the x-axis.  
+            
+            step (float): The step size for the x-axis.  
+            
+            colors (list): The colors to use for the plot first color uses to self, others to additional points. 
+            
+            legend (bool): Whether to show the legend. 
+            
+            grid (bool): Whether to show the grid. 
+            
+            self_flag (bool): Whether to plot the self Poly. 
+
+            title (str): The title of the plot. 
+            
             for poly-s and func-s use syntax of kwargs['func'] kwargs['poly']
+            
             - kwargs: 
                 - Additional arguments to pass to the plot function.
                     - list of tuples or lists (elements must be int or float and must have length 2) : [(x1, y1), (x2, y2), ...] ot [[x1, y1], [x2, y2], ...] or [(x1, y1], (x2, y2), ...])] points to plot
@@ -337,7 +347,7 @@ class Polynom:
                         - poly = (poly1, color, name)
                         - poly = poly1
 
-                - cspline
+                - cspline:
                     - the additional csplines to plot 
                     - the dict, elements can be list/tuple (cspline, color, name) or a single cspline.
                     - if single cspline for color and name may be provided as a tuple (cspline, color, name) [same as func]
