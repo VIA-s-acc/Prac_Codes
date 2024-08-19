@@ -4,6 +4,7 @@ from flask import request, render_template, jsonify
 from ..lineq import MatrixMethods
 from .RUtils.matrix_read import matrix_input_g, matrix_read, check_matrix_shape
 from .RUtils.double_read import double_input_g, double_read
+from .RUtils.vector_read import vector_input_g, vector_read
 import math
 import os
 
@@ -72,6 +73,71 @@ def home():
     
     return jsonify(data)
 
+def approx():
+    start = time.time()
+    vector_input1, tpe = vector_input_g(request, name='vector1')
+    vector_input2, tpe = vector_input_g(request, name='vector2')
+    tol = double_input_g(request, name='tol')
+    upd_dict = get_GlobalRet(requset=request)
+
+    if vector_input1 is None or vector_input2 is None or tol is None:
+        err_str_help = ' | vector1 | ' if vector_input1 is None else ''
+        err_str_help += ' | vector2 | ' if vector_input2 is None else ''
+        err_str_help += ' | tol | ' if tol is None else ''
+        return jsonify(add_dicts(upd_dict, {'result': None, 'error': f'Invalid input ({err_str_help})', 'input_type': tpe, 'vector1': vector_input1, 'vector2': vector_input2, 'tol': tol, 'spent': None, 'result_calc_time': None}))
+    
+    vector1, flag1 = vector_read(vector_input1, tpe)
+    vector2, flag2 = vector_read(vector_input2, tpe)
+    tol, flag3 = double_read(tol)
+    if flag1 or flag2 or flag3:
+        err_str_help = ' | vector1 | ' if flag1 else ''
+        err_str_help += ' | vector2 | ' if flag2 else ''
+        err_str_help += ' | tol | ' if flag3 else ''
+        return jsonify(add_dicts(upd_dict, {'result': None, 'error': f'Invalid vector (non numeric elements in ({err_str_help}))', 'input_type': tpe, 'vector1': vector1, 'vector2': vector2, 'spent': time.time() - start, 'result_calc_time': None}))
+    
+    if len(vector1) == 0 or len(vector2) == 0:
+        err_str_help = ' | vector1 | ' if len(vector1) == 0 else ''
+        err_str_help += ' | vector2 | ' if len(vector2) == 0 else ''
+        return jsonify(add_dicts(upd_dict, {'result': None, 'error': f'Empty vector ({err_str_help})', 'input_type': tpe, 'vector1': vector1, 'vector2': vector2, 'spent': time.time() - start, 'result_calc_time': None}))
+
+    if len (vector1) != len(vector2):
+        return jsonify(add_dicts(upd_dict, {'result': None, 'error': 'Vectors must be the same length', 'input_type': tpe, 'vector1': vector1, 'vector2': vector2, 'spent': time.time() - start, 'result_calc_time': None}))
+    
+    calc_start = time.time()
+    
+    try:
+        approx = MatrixMethods.vec_approx(vector1, vector2)
+        return jsonify(add_dicts(upd_dict, {'result': approx, 'error': None, 'input_type': tpe,  'vector1': vector1, 'vector2': vector2, 'spent': time.time() - start, 'result_calc_time': time.time() - calc_start }))
+    
+    except Exception as ex:
+        return jsonify(add_dicts(upd_dict, {'result': None, 'error': str(ex), 'input_type': tpe, 'vector1': vector1, 'vector2': vector2, 'spent': time.time() - start, 'result_calc_time': time.time() - calc_start }))
+
+
+def norm():
+    start = time.time()
+    vector_input, tpe = vector_input_g(request)
+    upd_dict = get_GlobalRet(requset=request)
+
+    if vector_input is None:
+        return jsonify(add_dicts(upd_dict, {'result': None, 'error': 'Invalid input', 'input_type': tpe, 'vector': vector_input, 'spent': None, 'result_calc_time': None}))
+    
+    vector, flag = vector_read(vector_input, tpe)
+
+    if flag:
+        return jsonify(add_dicts(upd_dict, {'result': None, 'error': 'Invalid vector (non numeric elements)', 'input_type': tpe, 'vector': vector, 'spent': time.time() - start, 'result_calc_time': None}))
+    
+    if len(vector) == 0:
+        return jsonify(add_dicts(upd_dict, {'result': None, 'error': 'Empty vector', 'input_type': tpe, 'vector': vector, 'spent': time.time() - start, 'result_calc_time': None}))
+
+    calc_start = time.time()
+    
+    try:
+        norm = MatrixMethods.norm(vector)
+        return jsonify(add_dicts(upd_dict, {'result': norm, 'error': None, 'input_type': tpe,  'vector': vector, 'spent': time.time() - start, 'result_calc_time': time.time() - calc_start }))
+    
+    except Exception as ex:
+        return jsonify(add_dicts(upd_dict, {'result': None, 'error': str(ex), 'input_type': tpe, 'vector': vector, 'spent': time.time() - start, 'result_calc_time': time.time() - calc_start }))
+
 def eigen():
     start = time.time()
     matrix_input, tpe = matrix_input_g(request)
@@ -112,72 +178,72 @@ def eigen():
 
 def rand():    
     start = time.time()
-    double_input1 = double_input_g(request, name = 'double1')
-    double_input2 = double_input_g(request, name = 'double2')
+    double_input1 = double_input_g(request, name = 'dmin')
+    double_input2 = double_input_g(request, name = 'dmax')
     upd_dict = get_GlobalRet(requset=request)
     if double_input1 is None or double_input2 is None:
-        err_str_help = ' | double1 | ' if double_input1 is None else ''
+        err_str_help = ' | dmin | ' if double_input1 is None else ''
         err_str_help += ' | double2 | ' if double_input2 is None else ''
-        return jsonify(add_dicts({'result': None, 'error': f'Invalid input ( err in [{err_str_help}])', 'scalar1': double_input1, 'scalar2': double_input2, 'spent': None, 'result_calc_time': None}, upd_dict))
+        return jsonify(add_dicts({'result': None, 'error': f'Invalid input ( err in [{err_str_help}])', 'dmin': double_input1, 'dmax': double_input2, 'spent': None, 'result_calc_time': None}, upd_dict))
     
-    double1, flag_s = double_read(double_input1)
-    double2, flag_s2 = double_read(double_input2)
+    dmin, flag_s = double_read(double_input1)
+    dmax, flag_s2 = double_read(double_input2)
     
     if flag_s or flag_s2:
-        err_str_help = ' | double1 | ' if flag_s is None else ''
-        err_str_help += ' | double2 | ' if flag_s2 is None else ''
-        return jsonify(add_dicts(upd_dict, {'result': None, 'error': f'Invalid scalar ( err in [{err_str_help}])', 'scalar1': double1, 'scalar2': double2, 'spent': time.time() - start, 'result_calc_time': None}))
+        err_str_help = ' | dmin | ' if flag_s is None else ''
+        err_str_help += ' | dmax | ' if flag_s2 is None else ''
+        return jsonify(add_dicts(upd_dict, {'result': None, 'error': f'Invalid scalar ( err in [{err_str_help}])', 'dmin': dmin, 'dmax': dmax, 'spent': time.time() - start, 'result_calc_time': None}))
     
     calc_start = time.time()
     
     try:
-        rand_ = MatrixMethods.random(double1, double2)
-        return jsonify(add_dicts(upd_dict, {'result': rand_, 'error': None, 'scalar1': double1, 'scalar2': double2, 'spent': time.time() - start, 'result_calc_time': time.time() - calc_start }))
+        rand_ = MatrixMethods.random(dmin, dmax)
+        return jsonify(add_dicts(upd_dict, {'result': rand_, 'error': None, 'dmin': dmin, 'dmax': dmax, 'spent': time.time() - start, 'result_calc_time': time.time() - calc_start }))
     
     except Exception as ex:
-        return jsonify(add_dicts(upd_dict, {'result': None, 'error': str(ex), 'scalar1': double1, 'scalar2': double2, 'spent': time.time() - start, 'result_calc_time': time.time() - calc_start }))
+        return jsonify(add_dicts(upd_dict, {'result': None, 'error': str(ex), 'dmin': dmin, 'dmax': dmax, 'spent': time.time() - start, 'result_calc_time': time.time() - calc_start }))
 
 def absoulte():
     start = time.time()
     double_input = double_input_g(request)
     upd_dict = get_GlobalRet(requset=request)
     if double_input is None:
-        return jsonify(add_dicts(upd_dict, {'result': None, 'error': 'Invalid input', 'scalar': None, 'spent': None, 'result_calc_time': None}))
+        return jsonify(add_dicts(upd_dict, {'result': None, 'error': 'Invalid input', 'double': None, 'spent': None, 'result_calc_time': None}))
     
     double, flag_s = double_read(double_input)
     
     if flag_s:
-        return jsonify(add_dicts(upd_dict, {'result': None, 'error': f'Invalid scalar', 'scalar': double, 'spent': time.time() - start, 'result_calc_time': None}))
+        return jsonify(add_dicts(upd_dict, {'result': None, 'error': f'Invalid scalar', 'double': double, 'spent': time.time() - start, 'result_calc_time': None}))
     
     calc_start = time.time()
     
     try:
         abs_ = MatrixMethods.absolute(double)
-        return jsonify(add_dicts(upd_dict, {'result': abs_, 'error': None, 'scalar': double, 'spent': time.time() - start, 'result_calc_time': time.time() - calc_start }))
+        return jsonify(add_dicts(upd_dict, {'result': abs_, 'error': None, 'double': double, 'spent': time.time() - start, 'result_calc_time': time.time() - calc_start }))
     
     except Exception as ex:
-        return jsonify(add_dicts(upd_dict, {'result': None, 'error': str(ex), 'scalar': double, 'spent': time.time() - start, 'result_calc_time': time.time() - calc_start }))
+        return jsonify(add_dicts(upd_dict, {'result': None, 'error': str(ex), 'double': double, 'spent': time.time() - start, 'result_calc_time': time.time() - calc_start }))
 
 def signum():
     start = time.time()
     double_input = double_input_g(request)
     upd_dict = get_GlobalRet(requset=request)
     if double_input is None:
-        return jsonify(add_dicts(upd_dict, {'result': None, 'error': 'Invalid input', 'scalar': None, 'spent': None, 'result_calc_time': None}))
+        return jsonify(add_dicts(upd_dict, {'result': None, 'error': 'Invalid input', 'double': None, 'spent': None, 'result_calc_time': None}))
     
     double, flag_s = double_read(double_input)
     
     if flag_s:
-        return jsonify(add_dicts(upd_dict, {'result': None, 'error': f'Invalid scalar', 'scalar': double, 'spent': time.time() - start, 'result_calc_time': None}))
+        return jsonify(add_dicts(upd_dict, {'result': None, 'error': f'Invalid scalar', 'double': double, 'spent': time.time() - start, 'result_calc_time': None}))
     
     calc_start = time.time()
     
     try:
         sig_ = MatrixMethods.sig(double)
-        return jsonify(add_dicts(upd_dict, {'result': sig_, 'error': None, 'scalar': double, 'spent': time.time() - start, 'result_calc_time': time.time() - calc_start }))
+        return jsonify(add_dicts(upd_dict, {'result': sig_, 'error': None, 'double': double, 'spent': time.time() - start, 'result_calc_time': time.time() - calc_start }))
     
     except Exception as ex:
-        return jsonify(add_dicts(upd_dict, {'result': None, 'error': str(ex), 'scalar': double, 'spent': time.time() - start, 'result_calc_time': time.time() - calc_start }))
+        return jsonify(add_dicts(upd_dict, {'result': None, 'error': str(ex), 'double': double, 'spent': time.time() - start, 'result_calc_time': time.time() - calc_start }))
 
 def mult_m_s():
     start = time.time()
@@ -186,30 +252,30 @@ def mult_m_s():
     upd_dict = get_GlobalRet(request)
     if matrix_input is None or double_input is None:
         err_str_help = " | Matrix_input | " if matrix_input is None else ""
-        err_str_help += " | Scalar_input | " if double_input is None else ""
-        return jsonify(add_dicts(upd_dict, {'result': None, 'error': f'Invalid input (error in [{err_str_help}])', 'input_type ': tpe, 'matrix': matrix_input, 'scalar': double_input, 'spent': None, 'result_calc_time': None}))
+        err_str_help += " | Double_input | " if double_input is None else ""
+        return jsonify(add_dicts(upd_dict, {'result': None, 'error': f'Invalid input (error in [{err_str_help}])', 'input_type ': tpe, 'matrix': matrix_input, 'double': double_input, 'spent': None, 'result_calc_time': None}))
     
     matrix, flag = matrix_read(matrix_input, tpe)
     double, flag_s = double_read(double_input)
     if flag or flag_s:
         err_str_help = " | non numeric elements in matrix | " if flag else ""
-        err_str_help += " | invalid scalar | " if flag_s else ""
-        return jsonify(add_dicts(upd_dict, {'result': None, 'error': f'Invalid arg ([{err_str_help}])', 'input_type': tpe, 'matrix': matrix, 'scalar': double, 'spent': time.time() - start, 'result_calc_time': None}))
+        err_str_help += " | invalid double | " if flag_s else ""
+        return jsonify(add_dicts(upd_dict, {'result': None, 'error': f'Invalid arg ([{err_str_help}])', 'input_type': tpe, 'matrix': matrix, 'double': double, 'spent': time.time() - start, 'result_calc_time': None}))
     
     if len(matrix[0]) == 0:
-        return jsonify(add_dicts(upd_dict, {'result': None, 'error': 'Empty matrix', 'input_type': tpe, 'matrix': matrix, 'scalar': double, 'spent': time.time() - start, 'result_calc_time': None}))
+        return jsonify(add_dicts(upd_dict, {'result': None, 'error': 'Empty matrix', 'input_type': tpe, 'matrix': matrix, 'double': double, 'spent': time.time() - start, 'result_calc_time': None}))
 
     if not check_matrix_shape(matrix):
-        return jsonify(add_dicts(upd_dict, {'result': None, 'error': 'Matrix must be rectangular', 'input_type': tpe, 'matrix': matrix, 'scalar': double,'spent': time.time() - start, 'result_calc_time': None}))
+        return jsonify(add_dicts(upd_dict, {'result': None, 'error': 'Matrix must be rectangular', 'input_type': tpe, 'matrix': matrix, 'double': double,'spent': time.time() - start, 'result_calc_time': None}))
 
     calc_start = time.time()
     
     try:
         multed_s = MatrixMethods.multiply_matrix_by_scalar(matrix, double)
-        return jsonify(add_dicts(upd_dict, {'result': multed_s, 'error': None, 'input_type': tpe,  'matrix': matrix, 'scalar': double, 'spent': time.time() - start, 'result_calc_time': time.time() - calc_start }))
+        return jsonify(add_dicts(upd_dict, {'result': multed_s, 'error': None, 'input_type': tpe,  'matrix': matrix, 'double': double, 'spent': time.time() - start, 'result_calc_time': time.time() - calc_start }))
     
     except Exception as ex:
-        return jsonify(add_dicts(upd_dict, {'result': None, 'error': str(ex), 'input_type': tpe, 'matrix': matrix, 'scalar': double, 'spent': time.time() - start, 'result_calc_time': time.time() - calc_start }))
+        return jsonify(add_dicts(upd_dict, {'result': None, 'error': str(ex), 'input_type': tpe, 'matrix': matrix, 'double': double, 'spent': time.time() - start, 'result_calc_time': time.time() - calc_start }))
 
 def mult_m():
     start = time.time()

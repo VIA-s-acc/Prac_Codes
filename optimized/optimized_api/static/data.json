@@ -275,7 +275,7 @@
                             "result": "Multiplication matrix (NULL if error)", 
                             "error": "Error | NULL if not occupied", 
                             "matrix": "Input matrix",
-                            "scalar": "Input double", 
+                            "double": "Input double", 
                             "spent": "Spent until end of processing", 
                             "result_calc_time": "calculating time"
                     }
@@ -297,7 +297,7 @@
                     "returns": {
                             "result": "Signum (NULL if error)", 
                             "error": "Error | NULL if not occupied", 
-                            "scalar": "Input double",
+                            "double": "Input double",
                             "spent": "Spent until end of processing", 
                             "result_calc_time": "Calculating time"
                     }
@@ -319,31 +319,31 @@
                     "returns": {
                             "result": "abs value (NULL if error)", 
                             "error": "Error | NULL if not occupied", 
-                            "scalar": "Input double",
+                            "double": "Input double",
                             "spent": "Spent until end of processing", 
                             "result_calc_time": "Calculating time"
                     }
                 },
-            "Random value in range from mind to maxd (shortcut: rnd)": 
+            "Random value in range from dmin to dmax (shortcut: rnd)": 
                 {
                     "name": "/rand/",
                     "use": 
                         {
                             "args": {
-                                "double1": "double1 POST data ( int | float )",
-                                "double2": "double2 POST data ( int | float )"
+                                "dmin": "double1 POST data ( int | float )",
+                                "dmax": "double2 POST data ( int | float )"
                             },
-                            "pattern": "link_to_api/rand/?double1=double1&double2=double2"
+                            "pattern": "link_to_api/rand/?dmin=dmin&dmax=dmax"
                         },
                     "Examples":
                         {
-                            "example": "link_to_api/rand/?double1=1.23&double2=1.43"
+                            "example": "link_to_api/rand/?dmin1=1.23&dmax=1.43"
                         },
                     "returns": {
                             "result": "rand value (NULL if error)", 
                             "error": "Error | NULL if not occupied", 
-                            "scalar1": "Input double1",
-                            "scalar2": "Input double2",
+                            "dmin": "Input double minimal (from dmin to dmax)",
+                            "dmax": "Input double max",
                             "spent": "Spent until end of processing", 
                             "result_calc_time": "Calculating time"
                     }
@@ -372,6 +372,55 @@
                             "matrix": "Input matrix",
                             "iternm": "Input int itern",
                             "tol": "Input double tol", 
+                            "spent": "Spent until end of processing", 
+                            "result_calc_time": "calculating time"
+                    }
+                },
+            "Get vector norm (shortcut: norm)":
+                {
+                    "name": "/norm/",
+                    "use": 
+                        {
+                            "args": {
+                                "type": "type POST data ( 'str' or 'list' )",
+                                "vector": "vector POST data ( tpye(str) or type(list) )"
+                            },
+                            "pattern": "link_to_api/norm/?type=type&vector=vector ( list or str for vector)"
+                        },
+                    "Examples":
+                        {
+                            "example_str": "link_to_api/norm/?vector=1 2 3",
+                            "example_list": "link_to_api/norm/?type=list&vector=[1,2,3]"
+                        },
+                    "returns": {
+                            "result": "vector norm (NULL if error)", 
+                            "error": "Error | NULL if not occupied", 
+                            "vector": "Input vector",
+                            "spent": "Spent until end of processing", 
+                            "result_calc_time": "calculating time"
+                    }
+                },
+            "Approx two vectors (shortcut: approx)":
+                {
+                    "name": "/approx/",
+                    "use": 
+                        {
+                            "args": {
+                                "type": "type POST data ( 'str' or 'list' )",
+                                "vector1": "vector1 POST data ( tpye(str) or type(list) )",
+                                "vector2": "vector2 POST data ( tpye(str) or type(list) )"
+                            },
+                            "pattern": "link_to_api/approx/?type=type&vector1=vector1&vector2=vector2 ( list or str for vector)"
+                        },
+                    "Examples":
+                        {
+                            "example_str": "link_to_api/approx/?vector1=1 2 3&vector2=4 5 6",
+                            "example_list": "link_to_api/approx/?type=list&vector1=[1,2,3]&vector2=[4,5,6]"
+                        },
+                    "returns": {
+                            "result": "Approx result [True, False] (NULL if error)", 
+                            "error": "Error | NULL if not occupied", 
+                            "vector": "Input vector",
                             "spent": "Spent until end of processing", 
                             "result_calc_time": "calculating time"
                     }

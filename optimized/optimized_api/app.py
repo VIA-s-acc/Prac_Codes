@@ -37,7 +37,7 @@ def check_config():
                 "__LOCAL__": "True",
                 "__DEBUG__": "True"
             }
-
+        
         with open('optimized/optimized_api/static/config.ini', 'w') as configfile:
             config.write(configfile)
         
@@ -85,6 +85,8 @@ def main():
         signum, absoulte, # 1 scalar
         rand, # 2 scalar
         eigen, # 1 matrix, 2 scalars
+        norm, # 1 vector
+        approx, # 2 vectors
         )
 
     app = Flask(__name__)
@@ -113,7 +115,8 @@ def main():
     app.add_url_rule("/abs/", 'abs', absoulte, methods=['GET'])
     app.add_url_rule("/rand/", "rand", rand, methods=['GET'])
     app.add_url_rule("/eig_mm/", "eig_mm", eigen, methods=['GET'])
-    
+    app.add_url_rule('/norm/', 'norm', norm, methods=['GET'])
+    app.add_url_rule('/approx/', 'approx', approx, methods=['GET'])
     @app.errorhandler(404)
     def page_not_found(e):
         return jsonify(error="Page not found", status=404), 404

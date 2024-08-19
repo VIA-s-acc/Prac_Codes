@@ -67,9 +67,9 @@ class MatrixMethods():
     \n 
     power_method(matrix_a, max_iter, tol) -> tuple[double, vector]:\t Returns eigenvector (iterative method, max) | WIHTOUT API
     \n
-    norm(vector) -> double:\t Returns norm (euclidian)
+    norm(vector) -> double:\t Returns norm (euclidian) | API +
     \n
-    vec_approx(vector_a, vector_b) -> bool:\t Returns vector approximation ( True or False )
+    vec_approx(vector_a, vector_b) -> bool:\t Returns vector approximation ( True or False ) | API +
     \n
     """
     

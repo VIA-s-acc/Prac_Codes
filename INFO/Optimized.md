@@ -72,23 +72,29 @@ Check usage instructions in [API-DATA](../optimized/optimized_api/static/data.js
 ---
 #### Current Api Support:
 Current version of API supports the following functions:
-```py
-determinant(matrix_a) -> double : Returns determinant of matrix_a 
-sum_matrices(matrix_a, matrix_b) -> matrix : Returns sum of matrices  
-multiply_matrix_by_scalar(matrix_a, scalar) -> matrix : Returns multiplied matrix 
-multiply_matrices(matrix_a, matrix_b) -> matrix : Returns multiplied matrix  
-sig(x) -> int : Returns -1 if x < 0, 0 if x == 0, 1 if x > 0 
-absolute(x) -> double : Returns absolute value of number 
-random(min, max) -> double : Returns random number in range (min, max) 
-max_matrix(matrix_a) -> double : Returns max value in matrix 
-inverse(matrix_a) -> matrix : Returns inverted matrix 
-LU(matrix_a) -> tuple[matrix, matrix] : Returns LU decomposition 
-cholv1(matrix_a) -> tuple[matrix, matrix] : Returns cholesky decomposition 
-cholv2(matrix_a) -> tuple[matrix, matrix, matrix] : Returns cholesky decomposition 
-eigen(matrix_a, max_iter, tol) -> tuple[tuple[double, vector], tuple[double, vector]] : Returns eigenvalues and eigenvectors (max, min) 
 
-```
+[optimized.lineq.matrix_methods.python_interface](../optimized/lineq/matrix_methods/Module/module.py) 
 ---
+| function | args | description | use_pattern | example |
+| :------- | :-- | :---------: | :---------- | :------ | 
+| determinant   | type: type of input <br> matrix: matrix | Returns determinant of matrix | link_to_api/det/?type=type&matrix=matrix ( list or str ). | example_str: link_to_api/det/?matrix=1 2 3\n4 5 6\n7 8 9, <br> example_list: link_to_api/det/?type=list&matrix=[[1,2,3],[4,5,6],[7,8,9]] |
+| sum_matrices | type: type of input <br> matrix1: matrix1 <br> matrix2: matrix2 |  Returns sum of matrices  | link_to_api/sum_m/?type=type&matrix1=matrix1&matrix2=matrix2 ( list or str ) | example_str: link_to_api/sum_m/?matrix1=1 2 3\n4 5 6\n7 8 9, <br> example_list: link_to_api/sum_m/?type=list&matrix1=[[2,2,3],[4,5,5],[7,1.2,7]]&matrix2=[[1,2,3],[7,4,6],[7,1.2,7]] |
+| multiply_matrix_by_scalar | type: type of input <br> matrix: matrix <br> double: scalar | Returns multiplied matrix | link_to_api/mult_m_s/?type=type&matrix=matrix1&double=double ( list or str for matrix, int or float for double ) | example_str: link_to_api/mult_m_s/?matrix=1 2 3\n4 5 6\n7 8 9&double=1.23, <br> example_list: link_to_api/mult_m_s/?type=list&matrix=[[2,2,3],[4,5,5],[7,1.2,7]]&double=1.23 |
+| multiply_matrices  | type: type of input <br> matrix1: matrix1 <br> matrix2: matrix2 |  Returns multiplied matrix  | link_to_api/mult_m/?type=type&matrix1=matrix1&matrix2=matrix2 ( list or str ) | example_str: link_to_api/mult_m/?matrix1=1 2 3\n4 5 6\n7 8 9, <br> example_list: link_to_api/mult_m/?type=list&matrix1=[[2,2,3],[4,5,5],[7,1.2,7]]&matrix2=[[1,2,3],[7,4,6],[7,1.2,7]] |
+| sig | double: x | Returns -1 if x < 0, 0 if x == 0, 1 if x > 0 | link_to_api/sig/?double=double | example: link_to_api/sig/?double=1.23 |
+| absolute  | double: x |  Returns absolute value of number | link_to_api/abs/?double=double | example: link_to_api/abs/?double=1.23 | 
+| random  | dmin: min <br> dmax: max |  Returns random number in range (min, max) | link_to_api/rand/?dmin=dmin&dmax=dmax | example: link_to_api/rand/?dmin=1.23&dmax=1.43 |
+| max_matrix | type: type of input <br> matrix: matrix |  Returns max value in matrix | link_to_api/max_m/?type=type&matrix=matrix ( list or str ) | example_str: link_to_api/max_m/?matrix=1 2 3\n4 5 6\n7 8 9, <br> example_list: link_to_api/max_m/?type=list&matrix=[[2,2,3],[4,5,5],[7,1.2,7]] |
+| inverse | type: type of input <br> matrix: matrix |   Returns inverted matrix | link_to_api/inv/?type=type&matrix=matrix ( list or str ) | example_str: link_to_api/inv/?matrix=1 2 3\n4 5 6\n7 8 9, <br> example_list: link_to_api/inv/?type=list&matrix=[[2,2,3],[4,5,5],[7,1.2,7]] |
+| LU | type: type of input <br> matrix: matrix | Returns LU decomposition | link_to_api/lu/?type=type&matrix=matrix ( list or str ) | example_str: link_to_api/lu/?matrix=1 2 3\n4 5 6\n7 8 9, <br> example_list: link_to_api/lu/?type=list&matrix=[[2,2,3],[4,5,5],[7,1.2,7]] |
+| cholv1 | type: type of input <br> matrix: matrix | Returns cholesky decomposition | link_to_api/cholv1/?type=type&matrix=matrix ( list or str ) | example_str: link_to_api/cholv1/?matrix=1 2 3\n4 5 6\n7 8 9, <br> example_list: link_to_api/cholv1/?type=list&matrix=[[2,2,3],[4,5,5],[7,1.2,7]] |
+| cholv2 | type: type of input <br> matrix: matrix |Returns cholesky decomposition | link_to_api/cholv2/?type=type&matrix=matrix ( list or str ) | example_str: link_to_api/cholv2/?matrix=1 2 3\n4 5 6\n7 8 9, <br> example_list: link_to_api/cholv2/?type=list&matrix=[[2,2,3],[4,5,5],[7,1.2,7]] |
+| eigen  | type: type of input <br> matrix: matrix <br> itern: number <br> tol: tolerance |  Returns eigenvalues and eigenvectors (max, min) <-> max = (max, maxv), min = (min, minv) | link_to_api/eig_mm/?type=type&matrix=matrix1&itern=itern&tol=double ( list or str for matrix, int or float for double ) | example_str: link_to_api/eig_mm/?matrix=1 2 3\n4 5 6\n7 8 9&itern=10&tol=0.01 |
+| norm | type: type of input <br> vector: vector | Returns norm of vector | link_to_api/norm/?type=type&vector=vector ( list or str for vector) | example_str: link_to_api/norm/?vector=1 2 3, <br> example_list: link_to_api/norm/?type=list&vector=[1,2,3] |
+| vec_approx(vector_a, vector_b)  | type: type of input <br> vector1: vector <br> vector2: vector | Returns vector approximation ( True or False ) | link_to_api/approx/?type=type&vector1=vector1&vector2=vector2 ( list or str for vector) | example_str: link_to_api/approx/?vector1=1 2 3&vector2=4 5 6 <br> example_list: link_to_api/approx/?type=list&vector1=[1,2,3]&vector2=[4,5,6] |
+
+---
+
 #### CLI-API:
 
 still in development

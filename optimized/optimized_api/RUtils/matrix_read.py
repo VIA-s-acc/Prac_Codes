@@ -1,6 +1,6 @@
 from flask import request, jsonify
 import ast
-def matrix_input_g(request, name = 'matrix') -> (str, str):
+def matrix_input_g[T: (str, str)](request, name = 'matrix') -> T:
     tpe = request.args.get('type', 'str', type=str)
     if tpe == 'list':
         try:
@@ -16,7 +16,7 @@ def matrix_input_g(request, name = 'matrix') -> (str, str):
     return matrix_input, tpe
 
 
-def matrix_read(matrix_input, tpe) -> (list, bool):
+def matrix_read[T: (list, bool)](matrix_input, tpe) -> T:
     matrix = []
     prev_row = []
     flag = False
