@@ -183,7 +183,7 @@ def rand():
     upd_dict = get_GlobalRet(requset=request)
     if double_input1 is None or double_input2 is None:
         err_str_help = ' | dmin | ' if double_input1 is None else ''
-        err_str_help += ' | double2 | ' if double_input2 is None else ''
+        err_str_help += ' | dmax | ' if double_input2 is None else ''
         return jsonify(add_dicts({'result': None, 'error': f'Invalid input ( err in [{err_str_help}])', 'dmin': double_input1, 'dmax': double_input2, 'spent': None, 'result_calc_time': None}, upd_dict))
     
     dmin, flag_s = double_read(double_input1)
