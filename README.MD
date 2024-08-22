@@ -46,7 +46,7 @@ Repository for mathematical codes ( 2 variants - optimized, non-optimized )
 
 
 
-
+---
 #### Update 22.08.2024 INFO:
 - [optimized.lineq.matrix_methods.python_interface-API](optimized/lineq/matrix_methods/Module/module.py) is ready for 100% use.
 - [optimized.lineq.generator.python_interface-API](optimized/lineq/generator/Module/generator.py) is ready for 100% use.
