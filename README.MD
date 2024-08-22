@@ -16,6 +16,7 @@ Repository for mathematical codes ( 2 variants - optimized, non-optimized )
 ## Last Update
 #### UPDATE 23.08.2024 INFO:
 - Started creating GUI for API. Now you can use only lineq.generator GUI.
+- GUI __LOCAL__ link -> localhost:8000/main (localhost:8000/ works too (without GUI)) after running `run_api.py`.
 - Examples -> [images.api_gui](images/api_gui/)
 
     [<img src="images/api_gui/MAIN.png" width="240"  height = "150"/>]
