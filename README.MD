@@ -53,7 +53,7 @@ Repository for mathematical codes ( 2 variants - optimized, non-optimized )
 - [optimized.lineq.checker.python_interface-API](optimized/lineq/checker/Module/checker.py) is ready for 100% use.
     - all API functions you can see in [Current Api Support](INFO/Optimized.md#current-api-support)
         
-
+---
 #### Update 19.08.2024 INFO:
 
 - Continued working on API after a break. API for generator, checker will be finished soon. Then I will continue optimizing the rest of the modules, namely [lineq.lineq](Lineq/LinEq/lineq.py), ( [lineq.Utils.Prettier](Lineq/LinEq/Utils/Prettier.py), [lineq.Utils.S_R](Lineq/LinEq/Utils/S_R.py) may not be changed, but will be moved to a new module without optimization, or will be completely removed ). [lineq.Utils.timer](Lineq/LinEq/Utils/timer.py) will be definitely removed.
@@ -61,6 +61,7 @@ Repository for mathematical codes ( 2 variants - optimized, non-optimized )
 - `optimized.lineq.matrix_methods.python_interface API` is ready for 100% use.
     - all API functions you can see in [Current Api Support](INFO/Optimized.md#current-api-support)
 
+---
 #### Update 10.08.2024 INFO:
 
 - Fixed a bug in the `rand` function of the `optimized/lineq/matrix_methods/lowlevel/mm.c` file ([file](optimized/lineq/matrix_methods/lowlevel/mm.c)). *The function was returning extremely large numbers instead of a random number within the specified range.*
