@@ -1,13 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Generator</title>
-    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/generator.css') }}">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-</head>
+{% extends 'base.html' %}
+
+{% block content %}
+<title>{% block title %}Vector Generator{% endblock %}</title>
+
+<link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/generator.css') }}">
+
 <body>
     <div class="container">
         <nav aria-label="breadcrumb">
@@ -19,39 +18,47 @@
             </ol>
         </nav>
         <h1 class="mt-5">Random Matrix Generator</h1>
-        <form id="generator-form">
-            <div class="form-group mt-4">
-                <label for="size">Size (NxN):</label>
-                <input type="number" class="form-control" id="size" name="size" required>
-            </div>
-            <div class="form-group">
-                <label for="rng">Range of Random Values:</label>
-                <input type="number" step="0.000000000000000001" class="form-control" id="rng" name="rng" required>
-            </div>
-            <div class="form-group">
-                <label for='round'> Rounding: </label>
-                <input type="number" class="form-control" id="round" name="round" required>
-            </div>
+        <button class="accordion">Input</button>
+            <div class="panel">
+                <form id="generator-form">
+                    <div class="form-group mt-4">
+                        <label for="size">Size (NxN):</label>
+                        <input type="number" value = "3" min = "1"  max = "562500" class="form-control" id="size" name="size" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="rng">Range of Random Values:</label>
+                        <input type="number" value = "10" min = "1"  step="0.000000000001" class="form-control" id="rng" name="rng" required>
+                    </div>
+                    <div class="form-group">
+                        <label for='round'> Rounding: </label>
+                        <input type="number" value = "3" min = "1"  class="form-control" id="round" name="round" required>
+                    </div>
 
-            <button type="submit" class="btn btn-primary mt-3">Generate</button>
-        </form>
-        
-        <div class="mt-5" id="result">
-            <!-- Result will be displayed here -->
-        </div>
-        <button id="copy-button" class = "btn " style="display:none;">📋</button>
+                    <button type="submit" class="btn btn-primary mt-3">Generate</button>
+                </form>
+            </div>
+        <br>
+        <button class="accordion" id = "res-acc" style="display:none;">Output</button>
+            <div class="panel">
+                <div class="mt-5" id="result">
+                    <!-- Result will be displayed here -->
+                </div>
+                <button id="copy-button" class = "btn " style="display:none;">📋</button>
 
-        <div class="mt-5" id="error">
-            <!-- Error will be displayed here -->
-        </div>
+                <div class="mt-5" id="error">
+                    <!-- Error will be displayed here -->
+                </div>
+            
+
         
         <!-- Dropdown for displaying global info -->
-        <div class="dropdown mt-5 " style="display: none;" id = 'global-info-main'>
-            <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Global Info
-            </button>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" id="global-info">
-                <!-- Global info will be displayed here -->
+            <div class="dropdown mt-5 " style="display: none;" id = 'global-info-main'>
+                <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Global Info
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" id="global-info">
+                    <!-- Global info will be displayed here -->
+                </div>
             </div>
         </div>
     </div>
@@ -61,4 +68,6 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <script src="{{ url_for('static', filename='js/generator/generator_v.js') }}"></script>
 </body>
-</html>
+
+{% endblock %}
+

@@ -35,6 +35,7 @@ document.getElementById("generator-form").onsubmit = async function(event) {
         document.getElementById("result").innerHTML = tableHTML;
 
         document.getElementById("copy-button").style.display = "block";
+        document.getElementById("res-acc").style.display = "flex";
         document.getElementById("copy-button").onclick = () => copyMatrix(data.result);
 
         // Display global info in dropdown

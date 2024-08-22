@@ -1,12 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Linear Equations Submodules</title>
-    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-</head>
+{% extends 'base.html' %}
+
+{% block content %}
+<title>{% block title %}Linear Equations Submodules{% endblock %}</title>
 <body>
     <div class="container">
         <nav aria-label="breadcrumb">
@@ -24,3 +20,4 @@
     </div>
 </body>
 </html>
+{% endblock %}

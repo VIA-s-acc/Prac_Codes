@@ -14,6 +14,23 @@ Repository for mathematical codes ( 2 variants - optimized, non-optimized )
 
 ---
 ## Last Update
+
+#### UPDATE #2 23.08.2024 INFO:
+- GUI updated.
+    - Add dark mode.
+    - Add new `accordion` fields.
+    - Add new `input` fields.
+    - Add `result copy` button.
+    - Add `global_info` and `global_info.GlobalRet` return fields.
+    - Add new styles to `statics`.
+    - Add new `.js` files to `statics`.
+
+> [!NOTE]  
+> api_key in [config.ini](optimized/optimized_api/static/config.ini) does not work. 
+
+- Enjoy 😸
+
+
 #### UPDATE 23.08.2024 INFO:
 - Started creating GUI for API. Now you can use only lineq.generator GUI.
 - GUI __LOCAL__ link -> localhost:8000/main (localhost:8000/ works too (without GUI)) after running `run_api.py`.

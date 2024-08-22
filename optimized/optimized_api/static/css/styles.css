@@ -1,0 +1,247 @@
+/* styles.css */
+
+/* Основные стили */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+    color: #343a40;
+}
+
+
+.accordion {
+    cursor: pointer;
+    padding: 6px;
+    border: none;
+    outline: none;
+    transition: 0.4s;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 16px;
+    background-color: #f8f9fa;
+    border: 1px solid #495057;
+    border-color: #495057;
+    color: #495057;
+    border-radius: 30px;
+}
+
+.accordion:hover {
+    background-color: #495057;
+    color: #f8f9fa;
+    border-color: #495057;
+}
+
+/* Стили стрелки */
+.accordion:after {
+    content: '\25BC'; /* Стрелка вниз */
+    font-size: 8px;
+    transition: transform 0.4s;
+}
+
+/* Переворот стрелки при активном состоянии */
+.accordion.active:after {
+    transform: rotate(-180deg); /* Переворот стрелки */
+}
+
+/* Стили раскрывающегося контента с плавным разворачиванием */
+.panel {
+    padding: 0 18px;
+    max-height: 0;  /* Начальная высота - 0 */
+    overflow: hidden;
+    transition: max-height 0.4s ease-out; /* Плавное изменение высоты */
+}
+
+/* Активный контент */
+.panel.show {
+    max-height: 300px; /* Макс. высота (можно изменить) */
+}
+
+.btn.btn-primary.mt-3 {
+    background-color: #f8f9fa;  
+    color: #495057;
+    border-color: #495057;
+}
+
+#copy-button {
+    background-color: #f8f9fa;
+    color: #495057;
+    border-color: #495057;
+}
+
+#copy-button:hover {
+    background-color: #495057;
+    color: #f8f9fa;
+    border-color: #f8f9fa;
+}
+
+.btn.btn-primary.theme-toggle-button:hover {
+    background-color: #495057;
+    color: #f8f9fa;          
+    border-color: #f8f9fa;    
+}
+
+.btn.btn-primary.mt-3:hover {
+    background-color: #495057;
+    color: #f8f9fa;
+    border-color: #f8f9fa;
+}
+
+.btn.btn-info {
+    background-color: #f8f9fa;  
+    color: #495057;
+    border-color: #495057;
+    border-radius: 33px;
+}
+
+.btn.btn-info:hover {
+    background-color: #495057;
+    color: #f8f9fa;
+    border-color: #f8f9fa;
+}
+
+
+
+/* Стили для тёмной темы */
+.dark-theme {
+    background-color: #343a40;
+    color: #f8f9fa;
+}
+
+.dark-theme .accordion {
+    cursor: pointer;
+    padding: 6px;
+    border: none;
+    outline: none;
+    transition: 0.4s;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 16px;
+    background-color: #495057;
+    border-color: #495057;
+    color: #f8f9fa;
+    border-radius: 30px;
+    border: 1px solid #f8f9fa;
+}
+
+.dark-theme .dropdown #global-info {
+    background-color: #495057;
+    color: #f8f9fa;
+    border-color: #f8f9fa;
+}
+
+.dark-theme .accordion:hover {
+    background-color: #f8f9fa;
+    color: #495057;
+    border-color: #f8f9fa;
+}
+
+.dark-theme .btn.btn-primary.theme-toggle-button:hover {
+    background-color: #f8f9fa; 
+    color: #495057;            
+    border-color: #495057;     
+}
+
+.dark-theme .btn.btn-primary.mt-3 {
+    background-color: #495057;  
+    color: #f8f9fa;
+    border-color: #f8f9fa;
+}
+
+.dark-theme #copy-button {
+    background-color: #495057;
+    color: #f8f9fa;
+    border-color: #f8f9fa;
+}
+
+.dark-theme #copy-button:hover {
+    background-color: #f8f9fa;
+    color: #495057;
+    border-color: #495057;
+}
+
+.dark-theme .btn.btn-primary.mt-3:hover {
+    background-color: #f8f9fa;
+    color: #495057;
+    border-color: #495057;
+}
+
+.dark-theme .btn.btn-info {
+    background-color: #495057;  
+    color: #f8f9fa;
+    border-color: #f8f9fa;
+}
+
+.dark-theme .btn.btn-info:hover {
+    background-color: #f8f9fa;
+    color: #495057;
+    border-color: #495057;
+}
+
+.dark-theme .breadcrumb-item {
+    color: #f8f9fa;
+}
+
+.dark-theme a {
+    color: #47c001;
+}
+
+.dark-theme .form-control {
+    background-color: #495057;
+    color: #f8f9fa;
+} 
+
+.dark-theme .form-control:focus {
+    background-color: #495057; /* Замените на нужный вам цвет */
+    border-color: #f8f9fa; /* Можно изменить или удалить границу при фокусе */
+}
+
+
+.dark-theme .breadcrumb {
+    background-color: #495057;
+    color: #f8f9fa;
+}
+
+.dark-theme .list-group-item {
+    background-color: #495057;
+    color: #f8f9fa;
+}
+
+.dark-theme .list-group-item:hover {
+    background-color: #6c757d;
+}
+
+/* Стили для кнопки переключения темы */
+.theme-toggle-button {
+    cursor: pointer;
+    margin-top: 10px;
+    background: none;
+    border: none;
+    color: inherit;
+    font-size: 24px;
+}
+
+/* Убираем выделение и обводку при нажатии */
+.theme-toggle-button:focus,
+.theme-toggle-button:active {
+    outline: none;
+    box-shadow: none;
+}
+
+/* Основные стили и тёмная тема остаются без изменений */
+#sun-icon {
+    display: none;
+}
+
+#moon-icon {
+    display: inline;
+}
+
+/* Стили для иконок в тёмной теме */
+.dark-theme #sun-icon {
+    display: inline;
+}
+
+.dark-theme #moon-icon {
+    display: none;
+}

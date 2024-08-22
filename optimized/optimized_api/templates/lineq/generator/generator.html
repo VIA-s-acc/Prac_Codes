@@ -1,13 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Linear Equations Submodules</title>
-    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+{% extends 'base.html' %}
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-</head>
+{% block content %}
+<title>{% block title %}Generator Submodule{% endblock %}</title>
+
 <body>
     <div class="container">
         <nav aria-label="breadcrumb">
@@ -17,11 +13,36 @@
                 <li class="breadcrumb-item active" aria-current="page">Generator</li>
             </ol>
         </nav>
-        <h1 class="mt-5">Linear Equations Submodules</h1>
+        <h1 class="mt-5">Generator Submodule</h1>
         <div class="list-group mt-4">
             <a href="/lineq/generator/matrix" class="list-group-item list-group-item-action">Random Matrix</a>
             <a href="/lineq/generator/vector" class="list-group-item list-group-item-action">Random Vector</a>
         </div>
-    </div>
+    
+    <br>
+    <button class="accordion" >How to use this submodule</button>
+        <div class="panel" id = "res-pnl">
+
+            1. <img src= {{ url_for('static', filename='instructions/lineq/generator/first_step.png')}} width="50%"  height ="auto" alt = "first step"/> <br><br>
+            2. <img src= {{ url_for('static', filename='instructions/lineq/generator/sec_step.png')}} width="50%"  height ="auto" alt = "second step"/> <br> <br>
+            3. <img src= {{ url_for('static', filename='instructions/lineq/generator/third_step.png')}} width="50%"  height ="auto" alt = "third step"/> <br> <br>
+            <p style="margin-top: 20px;">
+                Or use the RAW API functions:
+                <code style="padding: 4px 6px; border-radius: 4px; font-size: 14px;">
+                    /rand_m/?size=N&rng=R&mode=M
+                </code>
+                -> 
+                <code style="padding: 4px 6px; border-radius: 4px; font-size: 14px;">
+                    result.result, result.global_info, result.global_info.GlobalRet
+                </code>.
+            </p>
+            <p style="margin-top: 10px;">
+                Enjoy 
+                <span style="font-size: 20px;">😸</span>
+            </p>
+
+        </div>
+</div>
 </body>
 </html>
+{% endblock %}

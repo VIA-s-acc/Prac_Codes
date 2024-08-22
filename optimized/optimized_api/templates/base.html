@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en-ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+</head>
+<body>
+    <div class="container">
+        {% block content %}
+        <!-- Content goes here -->
+        {% endblock %}
+    </div>
+    <button class="btn btn-primary theme-toggle-button">
+        <i class="fas fa-sun" id="sun-icon"></i>
+        <i class="fas fa-moon" id="moon-icon"></i>
+    </button>
+    <script src="{{ url_for('static', filename='js/base.js') }}"></script>
+</body>
+</html>
