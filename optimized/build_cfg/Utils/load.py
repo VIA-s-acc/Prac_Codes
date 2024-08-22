@@ -1,23 +1,23 @@
 import json, os, shutil
 
 standart_cfg = {
-    "modules":
+    "modules": # list of modules
     {
-        "lineq": [
+        "lineq": [ # list of libraries
                 "matrix_methods", 
                 "generator", 
                 "checker"
             ]
     },
 
-    "settings":
+    "settings": # settings
     {
-        "check_cython": True,
-        "check_setuptools": True,
-        "run_tests": True,
-        "print_result": True,
-        "traceback": True,
-        "prefix": ""
+        "check_cython": True, # check if cython is installed
+        "check_setuptools": True, # check if setuptools is installed
+        "run_tests": True, # run tests
+        "print_result": True, # print result
+        "traceback": True, # print traceback
+        "prefix": "" # prefix for print
     }
 }
 

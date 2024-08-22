@@ -88,6 +88,17 @@ def main():
         norm, # 1 vector
         approx, # 2 vectors
         )
+    
+    from .gntr_routes import (
+        gen_rand_matrix,
+        gen_rand_vec
+    )
+    
+    from .chk_routes import (
+        diag_dom,
+        sylvesters_c,
+        symm_c
+    )
 
     app = Flask(__name__)
 
@@ -101,6 +112,7 @@ def main():
                 return
             return jsonify(error="Invalid API key", status=401, API=__API__), 401
 
+    ### matrix_methods
     app.add_url_rule('/', 'home', home, methods=['GET'])
     app.add_url_rule('/det/', 'determinant', det, methods=['GET'])
     app.add_url_rule('/max_m/', 'max_matrix', max_matrix, methods=['GET'])
@@ -117,6 +129,16 @@ def main():
     app.add_url_rule("/eig_mm/", "eig_mm", eigen, methods=['GET'])
     app.add_url_rule('/norm/', 'norm', norm, methods=['GET'])
     app.add_url_rule('/approx/', 'approx', approx, methods=['GET'])
+    
+    ### Generator
+    app.add_url_rule('/rand_m/', 'gen_rand_matrix', gen_rand_matrix, methods=['GET'])
+    app.add_url_rule('/rand_v/', 'gen_rand_vec', gen_rand_vec, methods=['GET'])
+    
+    ### Checker
+    app.add_url_rule('/chk_dd/', 'diag_dom', diag_dom, methods=['GET'])
+    app.add_url_rule('/chk_pd/', 'sylvesters_c', sylvesters_c, methods=['GET'])
+    app.add_url_rule('/chk_sy/', 'symm_c', symm_c, methods=['GET'])
+    
     @app.errorhandler(404)
     def page_not_found(e):
         return jsonify(error="Page not found", status=404), 404

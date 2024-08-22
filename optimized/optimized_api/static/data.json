@@ -63,7 +63,7 @@
                         {
                             "args": {
                                 "type": "type POST data ( 'str' or 'list' )",
-                                "matrix": "matrix POST data ( tpye(str) or type(list) )"
+                                "matrix": "matrix POST data ( type(str) or type(list) )"
                             },
                             "pattern": "link_to_api/det/?type=type&matrix=matrix ( list or str )"
                         },
@@ -88,7 +88,7 @@
                         {
                             "args": {
                                 "type": "type POST data ( 'str' or 'list' )",
-                                "matrix": "matrix POST data ( tpye(str) or type(list) )"
+                                "matrix": "matrix POST data ( type(str) or type(list) )"
                             },
                             "pattern": "link_to_api/max_m/?type=type&matrix=matrix ( list or str )"
                         },
@@ -136,7 +136,7 @@
                         {
                             "args": {
                                 "type": "type POST data ( 'str' or 'list' )",
-                                "matrix": "matrix POST data ( tpye(str) or type(list) )"
+                                "matrix": "matrix POST data ( type(str) or type(list) )"
                             },
                             "pattern": "link_to_api/cholv1/?type=type&matrix=matrix ( list or str )"
                         },
@@ -160,7 +160,7 @@
                         {
                             "args": {
                                 "type": "type POST data ( 'str' or 'list' )",
-                                "matrix": "matrix POST data ( tpye(str) or type(list) )"
+                                "matrix": "matrix POST data ( type(str) or type(list) )"
                             },
                             "pattern": "link_to_api/cholv2/?type=type&matrix=matrix ( list or str )"
                         },
@@ -184,7 +184,7 @@
                         {
                             "args": {
                                 "type": "type POST data ( 'str' or 'list' )",
-                                "matrix": "matrix POST data ( tpye(str) or type(list) )"
+                                "matrix": "matrix POST data ( type(str) or type(list) )"
                             },
                             "pattern": "link_to_api/inv/?type=type&matrix=matrix ( list or str )"
                         },
@@ -209,8 +209,8 @@
                         {
                             "args": {
                                 "type": "type POST data ( 'str' or 'list' )",
-                                "matrix1": "matrix1 POST data ( tpye(str) or type(list) )",
-                                "matrix2": "matrix2 POST data ( tpye(str) or type(list) )"
+                                "matrix1": "matrix1 POST data ( type(str) or type(list) )",
+                                "matrix2": "matrix2 POST data ( type(str) or type(list) )"
                             },
                             "pattern": "link_to_api/sum_m/?type=type&matrix1=matrix1&matrix2=matrix2 ( list or str )"
                         },
@@ -235,8 +235,8 @@
                         {
                             "args": {
                                 "type": "type POST data ( 'str' or 'list' )",
-                                "matrix1": "matrix1 POST data ( tpye(str) or type(list) )",
-                                "matrix2": "matrix2 POST data ( tpye(str) or type(list) )"
+                                "matrix1": "matrix1 POST data ( type(str) or type(list) )",
+                                "matrix2": "matrix2 POST data ( type(str) or type(list) )"
                             },
                             "pattern": "link_to_api/mult_m/?type=type&matrix1=matrix1&matrix2=matrix2 ( list or str )"
                         },
@@ -261,7 +261,7 @@
                         {
                             "args": {
                                 "type": "type POST data ( 'str' or 'list' )",
-                                "matrix1": "matrix POST data ( tpye(str) or type(list) )",
+                                "matrix1": "matrix POST data ( type(str) or type(list) )",
                                 "double": "double POST data ( int | float )"
                             },
                             "pattern": "link_to_api/mult_m_s/?type=type&matrix=matrix1&double=double ( list or str for matrix, int or float for double )"
@@ -355,7 +355,7 @@
                         {
                             "args": {
                                 "type": "type POST data ( 'str' or 'list' )",
-                                "matrix": "matrix POST data ( tpye(str) or type(list) )",
+                                "matrix": "matrix POST data ( type(str) or type(list) )",
                                 "itern": "int POST data ( int )",
                                 "tol": "double POST data ( int | float )"
                             },
@@ -383,7 +383,7 @@
                         {
                             "args": {
                                 "type": "type POST data ( 'str' or 'list' )",
-                                "vector": "vector POST data ( tpye(str) or type(list) )"
+                                "vector": "vector POST data ( type(str) or type(list) )"
                             },
                             "pattern": "link_to_api/norm/?type=type&vector=vector ( list or str for vector)"
                         },
@@ -407,8 +407,8 @@
                         {
                             "args": {
                                 "type": "type POST data ( 'str' or 'list' )",
-                                "vector1": "vector1 POST data ( tpye(str) or type(list) )",
-                                "vector2": "vector2 POST data ( tpye(str) or type(list) )"
+                                "vector1": "vector1 POST data ( type(str) or type(list) )",
+                                "vector2": "vector2 POST data ( type(str) or type(list) )"
                             },
                             "pattern": "link_to_api/approx/?type=type&vector1=vector1&vector2=vector2 ( list or str for vector)"
                         },
@@ -423,6 +423,136 @@
                             "vector": "Input vector",
                             "spent": "Spent until end of processing", 
                             "result_calc_time": "calculating time"
+                    }
+                }
+        },
+        "generator module (shortcut: gntr)":
+        {
+            "Generate random matrix (shortcut: rndm)":
+                {
+                    "name": "/rand_m/",
+                    "use": 
+                        {
+                            "args": {
+                                "size": "size of matrix (NxN) (int)",
+                                "rng": "range for random numbers (double) (a_ij may be in [min_rng, max_rng])",
+                                "mode": "Mode for matrix generating -> mode_list = ['default': base random, '3diag': three diagonal, 'symm': symmetric] (str)"
+                            },
+                            "pattern": "link_to_api/rand_m/?size=size&rng=rng&mode=mode"
+                        },
+                    "Examples":
+                        {
+                            "example": "link_to_api/rand_m/?size=25&rng=1.132&mode=3diag",
+                        },
+                    "returns": {
+                            "result": "Generated matrix (NULL if error)", 
+                            "error": "Error | NULL if not occupied", 
+                            "size": "Input size",
+                            "rng": "Input rng",
+                            "mode": "Input mode", 
+                            "spent": "Spent until end of processing", 
+                            "result_calc_time": "Calculating time"
+                    }
+                },
+            "Generate random vector (shortcut: rndm)":
+                {
+                    "name": "/rand_v/",
+                    "use": 
+                        {
+                            "args": {
+                                "size": "size of vector (1xN) (int)",
+                                "rng": "range for random numbers (double) (a_i may be in [min_rng, max_rng])",
+                            },
+                            "pattern": "link_to_api/rand_v/?size=size&rng=rng"
+                        },
+                    "Examples":
+                        {
+                            "example": "link_to_api/rand_v/?size=25&rng=1.132",
+                        },
+                    "returns": {
+                            "result": "Generated vector (NULL if error)", 
+                            "error": "Error | NULL if not occupied", 
+                            "size": "Input size",
+                            "rng": "Input rng",
+                            "spent": "Spent until end of processing", 
+                            "result_calc_time": "Calculating time"
+                    }
+            }
+        },
+        "checker module (shortcut: chk)":
+        {
+            "Diagonal dominance (shortcut: dd)":
+                {
+                    "name": "/chk_dd/",
+                    "use": 
+                        {
+                            "args": {
+                                "type": "type POST data ( 'str' or 'list' )",
+                                "matrix": "matrix POST data ( type(str) or type(list) )"
+                            },
+                            "pattern": "link_to_api/chk_dd/?type=type&matrix=matrix ( list or str for matrix)"
+                        },
+                    "Examples":
+                        {
+                            "example_str": "link_to_api/chk_dd/?matrix=1 2 3\n4 5 6\n7 8 9",
+                            "example_list": "link_to_api/chk_dd/?type=list&matrix=[[1,2,3],[4,5,6],[7,8,9]]"
+                        },
+                    "returns": {
+                            "result": "Checker result (NULL if error)", 
+                            "error": "Error | NULL if not occupied", 
+                            "matrix": "Input matrix",
+                            "type": "Input type",
+                            "spent": "Spent until end of processing", 
+                            "result_calc_time": "Calculating time"
+                    }
+                },
+            "Positive definite (sylvesters criterion) (shortcut: pd)":
+                {
+                    "name": "/chk_pd/",
+                    "use": 
+                        {
+                            "args": {
+                                "type": "type POST data ( 'str' or 'list' )",
+                                "matrix": "matrix POST data ( type(str) or type(list) )"
+                            },
+                            "pattern": "link_to_api/chk_pd/?type=type&matrix=matrix ( list or str for matrix)"
+                        },
+                    "Examples":
+                        {
+                            "example_str": "link_to_api/chk_pd/?matrix=1 2 3\n4 5 6\n7 8 9",
+                            "example_list": "link_to_api/chk_pd/?type=list&matrix=[[1,2,3],[4,5,6],[7,8,9]]"
+                        },
+                    "returns": {
+                            "result": "Checker result (NULL if error)", 
+                            "error": "Error | NULL if not occupied", 
+                            "matrix": "Input matrix",
+                            "type": "Input type",
+                            "spent": "Spent until end of processing", 
+                            "result_calc_time": "Calculating time"
+                    }
+                },
+            "Symmetric (shortcut: sy)":
+                {
+                    "name": "/chk_sy/",
+                    "use": 
+                        {
+                            "args": {
+                                "type": "type POST data ( 'str' or 'list' )",
+                                "matrix": "matrix POST data ( type(str) or type(list) )"
+                            }
+                        },
+                    "Examples":
+                        {
+                            "example_str": "link_to_api/chk_sy/?matrix=1 2 3\n4 5 6\n7 8 9",
+                            "example_list": "link_to_api/chk_sy/?type=list&matrix=[[1,2,3],[4,5,6],[7,8,9]]"
+                        },
+                    "returns": {
+                            "result": "Checker result (NULL if error)", 
+                            "error": "Error | NULL if not occupied", 
+                            "matrix": "Input matrix",
+                            "type": "Input type",
+                            "spent": "Spent until end of processing", 
+                            "result_calc_time": "Calculating time"
                     }
                 }
         }

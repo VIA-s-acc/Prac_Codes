@@ -13,3 +13,4 @@ venv/
 backup/
 api_key/
 *.db
+*.code-workspace
