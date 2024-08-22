@@ -76,7 +76,7 @@ def main():
     print(f"LOCAL: {__LOCAL__}")
     print(f"DEBUG: {__DEDBUG__}")
     
-    from flask import Flask, jsonify
+    from flask import Flask, jsonify, render_template
     from .mm_routes import (
         home,  # no input 
         det, max_matrix, lu, cholv1, cholv2, inverse, # 1 matrix
@@ -139,6 +139,27 @@ def main():
     app.add_url_rule('/chk_pd/', 'sylvesters_c', sylvesters_c, methods=['GET'])
     app.add_url_rule('/chk_sy/', 'symm_c', symm_c, methods=['GET'])
     
+    @app.route('/main/')
+    def main():
+        return render_template('index.html')
+
+    @app.route('/lineq')
+    def lineq():
+        return render_template('lineq/lineq.html')
+
+    @app.route('/lineq/generator')
+    def generator():
+        return render_template('lineq/generator/generator.html')
+    
+    @app.route('/lineq/generator/matrix')
+    def generator_m():
+        return render_template('lineq/generator/generator_m.html')
+    
+    @app.route('/lineq/generator/vector')
+    def generator_v():
+        return render_template('lineq/generator/generator_v.html')
+    
+        
     @app.errorhandler(404)
     def page_not_found(e):
         return jsonify(error="Page not found", status=404), 404

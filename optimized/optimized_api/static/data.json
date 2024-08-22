@@ -442,7 +442,7 @@
                         },
                     "Examples":
                         {
-                            "example": "link_to_api/rand_m/?size=25&rng=1.132&mode=3diag",
+                            "example": "link_to_api/rand_m/?size=25&rng=1.132&mode=3diag"
                         },
                     "returns": {
                             "result": "Generated matrix (NULL if error)", 
@@ -461,13 +461,13 @@
                         {
                             "args": {
                                 "size": "size of vector (1xN) (int)",
-                                "rng": "range for random numbers (double) (a_i may be in [min_rng, max_rng])",
+                                "rng": "range for random numbers (double) (a_i may be in [min_rng, max_rng])"
                             },
                             "pattern": "link_to_api/rand_v/?size=size&rng=rng"
                         },
                     "Examples":
                         {
-                            "example": "link_to_api/rand_v/?size=25&rng=1.132",
+                            "example": "link_to_api/rand_v/?size=25&rng=1.132"
                         },
                     "returns": {
                             "result": "Generated vector (NULL if error)", 

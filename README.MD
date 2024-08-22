@@ -14,6 +14,20 @@ Repository for mathematical codes ( 2 variants - optimized, non-optimized )
 
 ---
 ## Last Update
+#### UPDATE 23.08.2024 INFO:
+- Started creating GUI for API. Now you can use only lineq.generator GUI.
+- Examples -> [images.api_gui](images/api_gui/)
+
+    [<img src="images/api_gui/MAIN.png" width="240"  height = "150"/>]
+    [<img src="images/api_gui/SUBMODULES.png" width="240"  height = "150"/>]
+    [<img src="images/api_gui/GENERATORS.png" width="240"  height = "150"/>]
+
+    [<img src="images/api_gui/MATRIX.png" width="240"  height = "150"/>]
+    [<img src="images/api_gui/COPY.png" width="240"  height = "150"/>]
+    [<img src="images/api_gui/GLOBAL.png" width="240"  height = "150"/>]
+
+
+
 
 #### Update 22.08.2024 INFO:
 - [optimized.lineq.matrix_methods.python_interface-API](optimized/lineq/matrix_methods/Module/module.py) is ready for 100% use.
