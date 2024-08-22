@@ -15,6 +15,13 @@ Repository for mathematical codes ( 2 variants - optimized, non-optimized )
 ---
 ## Last Update
 
+#### Update 22.08.2024 INFO:
+- [optimized.lineq.matrix_methods.python_interface](optimized/lineq/matrix_methods/Module/module.py) is ready for 100% use.
+- [optimized.lineq.generator.python_interface](optimized/lineq/generator/Module/generator.py) is ready for 100% use.
+- [optimized.lineq.checker.python_interface](optimized/lineq/checker/Module/checker.py) is ready for 100% use.
+    - all API functions you can see in [Current Api Support](INFO/Optimized.md#current-api-support)
+        
+
 #### Update 19.08.2024 INFO:
 
 - Continued working on API after a break. API for generator, checker will be finished soon. Then I will continue optimizing the rest of the modules, namely [lineq.lineq](Lineq/LinEq/lineq.py), ( [lineq.Utils.Prettier](Lineq/LinEq/Utils/Prettier.py), [lineq.Utils.S_R](Lineq/LinEq/Utils/S_R.py) may not be changed, but will be moved to a new module without optimization, or will be completely removed ). [lineq.Utils.timer](Lineq/LinEq/Utils/timer.py) will be definitely removed.

@@ -92,6 +92,22 @@ Current version of API supports the following functions:
 | eigen  | type: type of input <br> matrix: matrix <br> itern: number <br> tol: tolerance |  Returns eigenvalues and eigenvectors (max, min) <-> max = (max, maxv), min = (min, minv) | link_to_api/eig_mm/?type=type&matrix=matrix1&itern=itern&tol=double ( list or str for matrix, int or float for double ) | example_str: link_to_api/eig_mm/?matrix=1 2 3\n4 5 6\n7 8 9&itern=10&tol=0.01 |
 | norm | type: type of input <br> vector: vector | Returns norm of vector | link_to_api/norm/?type=type&vector=vector ( list or str for vector) | example_str: link_to_api/norm/?vector=1 2 3, <br> example_list: link_to_api/norm/?type=list&vector=[1,2,3] |
 | vec_approx(vector_a, vector_b)  | type: type of input <br> vector1: vector <br> vector2: vector | Returns vector approximation ( True or False ) | link_to_api/approx/?type=type&vector1=vector1&vector2=vector2 ( list or str for vector) | example_str: link_to_api/approx/?vector1=1 2 3&vector2=4 5 6 <br> example_list: link_to_api/approx/?type=list&vector1=[1,2,3]&vector2=[4,5,6] |
+---
+[optimized.lineq.generator.python_interface](../optimized/lineq/generator/Module/generator.py) 
+---
+| function | args | description | use_pattern | example |
+| :------- | :-- | :---------: | :---------- | :------ | 
+| generate_matrix | size: size of matrix (NxN) <br> rng: range of random of elements (a_ij in [-rng, rng] <br> mode: mode of generating -> 3diag, symm, default | Returns generated matrix | link_to_api/rand_m/?size=size&rng=rng&mode=mode | example_str: link_to_api/rand_m/?size=25&rng=1.132&mode=3diag <br> example_list: link_to_api/rand_m/?size=25&rng=1.13&mode=3diag| 
+| generate_vector | size: size of vector | Returns generated vector | link_to_api/rand_v/?size=size | example_str: link_to_api/rand_v/?size=5 <br> example_list: link_to_api/rand_v/?size=5 |
+
+---
+[optimized.lineq.checker.python_interface](../optimized/lineq/checker/Module/checker.py) 
+---
+| function | args | description | use_pattern | example |
+| :------- | :-- | :---------: | :---------- | :------ | 
+| diagonal_domination | type: type of input <br> matrix: matrix | Return result of checker | link_to_api/chk_dd/?type=type&matrix=matrix ( list or str ) | example_str: link_to_api/chk_dd/?matrix=1 2 3\n4 5 6\n7 8 9, <br> example_list: link_to_api/chk_dd/?type=list&matrix=[[1,2,3],[4,5,6],[7,8,9]] |
+| symmetric_check  | type: type of input <br> matrix: matrix | Return result of checker | link_to_api/chk_sy/?type=type&matrix=matrix ( list or str ) | example_str: link_to_api/chk_sy/?matrix=1 2 3\n4 5 6\n7 8 9, <br> example_list: link_to_api/chk_sy/?type=list&matrix=[[1,2,3],[4,5,6],[7,8,9]] |
+| sylvesters_criterion | type: type of input <br> matrix: matrix | Return result of checker | link_to_api/chk_pd/?type=type&matrix=matrix ( list or str ) | example_str: link_to_api/chk_pd/?matrix=1 2 3\n4 5 6\n7 8 9, <br> example_list: link_to_api/chk_pd/?type=list&matrix=[[1,2,3],[4,5,6],[7,8,9]] |
 
 ---
 
