@@ -14,6 +14,19 @@ Repository for mathematical codes ( 2 variants - optimized, non-optimized )
 
 ---
 ## Last Update
+#### UPDATE 01.09.2024 INFO:
+- `run_api.py` updated.
+    - Argparser added.
+
+> [!TIP]
+> usage: optimized_api [-h] [-r] \
+> \
+> optimized_api FLASK app \
+> \
+> options: \
+>  -h, --help          show this help message and exit \
+>  -r, --rebuild, -re  Rebuild optimized_api 
+
 
 #### UPDATE #2 23.08.2024 INFO:
 - GUI updated.
