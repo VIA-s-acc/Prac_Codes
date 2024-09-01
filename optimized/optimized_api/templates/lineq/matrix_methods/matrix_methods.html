@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+
+{% block content %}
+<title>{% block title %}Generator Submodule{% endblock %}</title>
+
+<body>
+    <div class="container">
+
+        <h1 class="mt-5">Matrix Methods Submodule</h1>
+        <div class="list-group mt-4">
+            <a href="/lineq/matrix_methods/det" class="list-group-item list-group-item-action">Determinant</a>
+            <a href="/lineq/matrix_methods/maxm" class="list-group-item list-group-item-action">Max element in matrix</a>
+            <a href="/lineq/matrix_methods/lu" class="list-group-item list-group-item-action">LU Decomposition ( A = L * U )</a>
+            <a href="/lineq/matrix_methods/chlv1" class="list-group-item list-group-item-action">Cholesky Decomposition v1 ( A = L * L^ T)</a>
+            <a href="/lineq/matrix_methods/chlv2" class="list-group-item list-group-item-action">Cholesky Decomposition v2 ( A = L * D * L^T )</a>
+            <a href="/lineq/matrix_methods/inv" class="list-group-item list-group-item-action">Inverse ( A * A^-1 = I )</a>
+            <a href="/lineq/matrix_methods/sum" class="list-group-item list-group-item-action">Addition ( A + B = C )</a>
+            <a href="/lineq/matrix_methods/mul" class="list-group-item list-group-item-action">Multiplication ( A * B = C or A*scalar = C )</a>
+            <a href="/lineq/matrix_methods/sig" class="list-group-item list-group-item-action">Signum of number </a>
+            <a href="/lineq/matrix_methods/abs" class="list-group-item list-group-item-action">Absolute value</a>
+            <a href="/lineq/matrix_methods/rand" class="list-group-item list-group-item-action">Random number</a>
+            <a href="/lineq/matrix_methods/eigmm" class="list-group-item list-group-item-action">Eigen values ( max and min ) and eigenvectors</a>
+            <a href="/lineq/matrix_methods/norm" class="list-group-item list-group-item-action">Vector euclidian norm</a>
+            <a href="/lineq/matrix_methods/approx" class="list-group-item list-group-item-action">Approximation of two vectors</a>
+        </div>
+    
+    <br>
+    <button class="accordion" >How to use this submodule</button>
+        <div class="panel" id = "res-pnl">
+
+            <!--1. <img src= {{ url_for('static', filename='instructions/lineq/generator/first_step.png')}} width="50%"  height ="auto" alt = "first step"/> <br><br>
+            2. <img src= {{ url_for('static', filename='instructions/lineq/generator/sec_step.png')}} width="50%"  height ="auto" alt = "second step"/> <br> <br>
+            3. <img src= {{ url_for('static', filename='instructions/lineq/generator/third_step.png')}} width="50%"  height ="auto" alt = "third step"/> <br> <br>
+            <p style="margin-top: 20px;">
+                Or use the RAW API functions:
+                <code style="padding: 4px 6px; border-radius: 4px; font-size: 14px;">
+                    /rand_m/?size=N&rng=R&mode=M
+                </code>
+                -> 
+                <code style="padding: 4px 6px; border-radius: 4px; font-size: 14px;">
+                    result.result, result.global_info, result.global_info.GlobalRet
+                </code>.
+            </p>
+            <p style="margin-top: 10px;">
+                Enjoy 
+                <span style="font-size: 20px;">😸</span>
+            </p> 
+            -->
+            still in development
+        </div>
+</div>
+</body>
+</html>
+{% endblock %}
