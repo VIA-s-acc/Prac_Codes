@@ -28,7 +28,7 @@ Repository for mathematical codes ( 2 variants - optimized, non-optimized )
 >  -h, --help          show this help message and exit \
 >  -r, --rebuild, -re  Rebuild optimized_api 
 
-
+---
 #### UPDATE #2 23.08.2024 INFO:
 - GUI updated.
     - Add dark mode.
