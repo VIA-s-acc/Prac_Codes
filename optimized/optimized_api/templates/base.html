@@ -10,6 +10,27 @@
 </head>
 <body>
     <div class="container">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb mt-4">
+        {% if func %}
+            <li class="breadcrumb-item"><a href="/main">Main</a></li>
+            <li class="breadcrumb-item"><a href="/{{ module }}"> {{ module }}</a></li>
+            <li class="breadcrumb-item"><a href="/{{ module }}/{{ submodule }}"> {{ submodule }}</a></li>
+            <li class="breadcrumb-item active" aria-current="page"> {{ func }} </li>
+        {% elif submodule %}
+            <li class="breadcrumb-item"><a href="/main">Main</a></li>
+            <li class="breadcrumb-item"><a href="/{{ module }}"> {{ module }}</a></li>
+            <li class="breadcrumb-item active" aria-current="page"> {{ submodule }} </li>
+        {% elif module %}
+            <li class="breadcrumb-item"><a href="/main">Main</a></li>
+            <li class="breadcrumb-item active" aria-current="page"> {{ module }} </li>
+        {% else %}
+            <li class="breadcrumb-item active" aria-current="page"> Main </li>
+        {% endif %}
+        </ol>
+    </nav>
+    </div>
+    <div class="container">
         {% block content %}
         <!-- Content goes here -->
         {% endblock %}

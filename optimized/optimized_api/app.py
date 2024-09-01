@@ -143,21 +143,18 @@ def main():
     def main():
         return render_template('index.html')
 
-    @app.route('/lineq')
-    def lineq():
-        return render_template('lineq/lineq.html')
-
-    @app.route('/lineq/generator')
-    def generator():
-        return render_template('lineq/generator/generator.html')
+    @app.route('/<module>')
+    def module_func(module):
+        return render_template(f"{module}/{module}.html", module = module)
     
-    @app.route('/lineq/generator/matrix')
-    def generator_m():
-        return render_template('lineq/generator/generator_m.html')
+    @app.route('/<module>/<submodule>')
+    def submodule_func(module, submodule):
+        return render_template(f"{module}/{submodule}/{submodule}.html", module = module, submodule = submodule)
     
-    @app.route('/lineq/generator/vector')
-    def generator_v():
-        return render_template('lineq/generator/generator_v.html')
+    @app.route('/<module>/<submodule>/<func>')
+    def func_func(module, submodule, func):
+        print(f"{module}/{submodule}/{func}.html")
+        return render_template(f"{module}/{submodule}/{func}.html", module = module, submodule = submodule, func = func)
     
         
     @app.errorhandler(404)
