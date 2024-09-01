@@ -1,6 +1,7 @@
 import subprocess
 import configparser
 import os, json, sys
+import argparse
 
 def check_config_parser():
     try:
@@ -16,7 +17,7 @@ def run_build():
     subprocess.check_call([sys.executable, 'build.py'])
     os.chdir('..')
     
-def check_lib_builds():
+def check_lib_builds(flag):
     cfg = json.load(open('optimized/build_cfg/build_modules.json'))
     modules = cfg['modules']
     for lib in modules.keys():
@@ -25,6 +26,10 @@ def check_lib_builds():
                 print(f'🔴 Error in libs build | REBUILDING.')
                 run_build()
                 return True
+    if flag:
+        print("\033[93m -r --rebuild flag set | REBUILDING. \033[0m")
+        run_build()
+        
     return True
 
 def check_config():
@@ -43,9 +48,9 @@ def check_config():
         
         
         
-def load_config(profile='DEFAULT'):
+def load_config(profile='DEFAULT', flag=False):
     check_config()
-    check_lib_builds()
+    check_lib_builds(flag)
     config = configparser.ConfigParser()
     config.read('optimized/optimized_api/static/config.ini')
     return config[profile]
@@ -60,21 +65,23 @@ def check_flask():
         print("🟢 Flask installed.")
 
 
-def main():
+def main(flag):
     check_flask()
-    config = load_config('DEFAULT')
+    __FLAG__ = flag
+    config = load_config('DEFAULT', flag = __FLAG__)
     try:
         __LOCAL__ = True if config["__LOCAL__"] == "True" else False
         __DEDBUG__ = True if config["__DEBUG__"] == "True" else False
         __API__ = str(config["API_KEY"])
-    
+
     except Exception as EX: 
         print(f"🔴 {EX}")
         exit(-1)
     
-    print(f"API: {__API__}")
-    print(f"LOCAL: {__LOCAL__}")
-    print(f"DEBUG: {__DEDBUG__}")
+    print("\033[1;32;40mAPI:\033[0m", "\033[1;31;40m", __API__, "\033[0m")
+    print("\033[1;33;40mLOCAL:\033[0m", "\033[1;31;40m", __LOCAL__,  "\033[0m")
+    print("\033[1;34;40mDEBUG:\033[0m", "\033[1;31;40m", __DEDBUG__, "\033[0m")
+    print("\033[1;35;40mREBUILD FLAG:\033[0m", "\033[1;31;40m", __FLAG__, "\033[0m")
     
     from flask import Flask, jsonify, render_template
     from .mm_routes import (
@@ -100,7 +107,7 @@ def main():
         symm_c
     )
 
-    app = Flask(__name__)
+    app = Flask('optimized_API')
 
     if not __LOCAL__:
         from flask import request
@@ -165,8 +172,18 @@ def main():
     def internal_server_error(e):
         return jsonify(error="Internal server error", status=500), 500
 
-    app.run(debug=True)
+    app.run(debug=True, use_reloader = False)
     
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser(
+        prog = 'optimized_api',
+        description='optimized_api FLASK app',
+    )
+
+    parser.add_argument(
+        '-r', '--rebuild', '-re', action='store_true', help='Rebuild optimized_api'
+    )
+    args = parser.parse_args()
+
+    main(flag=args.rebuild)
 
