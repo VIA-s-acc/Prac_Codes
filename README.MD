@@ -19,7 +19,7 @@ Repository for mathematical codes ( 2 variants - optimized, non-optimized )
     - Argparser added.
 
 > [!TIP]
- ```usage: optimized_api [-h] [-r] \
+> ```usage: optimized_api [-h] [-r] \
  \
  optimized_api FLASK app \
  \
