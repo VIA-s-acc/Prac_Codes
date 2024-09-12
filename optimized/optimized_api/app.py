@@ -2,6 +2,9 @@ import subprocess
 import configparser
 import os, json, sys
 import argparse
+import tqdm
+import urllib
+import time
 
 def check_config_parser():
     try:
@@ -35,16 +38,26 @@ def check_lib_builds(flag):
 def check_config():
     check_config_parser()
     if not os.path.exists('optimized/optimized_api/static/config.ini'):
-
-        config = configparser.ConfigParser()
-        config["DEFAULT"] = {
-                "API_KEY": "",
-                "__LOCAL__": "True",
-                "__DEBUG__": "True"
-            }
+        print("🔴 config.ini not found. Downloading...")
+        with open('optimized/optimized_api/static/config.ini', 'wb') as f:
+            with urllib.request.urlopen('https://raw.githubusercontent.com/VIA-s-acc/Prac_Codes/main/optimized/optimized_api/static/config.ini') as response:
+                total_size = int(response.headers.get('content-length', 0))
+                print(f"Downloading {total_size} bytes")
+                block_size = 1024
+                pbar = tqdm.tqdm(total=total_size, unit="Bytes", unit_scale=True, unit_divisor=block_size, leave=False)
+                while True:
+                    data = response.read(block_size)
+                    import time 
+                    if not data:
+                        break
+                    pbar.update(len(data))
+                    f.write(data)
+                time.sleep(0.1)
+                pbar.update(0)
+        print("\n🟢 config.ini downloaded.")
+    else:
+        print("🟢 config.ini found.")
         
-        with open('optimized/optimized_api/static/config.ini', 'w') as configfile:
-            config.write(configfile)
         
         
         
@@ -63,7 +76,20 @@ def check_flask():
         print("🔴 Flask not found. Installing...")
         subprocess.check_call([sys.executable, "-m", "pip", "install", "flask"])
         print("🟢 Flask installed.")
+    
 
+def check_loguru(flag = False):
+    try:
+        import loguru
+        print("🟢 Loguru found.")
+        return True
+    except:
+        if flag:
+            print("🔴 Loguru not found. Installing...")
+            subprocess.check_call([sys.executable, "-m", "pip", "install", "loguru"])
+            print("🟢 Loguru installed.")
+            return True
+    return False
 
 def main(flag):
     check_flask()
@@ -73,17 +99,23 @@ def main(flag):
         __LOCAL__ = True if config["__LOCAL__"] == "True" else False
         __DEDBUG__ = True if config["__DEBUG__"] == "True" else False
         __API__ = str(config["API_KEY"])
+        __LOGGING__ = True if config["__LOGGING__"] == "True" else False
 
     except Exception as EX: 
         print(f"🔴 {EX}")
         exit(-1)
     
+    lgru = check_loguru(flag = __LOGGING__)
+    print(lgru)
     print("\033[1;32;40mAPI:\033[0m", "\033[1;31;40m", __API__, "\033[0m")
     print("\033[1;33;40mLOCAL:\033[0m", "\033[1;31;40m", __LOCAL__,  "\033[0m")
     print("\033[1;34;40mDEBUG:\033[0m", "\033[1;31;40m", __DEDBUG__, "\033[0m")
+    print("\033[1;36;40mLOGGING:\033[0m", "\033[1;31;40m", __LOGGING__, "\033[0m")
     print("\033[1;35;40mREBUILD FLAG:\033[0m", "\033[1;31;40m", __FLAG__, "\033[0m")
     
-    from flask import Flask, jsonify, render_template
+    
+    from flask import Flask, jsonify, render_template, request, send_from_directory
+    from jinja2 import TemplateNotFound
     from .mm_routes import (
         home,  # no input 
         det, max_matrix, lu, cholv1, cholv2, inverse, # 1 matrix
@@ -107,17 +139,42 @@ def main(flag):
         symm_c
     )
 
-    app = Flask('optimized_API')
+    app = Flask(__name__)
 
     if not __LOCAL__:
-        from flask import request
         from .api_key.generate import is_valid_api_key ### realise your own api key generator and chekcer )    
         @app.before_request
-        def before_request(): ### 
+        def API_check(): ### 
             nonlocal __API__
+            if __LOGGING__ and lgru:
+                logger.info(f"Request: {request.method} {request.url} from {request.remote_addr}")
+                logger.debug(f"Headers: {request.headers}")
+                logger.debug(f"Body: {request.get_data()}")  
+                
             if __API__ and is_valid_api_key(__API__):
+                if __LOGGING__ and lgru:
+                    logger.debug("API key is valid\n\n\n")
                 return
+        
+            if __LOGGING__ and lgru:
+                logger.debug("API key is not valid\n\n\n")
+                
             return jsonify(error="Invalid API key", status=401, API=__API__), 401
+
+    if __LOGGING__ and lgru:
+        from loguru import logger
+        logger.remove(0)
+        if __DEDBUG__:
+            logger.add(sys.stderr, level="DEBUG")
+        else: 
+            logger.add(sys.stderr, level="INFO")
+            
+        logger.add("optimized/optimized_api/logs/web.log", rotation="10 MB", retention="10 days", level="DEBUG")
+        @app.before_request
+        def log_request_info():
+            logger.info(f"Request: {request.method} {request.url} from {request.remote_addr}")
+            logger.debug(f"Headers: {request.headers}")
+            logger.debug(f"Body: {request.get_data()}\n\n\n")
 
     ### matrix_methods
     app.add_url_rule('/', 'home', home, methods=['GET'])
@@ -146,33 +203,65 @@ def main(flag):
     app.add_url_rule('/chk_pd/', 'sylvesters_c', sylvesters_c, methods=['GET'])
     app.add_url_rule('/chk_sy/', 'symm_c', symm_c, methods=['GET'])
     
+    @app.route('/favicon.ico')
+    def favicon():
+        return send_from_directory(os.path.join(app.root_path, 'static'), 'favicon.ico', mimetype='image/vnd.microsoft.icon')
+    
     @app.route('/main/')
     def main():
         return render_template('index.html')
-
-    @app.route('/<module>')
+    
+    @app.route('/main/<module>')
     def module_func(module):
         return render_template(f"{module}/{module}.html", module = module)
     
-    @app.route('/<module>/<submodule>')
+    @app.route('/main/<module>/<submodule>')
     def submodule_func(module, submodule):
         return render_template(f"{module}/{submodule}/{submodule}.html", module = module, submodule = submodule)
     
-    @app.route('/<module>/<submodule>/<func>')
+    @app.route('/main/<module>/<submodule>/<func>')
     def func_func(module, submodule, func):
         print(f"{module}/{submodule}/{func}.html")
         return render_template(f"{module}/{submodule}/{func}.html", module = module, submodule = submodule, func = func)
-    
         
     @app.errorhandler(404)
     def page_not_found(e):
+        if __LOGGING__ and lgru:
+            logger.info(f"Request: {request.method} {request.url} from {request.remote_addr}")
+            logger.debug(f"Headers: {request.headers}")
+            logger.debug(f"Body: {request.get_data()}\n\n\n")
+            logger.error(f"Page path: {request.path}\nfull path: {request.full_path}\nurl: {request.url} \n\n\n")
+            logger.error("Page not found | 404\n\n\n")
         return jsonify(error="Page not found", status=404), 404
 
     @app.errorhandler(500)
     def internal_server_error(e):
+        if __LOGGING__ and lgru:
+            logger.info(f"Request: {request.method} {request.url} from {request.remote_addr}")
+            logger.debug(f"Headers: {request.headers}")
+            logger.debug(f"Body: {request.get_data()}")
+            logger.exception(f"Error details: {e}")
+            logger.error(f"Page path: {request.path}\nfull path: {request.full_path}\nurl: {request.url} \n\n\n")
+            logger.error("Internal server error | 500\n\n\n")
+        return jsonify(error="Internal server error", status=500), 500
+    
+    @app.errorhandler(Exception)
+    def handle_exception(e):
+        if __LOGGING__ and lgru:
+            logger.info(f"Request: {request.method} {request.url} from {request.remote_addr}")
+            logger.debug(f"Headers: {request.headers}")
+            logger.debug(f"Body: {request.get_data()}")
+            logger.exception(f"Error details: {e}")
+            logger.error(f"Error Type: {type(e)}\nPage path: {request.path}\nfull path: {request.full_path}\nurl: {request.url} \n\n\n")
+            logger.error("Internal server error | 500\n\n\n")
         return jsonify(error="Internal server error", status=500), 500
 
+
     app.run(debug=True, use_reloader = False)
+    
+    
+    
+    
     
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(

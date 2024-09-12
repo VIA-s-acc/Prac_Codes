@@ -14,3 +14,4 @@ backup/
 api_key/
 *.db
 *.code-workspace
+optimized/optimized_api/logs/
