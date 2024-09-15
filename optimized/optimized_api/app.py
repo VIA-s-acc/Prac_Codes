@@ -5,6 +5,7 @@ import argparse
 import tqdm
 import urllib
 import time
+from .RUtils.loggers import loggers
 
 def check_config_parser():
     try:
@@ -91,6 +92,7 @@ def check_loguru(flag = False):
             return True
     return False
 
+
 def main(flag):
     check_flask()
     __FLAG__ = flag
@@ -100,6 +102,9 @@ def main(flag):
         __DEDBUG__ = True if config["__DEBUG__"] == "True" else False
         __API__ = str(config["API_KEY"])
         __LOGGING__ = True if config["__LOGGING__"] == "True" else False
+        if config["__LOGGERS__"]:
+            __LOGGERS__ = config["__LOGGERS__"].split(",")
+            _loggers = loggers(__LOGGERS__)
 
     except Exception as EX: 
         print(f"🔴 {EX}")
@@ -111,7 +116,11 @@ def main(flag):
     print("\033[1;33;40mLOCAL:\033[0m", "\033[1;31;40m", __LOCAL__,  "\033[0m")
     print("\033[1;34;40mDEBUG:\033[0m", "\033[1;31;40m", __DEDBUG__, "\033[0m")
     print("\033[1;36;40mLOGGING:\033[0m", "\033[1;31;40m", __LOGGING__, "\033[0m")
+    __LOGGERSF__ = True if len(__LOGGERS__) > 0 else False
+    _loggers.print_loggers()           
+
     print("\033[1;35;40mREBUILD FLAG:\033[0m", "\033[1;31;40m", __FLAG__, "\033[0m")
+    
     
     
     from flask import Flask, jsonify, render_template, request, send_from_directory
@@ -168,8 +177,18 @@ def main(flag):
             logger.add(sys.stderr, level="DEBUG")
         else: 
             logger.add(sys.stderr, level="INFO")
-            
-        logger.add("optimized/optimized_api/logs/web.log", rotation="10 MB", retention="10 days", level="DEBUG")
+        loggers_args = _loggers.get_loggers()
+        print("Loggers info:")
+        for k, v in loggers_args.items():
+            try:
+                logger.add(f"optimized/optimized_api/logs/{k}.log", rotation="10 MB", retention="10 days", level=v)
+                print(f'🟢 Logger {k} created\tLevel: {v}')
+            except Exception as EX:
+                print(f"🔴 Logger {k} creating error, please check config.ini\tLevel: {v}\n{EX}")
+                exit(-1)
+
+        
+
         @app.before_request
         def log_request_info():
             logger.info(f"Request: {request.method} {request.url} from {request.remote_addr}")
