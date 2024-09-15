@@ -111,7 +111,6 @@ def main(flag):
         exit(-1)
     
     lgru = check_loguru(flag = __LOGGING__)
-    print(lgru)
     print("\033[1;32;40mAPI:\033[0m", "\033[1;31;40m", __API__, "\033[0m")
     print("\033[1;33;40mLOCAL:\033[0m", "\033[1;31;40m", __LOCAL__,  "\033[0m")
     print("\033[1;34;40mDEBUG:\033[0m", "\033[1;31;40m", __DEDBUG__, "\033[0m")
@@ -178,13 +177,13 @@ def main(flag):
         else: 
             logger.add(sys.stderr, level="INFO")
         loggers_args = _loggers.get_loggers()
-        print("Loggers info:")
+        print("\033[1;36;40mLoggers info: \033[0m")
         for k, v in loggers_args.items():
             try:
                 logger.add(f"optimized/optimized_api/logs/{k}.log", rotation="10 MB", retention="10 days", level=v)
-                print(f'🟢 Logger {k} created\tLevel: {v}')
+                print(f'    🟢 Logger {k} created\tLevel: {v}')
             except Exception as EX:
-                print(f"🔴 Logger {k} creating error, please check config.ini\tLevel: {v}\n{EX}")
+                print(f"    🔴 Logger {k} creating error, please check config.ini\tLevel: {v}\n{EX}")
                 exit(-1)
 
         
