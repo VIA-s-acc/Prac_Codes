@@ -6,7 +6,8 @@ standart_cfg = {
         "lineq": [ # list of libraries
                 "matrix_methods", 
                 "generator", 
-                "checker"
+                "checker",
+                "lineq"
             ]
     },
 

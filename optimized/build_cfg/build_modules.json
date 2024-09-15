@@ -4,7 +4,8 @@
         "lineq": [
                 "matrix_methods", 
                 "generator", 
-                "checker"
+                "checker",
+                "lineq_sub"
             ]
     },
 

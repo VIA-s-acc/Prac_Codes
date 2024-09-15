@@ -626,10 +626,7 @@ class LinEqSolver:
         if det == 0:
             raise ValueError("The matrix is singular.")
 
-        test_matrix = deepcopy(A)
-        for i in range(n):
-            test_matrix[i].append(b[i])
-
+        
         for i in range(n):
 
             max_row = i

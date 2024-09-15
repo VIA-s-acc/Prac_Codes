@@ -8,8 +8,10 @@ def run_tests(settings, libs):
                     os.remove('{lib}/TEST/test.pyc')
         
                 print(f"Testing {lib}...")
-                subprocess.check_call([sys.executable, '-m', f'{lib}.TEST.test'])
-    
+                try:
+                    subprocess.check_call([sys.executable, '-m', f'{lib}.TEST.test'])
+                except Exception as ex:
+                    print(f'🔴 {lib} TESTS FAILED, ERROR: {ex}')
         else:
             print('🛑 TESTS SKIPPED ( settings["run_tests"] = false ) \n')
 

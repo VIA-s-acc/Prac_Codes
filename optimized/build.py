@@ -5,10 +5,19 @@ from build_cfg.Utils.build import build
 from build_cfg.Utils.test import run_tests
 import copy
 import traceback
-
+import argparse
 
 ### RUN THIS SCRIPT FROM ROOT.OPTIMIZED FOLDER ###
 
+
+def parse():
+    parser = argparse.ArgumentParser()
+    
+    parser.add_argument('--modules', '-m', nargs='+', required=False, default='default')
+    args = parser.parse_args()
+
+    return args
+    
 def main():
     """
     This function is the main entry point of the program. It performs the following steps:
@@ -20,9 +29,20 @@ def main():
     6. Runs the tests using the `run_tests()` function.
     7. Prints the result using the `res_print()` function.
     """
+
+    args = parse()
     cfg = load_cfg() # load config
     settings = cfg['settings'] # get settings
-    modules = cfg['modules'] # get modules
+    if args.modules == 'default' or args.modules[0] == 'all':
+        modules = cfg['modules'] # get modules
+    
+    else:
+        modules = {}
+        for module in args.modules:
+            m, s = module.split('.', 1)
+            if m not in modules:
+                modules[m] = []
+            modules[m].append(s)
     try:
         check_cython(settings) # check cython installation
         check_setuptools(settings)

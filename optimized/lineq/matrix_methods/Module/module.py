@@ -31,7 +31,7 @@ from .m_err.m_err import (
     MatrixValueError
 )
 
-import random, sys
+import random as rd, sys
 
 class MatrixMethods():
     """Class for matrix methods (multiplication, determinant, sum, decomposition, ...) for all check __doc__"""
@@ -236,7 +236,7 @@ class MatrixMethods():
         5.2
         """
         if sys.platform == 'win32':
-            return random.uniform(minv, maxv)
+            return rd.uniform(minv, maxv)
         
         else:
             try:

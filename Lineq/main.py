@@ -6,6 +6,12 @@ matrix =   [[7, 1, 3],
 vec = [-8, -2, 5]
 
 
+matrix = [[1, 2, 2], [0, 5, 6], [7, 8, 9]]
+vector = [1, 2, 3]
+
+print(LinEqSolver.gauss_elimination(matrix, vector, 2))
+
+exit(1)
 def main(matrix, vec, mode = 'gauss', eps: float = 1e-15, iter: int = 1000, dig: int = 3, s_flag = False):
 
     sol = LinEqSolver.generate_and_solve_linear_equations(3, 'Lineq/eq/matrix.txt', 'Lineq/eq/vec.txt', 'Lineq/eq/sol.txt', 'Lineq/eq/sol_ext.txt',dig = dig, 
