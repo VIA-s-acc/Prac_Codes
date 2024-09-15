@@ -148,11 +148,10 @@ void inverse(double* matrix, double* result_matrix, int size) {
             }
         }
         diag = matrix[i * size + i];
-        if ( diag == 0.0 )
+        if ( abs_(diag) < 1e-10 )
         {
-            printf("Warning!!!!! Matrix is not invertible ( determinant = 0 )\nResult is zeros matrix\n");
-            memset(result_matrix, 0, sizeof(double) * size * size);
-            return;
+            fprintf(stderr, "lineq.matrix_methods.inverse::determinant_error\nMatrix is not invertible ( determinant ~ 0 ). Exiting.");
+            exit(1);
         }
         for ( int k = 0; k < size; ++k )
         {
