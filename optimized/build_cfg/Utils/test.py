@@ -4,8 +4,8 @@ def run_tests(settings, libs):
         if settings['run_tests']:  
             print('\nRUNNING TESTS\n')
             for lib in libs:        
-                if os.path.exists('{lib}/TEST/test.pyc'):
-                    os.remove('{lib}/TEST/test.pyc')
+                if os.path.exists(f'{lib}/TEST/test.pyc'):
+                    os.remove(f'{lib}/TEST/test.pyc')
         
                 print(f"Testing {lib}...")
                 try:
