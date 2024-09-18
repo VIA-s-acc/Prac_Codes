@@ -172,21 +172,28 @@ def main(flag):
     if __LOGGING__ and lgru:
         from loguru import logger
         logger.remove(0)
-        if __DEDBUG__:
-            logger.add(sys.stderr, level="DEBUG")
-        else: 
-            logger.add(sys.stderr, level="INFO")
         loggers_args = _loggers.get_loggers()
         print("\033[1;36;40mLoggers info: \033[0m")
-        for k, v in loggers_args.items():
-            try:
-                logger.add(f"optimized/optimized_api/logs/{k}.log", rotation="10 MB", retention="10 days", level=v)
-                print(f'    🟢 Logger {k} created\tLevel: {v}')
-            except Exception as EX:
-                print(f"    🔴 Logger {k} creating error, please check config.ini\tLevel: {v}\n{EX}")
-                exit(-1)
 
-        
+        for k, v in loggers_args.items():
+            if not k.startswith("__LSTDERR__"):
+                try:
+                    logger.add(f"optimized/optimized_api/logs/{k}.log", rotation="10 MB", retention="10 days", level=v)
+                    if isinstance(v, int):
+                        print(f"    🟢 Logger {k} created\tLevel: {v}\t {logger.level(f"{k}", no=v)}")
+                    else:
+                        print(f'    🟢 Logger {k} created\tLevel: {v}\t {logger.level(v)}')
+                except Exception as EX:
+                    print(f"    🔴 Logger {k} creating error, please check config.ini\tLevel: {v}\n{EX}")
+                    exit(-1)
+                    
+            elif k.startswith("__LSTDERR__"):
+                logger.add(sys.stderr, level = v)
+                if isinstance(v, int):
+                    print(f"    🟢 Logger {k} created\tLevel: {v}\t {logger.level(f"{k}", no=v)}")
+                else:
+                    print(f"    🟢 Logger {k} created\tLevel: {v}\t {logger.level(v)}")
+            
 
         @app.before_request
         def log_request_info():

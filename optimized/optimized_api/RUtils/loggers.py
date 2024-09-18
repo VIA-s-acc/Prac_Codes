@@ -1,8 +1,31 @@
+class CLOGGER:
+    def init(self, NAME, NO, COLOR, ICON):
+        self.NAME = NAME
+        self.NO = NO
+        self.COLOR = COLOR
+        self.ICON = ICON
+    
+
 class loggers:
     def __init__(self, loggers):
         for logger in loggers:
-            setattr(self, f'__L{logger.upper()}__', logger)
+            if not logger.upper().startswith("STDERR.") and len(logger) > 0:
+                try:
+                    setattr(self, f'__LCNO{logger.upper()}__', int(logger))
+                except:
+                    setattr(self, f'__L{logger.upper()}__', logger)
             
+            elif logger.upper().startswith("STDERR."):
+                splited = logger.split(".")
+                name = splited[0]
+                level = splited[1]
+                try:
+                    setattr(self, f'__L{name.upper()}__', int(level))
+                except:
+                    setattr(self, f'__L{name.upper()}__', level)
+            
+
+                
     def get_loggers(self):     
         return {k: getattr(self, k) for k in dir(self) if k.startswith('__L')}
     
@@ -14,4 +37,3 @@ class loggers:
                 print(f"{color_code}├── {key}:","\033[0m \033[1;31;40m", True,f'\033[0m {color_code}LEVEL: \033[0m \033[1;31;40m ', args[key], "\033[0m")
             else:
                 print(f"{color_code}└── {key}:","\033[0m \033[1;31;40m", True,f'\033[0m {color_code}LEVEL: \033[0m \033[1;31;40m ', args[key], "\033[0m")
-        
