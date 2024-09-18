@@ -103,7 +103,7 @@ def main(flag):
         __API__ = str(config["API_KEY"])
         __LOGGING__ = True if config["__LOGGING__"] == "True" else False
         if config["__LOGGERS__"]:
-            __LOGGERS__ = config["__LOGGERS__"].split(",")
+            __LOGGERS__ = config["__LOGGERS__"].replace(" ", "").split(",")
             _loggers = loggers(__LOGGERS__)
 
     except Exception as EX: 
