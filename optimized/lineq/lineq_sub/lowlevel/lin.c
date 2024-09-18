@@ -8,13 +8,14 @@
 // READY
 //     - `gauss_elimination(matrix, vec, dig)`: Performs Gaussian elimination to solve a system of linear equations.
 //     - `_lu_solver(matrix, vec, dig):` Solves a linear system of equations using LU decomposition.
-
+//     - `_forward_substitution(matrix, vec, dig)`: Solves a system of linear equations using forward substitution.
+//     - `_backward_substitution(matrix, vec, dig)`: Solves a system of linear equations using backward substitution.
 
 
 
 // NOT READY
 
-// - `simple_iteration(matrix, vec, max_iter, eigen_max_iter, eigen_eps, eps, dig)`: Performs simple iteration to solve a system of linear equations.
+//     - `simple_iteration(matrix, vec, max_iter, eigen_max_iter, eigen_eps, eps, dig)`: Performs simple iteration to solve a system of linear equations.
 //     - `seidel_iteration(matrix, vec, dig)`: Performs Seidel iteration to solve a system of linear equations.
 //     - `jacobi_iteration(matrix, vec, max_iter, eps, dig)`: Performs Jacobi iteration to solve a system of linear equations.
 //     - `relaxation_method(matrix, vec, dig, omega)`: Performs relaxation method to solve a system of linear equations.
@@ -26,9 +27,6 @@
 //     - `step_desc_iteration_imp(matrix, vec, max_iter, eps, dig, matrix_choose_mode)`: Performs implicit method of steepest descent to solve a system of linear equations.
 //     - `tridiagonal_elimination(matrix, vec, dig)`: Performs Tridiagonal elimination to solve a system of linear equations.
 //     - `_chol_solver(matrix, vec, dig, mode)`: Solves a linear system using Cholesky decomposition.
-//     - `_forward_substitution(matrix, vec, dig)`: Solves a system of linear equations using forward substitution.
-//     - `_backward_substitution(matrix, vec, dig)`: Solves a system of linear equations using backward substitution.
-//     - `generate_and_solve_linear_equations(size, matrix_file, vector_file, solution_file, ext_file, dig, check, epsilon, m_v_range, mode, random, prettier_path, prettier, logger, **kwargs)`: Generates and solves a system of linear equations, with various options for customization and output. 
 
 
 void gauss(const double* matrix_, const double* vector_, int size_m, int size_v, double* result)
@@ -200,4 +198,5 @@ void _lu_solver(double* matrix,  double* vec, int size, double* result) {
     free(y);
     free(x);
 }
+
 
