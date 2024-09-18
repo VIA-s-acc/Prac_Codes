@@ -24,7 +24,7 @@ def main():
     1. Loads the configuration from the file using the `load_cfg()` function.
     2. Retrieves the settings from the loaded configuration.
     3. Retrieves the modules from the loaded configuration.
-    4. Checks the installation of Cython using the `check_cython()` function.
+    4. Checks the installation of Cython using the `check_cython()` function. Checks the installation of setuptools using the `check_setuptools()` function.
     5. Builds the modules using the `build()` function.
     6. Runs the tests using the `run_tests()` function.
     7. Prints the result using the `res_print()` function.
@@ -35,7 +35,6 @@ def main():
     settings = cfg['settings'] # get settings
     if args.modules == 'default' or args.modules[0] == 'all':
         modules = cfg['modules'] # get modules
-    
     else:
         modules = {}
         for module in args.modules:
