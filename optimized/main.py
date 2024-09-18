@@ -12,4 +12,9 @@ print(symm)
 sylv = lin.Checker.sylvesters_criterion([[1,0],
                                          [3,-4]])
 
+matrix = [[1, 2, 2], [3, 1, 2], [4, 5, 1]]
+vector = [15, 15, 15]
+
+print(lin.MatrixMethods.LU(matrix))
+
 print(sylv)

@@ -32,6 +32,10 @@ bool _diagonal_domination(double* matrix, int rows, int cols) {
 bool _sylvesters_criterion(double* matrix, int size) {
     for (int i = 1; i < size + 1; ++i) {
         double* sub_matrix = (double*)malloc(sizeof(double) * i * i);
+        if (sub_matrix == NULL) {
+            fprintf(stderr, "lineq.lineq_sub._sylvesters_criterion::alloc_error\nFailed to allocate memory.\n");
+            exit(1);
+        }
         memset(sub_matrix, 0, sizeof(double) * i * i);
         for (int j = 0; j < i; ++j) {
             for (int k = 0; k < i; ++k) {

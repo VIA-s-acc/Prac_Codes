@@ -2,6 +2,7 @@ from .matrix_methods import MatrixMethods
 from .generator import Generator
 from .checker import Checker
 
+
 __doc__ = """
 Lineq module:
 Interface for solving linear equations and systems of linear equations
@@ -9,7 +10,7 @@ Interface for solving linear equations and systems of linear equations
 Includes:
 
 MatrixMethods module
-lineq module
+lineq_sub module
 generator module
 checker module
 

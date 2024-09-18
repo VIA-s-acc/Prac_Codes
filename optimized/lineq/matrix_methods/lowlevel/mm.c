@@ -35,6 +35,10 @@ double e_norm(double* vector, int size){
 
 bool vector_approx(double* vector_a, double* vector_b, int size, double tolerance) {
     double* new_vector = (double*)malloc(sizeof(double) * size);
+    if (new_vector == NULL) {
+        fprintf(stderr, "lineq.matrix_methods.lowlevel.vector_approx::alloc_error\nFailed to allocate memory.\n");
+        exit(1);
+    }
     for (int i = 0; i < size; ++i) {
         new_vector[i] = vector_a[i] - vector_b[i];
     }
@@ -234,6 +238,11 @@ void cholesky_decomp2(double* matrix, double* l_matrix, double* u_matrix, double
     memset(diag_matrix, 0, sizeof(double) * size * size);
 
     double* diagonal = (double*)malloc(sizeof(double) * size);
+    if ( diagonal == NULL )
+    {
+        fprintf(stderr, "lineq.matrix_methods.cholesky_decomp2::alloc_error\nFailed to allocate memory.\n");
+        exit(1);
+    }
     memset(diagonal, 0, sizeof(double) * size);
 
     for ( int i = 0; i < size; ++i) {
@@ -303,6 +312,25 @@ double power_meth(double* matrix, int size, double* result_vec, double tolerance
     double* vec_ = (double*)malloc(sizeof(double) * size);
     double* new_vec = (double*) malloc(sizeof(double)*size);
     double* new_eigen_value = (double*)malloc(sizeof(double));
+    if (start_vector == NULL || eigen_value == NULL || vec_ == NULL || new_vec == NULL || new_eigen_value == NULL) {
+        if (start_vector != NULL) {
+            free(start_vector);
+        }
+        if (eigen_value != NULL) {
+            free(eigen_value);
+        }
+        if (vec_ != NULL) {
+            free(vec_);
+        }
+        if (new_vec != NULL) {
+            free(new_vec);
+        }
+        if (new_eigen_value != NULL) {
+            free(new_eigen_value);
+        }
+        fprintf(stderr, "lineq.matrix_methods.power_meth::alloc_error\nFailed to allocate memory.\n");
+        exit(1);
+    }
     double eigenvalue = 0;
     double new_eigenvalue = 0;
     double new_norm = 0;
@@ -375,12 +403,29 @@ double* get_eigen(double* matrix, int size, double* res_maxv, double* res_minv, 
     double* res_eigen = (double*)malloc(sizeof(double) * 2);
     double res_max = power_meth(matrix, size, res_maxv, tolerance, max_iterations);
     double* E_matrix = (double*)malloc(sizeof(double) * size * size);
+    if ( E_matrix == NULL || res_eigen == NULL) {
+        if ( E_matrix != NULL) {
+            free(E_matrix);
+        }
+        if (res_eigen != NULL) {
+            free(res_eigen);
+        }
+        fprintf(stderr, "lineq.matrix_methods.get_eigen::alloc_error\nFailed to allocate memory.\n");
+        exit(1);
+    }
     memset(E_matrix, 0, sizeof(double) * size * size);
     for (int i = 0; i < size; ++i) {
         E_matrix[i * size + i] = 1;
 
     }
     double* transform_matrix = (double*)malloc(sizeof(double) * size * size);
+    if ( transform_matrix == NULL) {
+        if ( transform_matrix != NULL) {
+            free(transform_matrix);
+        }
+        fprintf(stderr, "lineq.matrix_methods.get_eigen::alloc_error\nFailed to allocate memory.\n");
+        exit(1);
+    }
     for (int i = 0; i < size; ++i)
     {
         for (int j = 0; j < size; ++j)
