@@ -37,24 +37,24 @@ def approx():
         err_str_help = ' | vector1 | ' if flag1 else ''
         err_str_help += ' | vector2 | ' if flag2 else ''
         err_str_help += ' | tol | ' if flag3 else ''
-        return jsonify(add_dicts(upd_dict, {'result': None, 'error': f'Invalid vector (non numeric elements in ({err_str_help}))', 'input_type': tpe, 'vector1': vector1, 'vector2': vector2, 'spent': time.time() - start, 'result_calc_time': None}))
+        return jsonify(add_dicts(upd_dict, {'result': None, 'error': f'Invalid vector (non numeric elements in ({err_str_help}))', 'input_type': tpe, 'vector1': vector1, 'vector2': vector2, 'tol': tol, 'spent': time.time() - start, 'result_calc_time': None}))
     
     if len(vector1) == 0 or len(vector2) == 0:
         err_str_help = ' | vector1 | ' if len(vector1) == 0 else ''
         err_str_help += ' | vector2 | ' if len(vector2) == 0 else ''
-        return jsonify(add_dicts(upd_dict, {'result': None, 'error': f'Empty vector ({err_str_help})', 'input_type': tpe, 'vector1': vector1, 'vector2': vector2, 'spent': time.time() - start, 'result_calc_time': None}))
+        return jsonify(add_dicts(upd_dict, {'result': None, 'error': f'Empty vector ({err_str_help})', 'input_type': tpe, 'vector1': vector1, 'vector2': vector2, 'tol': tol, 'spent': time.time() - start, 'result_calc_time': None}))
 
     if len (vector1) != len(vector2):
-        return jsonify(add_dicts(upd_dict, {'result': None, 'error': 'Vectors must be the same length', 'input_type': tpe, 'vector1': vector1, 'vector2': vector2, 'spent': time.time() - start, 'result_calc_time': None}))
+        return jsonify(add_dicts(upd_dict, {'result': None, 'error': 'Vectors must be the same length', 'input_type': tpe, 'vector1': vector1, 'vector2': vector2, 'tol': tol, 'spent': time.time() - start, 'result_calc_time': None}))
     
     calc_start = time.time()
     
     try:
         approx = MatrixMethods.vec_approx(vector1, vector2)
-        return jsonify(add_dicts(upd_dict, {'result': approx, 'error': None, 'input_type': tpe,  'vector1': vector1, 'vector2': vector2, 'spent': time.time() - start, 'result_calc_time': time.time() - calc_start }))
+        return jsonify(add_dicts(upd_dict, {'result': approx, 'error': None, 'input_type': tpe,  'vector1': vector1, 'vector2': vector2, 'spent': time.time() - start, 'tol': tol, 'result_calc_time': time.time() - calc_start }))
     
     except Exception as ex:
-        return jsonify(add_dicts(upd_dict, {'result': None, 'error': str(ex), 'input_type': tpe, 'vector1': vector1, 'vector2': vector2, 'spent': time.time() - start, 'result_calc_time': time.time() - calc_start }))
+        return jsonify(add_dicts(upd_dict, {'result': None, 'error': str(ex), 'input_type': tpe, 'vector1': vector1, 'vector2': vector2, 'spent': time.time() - start, 'tol': tol, 'result_calc_time': time.time() - calc_start }))
 
 
 def norm():

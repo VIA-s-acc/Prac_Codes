@@ -246,7 +246,6 @@ def main(flag):
     
     @app.route('/main/<module>/<submodule>/<func>')
     def func_func(module, submodule, func):
-        print(f"{module}/{submodule}/{func}.html")
         return render_template(f"{module}/{submodule}/{func}.html", module = module, submodule = submodule, func = func)
         
     @app.errorhandler(404)
