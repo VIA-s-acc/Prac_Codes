@@ -61,8 +61,8 @@ $$
 $$
 \begin{aligned}
 \text{Algorithm complexity:}
-\\ LU_{\text{complexity}} & = \frac{2 \cdot n^3}{3} + O(n^2) \\
-\text{Solving (5) and (4)} & : n^2 + O(n)
+\\ LU_{\text{complexity}} & => \frac{2 \cdot n^3}{3} + O(n^2) \\
+\text{Solving (5) and (4)} & => n^2 + O(n)
 \end{aligned}
 $$
 
