@@ -50,18 +50,21 @@ $$
 \begin{align*}
 (1) \ & A\cdot\bar{x} = \bar{b} \\
 (2) \ & A = L \cdot U  \\ 
-(3) \ & L \cdot U = \bar{b} \\ 
-(4) \ & \bar{y} = U\bar{x}\\
+(3) \ & L \cdot U = A \\
+(4) \ & U \cdot \bar{x} = \bar{y}\\
 (5) \ & L \cdot \bar{y} = \bar{b} \\
-(6) \ & L - \text{lower triangular matrix -> easy to solve (5) and get} \ \bar{y} \\
-(7) \ & U - \text{upper triangular matrix -> easy to solve  (4) and get} \ \bar{x}
-\end{align*}
-\begin{align*}
-\text{Algorithm complexity:}
-\\  LU_{complexity} & => \frac{2 \cdot n^3}{3} + O(n^2) 
-\\ (5), (4)  \ steps & => n^2 + O(n) 
+(6) \ & L \text{ is a lower triangular matrix, so (5) is easy to solve for } \bar{y} \\
+(7) \ & U \text{ is an upper triangular matrix, so (4) is easy to solve for } \bar{x}
 \end{align*}
 $$
+$$
+\begin{align*}
+\text{Algorithm complexity:}
+\\ LU_{\text{complexity}} & = \frac{2 \cdot n^3}{3} + O(n^2) \\
+\text{Solving (5) and (4)} & : n^2 + O(n)
+\end{align*}
+$$
+
 
 
 #### UPDATE 01.09.2024 INFO:
