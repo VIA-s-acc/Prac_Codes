@@ -66,8 +66,7 @@ $$
 \end{aligned}
 $$
 
-
-
+---
 #### UPDATE 01.09.2024 INFO:
 - `run_api.py` updated.
     - Argparser added.
