@@ -46,7 +46,7 @@ Repository for mathematical codes ( 2 variants - optimized, non-optimized )
             ```
             Solve a system of linear equations with LU method
             ```
-            $$
+$$
             \begin{align*}
             (1) \ & A\cdot\bar{x} = \bar{b} \\
             (2) \ & A = L \cdot U  \\ 
@@ -62,7 +62,7 @@ Repository for mathematical codes ( 2 variants - optimized, non-optimized )
             \\  LU_{complexity} & => \frac{2 \cdot n^3}{3} + O(n^2) 
             \\ (5), (4)  \ steps & => n^2 + O(n) 
             \end{align*}
-            $$
+$$
 
 
 #### UPDATE 01.09.2024 INFO:
