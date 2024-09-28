@@ -14,6 +14,57 @@ Repository for mathematical codes ( 2 variants - optimized, non-optimized )
 
 ---
 ## Last Update
+
+#### Update 28.09.2024 INFO:
+
+- `optimized.lineq.lineq_sub`.
+    - development started.
+    - add functions for linear equations systems:
+        -  `solve_tridiagonal(matrix, vector)`:
+            ```
+            Solve a system of linear equations with tridiagonal matrix
+            ``` 
+            Matrix must be tridiagonal: 
+            | | | | | | | |
+            | --- | --- | --- | --- | --- | --- | --- | 
+            | $a_{11}$ | $b_{12}$ | 0 | ... | ... | ... | 0 
+            | $c_{21}$ | $a_{22}$ | $b_{23}$ | ... | ... | ... | 0
+            | 0 | $c_{32}$ | $a_{33}$ | $b_{34}$ | ... | ... | 0
+            | ... | 0 | $c_{43}$ | $a_{44}$ | $b_{45}$ | ... | 0
+            | ... | ... | ... | ... | ... | ... | 0 | 
+            | 0 | 0 | ... | 0| $c_{n-1 \ n-2}$ | $a_{n-1 \ n-1}$ | $b_{n-1 \ n}$ | 
+            | 0   |  0  | ...   | 0 | 0 | $c_{n \ n-1}$ | $a_{nn}$ |
+
+            [Tridiagonal matrix algorithm (Thomas algorithm)](https://en.wikipedia.org/wiki/Tridiagonal_matrix_algorithm)
+        -  `solve_gauss(matrix, vector)`:
+            ```
+            Solve a system of linear equations with gauss method
+            ```
+            [Gaussian elimination](https://en.wikipedia.org/wiki/Gaussian_elimination)
+
+        -  `solve_lu(matrix, vector)`:
+            ```
+            Solve a system of linear equations with LU method
+            ```
+            $$
+            \begin{align*}
+            (1) \ & A\cdot\bar{x} = \bar{b} \\
+            (2) \ & A = L \cdot U  \\ 
+            (3) \ & L \cdot U = \bar{b} \\ 
+            (4) \ & \bar{y} = U\bar{x}\\
+            (5) \ & L \cdot \bar{y} = \bar{b} \\
+            (6) \ & L - \text{lower triangular matrix -> easy to solve (5) and get} \ \bar{y} \\
+            (7) \ & U - \text{upper triangular matrix -> easy to solve  (4) and get} \ \bar{x}
+            \end{align*}
+                \\ 
+            \begin{align*}
+            \text{Algorithm complexity:}
+            \\  LU_{complexity} & => \frac{2 \cdot n^3}{3} + O(n^2) 
+            \\ (5), (4)  \ steps & => n^2 + O(n) 
+            \end{align*}
+            $$
+
+
 #### UPDATE 01.09.2024 INFO:
 - `run_api.py` updated.
     - Argparser added.

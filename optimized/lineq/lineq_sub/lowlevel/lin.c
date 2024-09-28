@@ -10,6 +10,7 @@
 //     - `_lu_solver(matrix, vec, dig):` Solves a linear system of equations using LU decomposition.
 //     - `_forward_substitution(matrix, vec, dig)`: Solves a system of linear equations using forward substitution.
 //     - `_backward_substitution(matrix, vec, dig)`: Solves a system of linear equations using backward substitution.
+//     - `tridiagonal_elimination(matrix, vec, dig)`: Performs Tridiagonal elimination to solve a system of linear equations.
 
 
 
@@ -25,9 +26,60 @@
 //     - `min_chg_iteration(matrix, vec, max_iter, eps, dig, matrix_choose_mode)`: Performs minimum change iteration to solve a system of linear equations.
 //     - `step_desc_iteration(matrix, vec, max_iter, eps, dig)`: Performs method of steepest descent to solve a system of linear equations.
 //     - `step_desc_iteration_imp(matrix, vec, max_iter, eps, dig, matrix_choose_mode)`: Performs implicit method of steepest descent to solve a system of linear equations.
-//     - `tridiagonal_elimination(matrix, vec, dig)`: Performs Tridiagonal elimination to solve a system of linear equations.
 //     - `_chol_solver(matrix, vec, dig, mode)`: Solves a linear system using Cholesky decomposition.
 
+void tridiagonal_elimination(double* matrix, double* vector, int size_m, int size_v, double* result)
+{
+    memset(result, 0, sizeof(double) * size_v);
+
+    if( _diagonal_domination(matrix, size_m, size_m) )
+    {
+        double* c_prime = (double*)malloc(sizeof(double) * size_m);
+        double* d_prime = (double*)malloc(sizeof(double) * size_m);
+        
+        if ( c_prime == NULL || d_prime == NULL )
+        {
+            if (c_prime != NULL) free(c_prime);
+            if (d_prime != NULL) free(d_prime);
+            fprintf(stderr, "lineq.lineq_sub.tridiagonal_elimination::alloc_error\nFailed to allocate memory.\n");
+            exit(1);
+        }
+
+        memset(c_prime, 0, sizeof(double) * size_m);
+        memset(d_prime, 0, sizeof(double) * size_m);
+
+        c_prime[0] = matrix[ 0 * size_m + 1] / matrix[ 0 * size_m + 0];
+        d_prime[0] = vector[ 0] / matrix[ 0 * size_m + 0];
+
+
+        for (int i = 1; i < size_m; ++i)
+        {
+            double temp = matrix[ i * size_m + i] - matrix[ i * size_m + i - 1] * c_prime[ i - 1];
+            if ( i < size_m - 1 )
+            {   
+                c_prime[ i] = matrix[ i * size_m + i + 1] / temp;
+            }
+            else {
+                c_prime[ i] = 0;
+            }
+            d_prime[i] = (vector[ i] - matrix[ i * size_m + i - 1] * d_prime[ i - 1]) / temp;
+        }
+
+        result[ size_m - 1] = d_prime[ size_m - 1];
+        for (int i = size_m - 2; i > -1; --i)
+            {
+                result[ i] = d_prime[ i] - c_prime[ i] * result[ i + 1];
+            }
+
+        free(c_prime);
+        free(d_prime);
+
+    }
+    else {
+        fprintf(stderr, "lineq.lineq_sub.tridiagonal_elimination::diagonal_domination_error\nMatrix is not diagonally dominant.\n");
+        exit(1);
+    }
+}
 
 void gauss(const double* matrix_, const double* vector_, int size_m, int size_v, double* result)
 {

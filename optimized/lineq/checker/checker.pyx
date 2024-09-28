@@ -14,7 +14,7 @@ def symmetric_check_pyx(matrix):
     cdef double* c_matrix = <double*>malloc(sizeof(double) * size)
 
     if c_matrix == NULL:
-        raise MemoryError("Failed to allocate memory")
+        raise MemoryError("lineq.checker.symmetric_check_pyx::alloc_error\nFailed to allocate memory")
 
 
     for i in range(rows):
@@ -35,7 +35,7 @@ def diagonal_domination_pyx(matrix):
     cdef double* c_matrix = <double*>malloc(sizeof(double) * size)
 
     if c_matrix == NULL:
-        raise MemoryError("Failed to allocate memory")
+        raise MemoryError("lineq.checker.diagonal_domination_pyx::alloc_error\nFailed to allocate memory")
 
     for i in range(rows):
         for j in range(cols):
@@ -56,7 +56,7 @@ def sylvesters_criterion_pyx(matrix):
     cdef double* c_matrix = <double*>malloc(sizeof(double) * size)
     
     if c_matrix == NULL:
-        raise MemoryError("Failed to allocate memory")
+        raise MemoryError("lineq.checker.sylvesters_criterion_pyx::alloc_error\nFailed to allocate memory")
         
     for i in range(rows):
         for j in range(cols):

@@ -41,7 +41,7 @@ def determinant(matrix_a):
     cdef double* c_matrix_a = <double*>malloc(size_a * sizeof(double))
 
     if c_matrix_a == NULL:
-        raise MemoryError("Failed to allocate memory")
+        raise MemoryError("lineq.matrix_methods.determinant::alloc_error\nFailed to allocate memory")
 
     for i in range(rows_a):
         for j in range(cols_a):
@@ -73,7 +73,7 @@ def sum_matrices_wrapper(matrix_a, matrix_b):
         if result_matrix != NULL:
             free(result_matrix)
 
-        raise MemoryError("Failed to allocate memory")
+        raise MemoryError("lineq.matrix_methods.sum_matrices_wrapper::alloc_error\nFailed to allocate memory")
 
     for i in range(rows_a):
         for j in range(cols_a):
@@ -108,7 +108,7 @@ def multiply_matrix_by_scalar_wrapper(matrix, scalar):
         if result_matrix != NULL:
             free(result_matrix)
 
-        raise MemoryError("Failed to allocate memory")
+        raise MemoryError("lineq.matrix_methods.multiply_matrix_by_scalar_wrapper::alloc_error\nFailed to allocate memory")
 
     for i in range(rows):
         for j in range(cols):
@@ -146,7 +146,7 @@ def multiply_matrices_wrapper(matrix_a, matrix_b):
         if result_matrix != NULL:
             free(result_matrix)
 
-        raise MemoryError("Failed to allocate memory")
+        raise MemoryError("lineq.matrix_methods.multiply_matrices_wrapper::alloc_error\nFailed to allocate memory")
 
     for i in range(rows_a):
         for j in range(cols_a):
@@ -199,7 +199,7 @@ def max_matrix(matrix):
     cdef double* c_matrix = <double*>malloc(size*sizeof(double))
     
     if c_matrix == NULL:
-        raise MemoryError("Failed to allocate memory")
+        raise MemoryError("lineq.matrix_methods.max_matrix::alloc_error\nFailed to allocate memory")
     
     for i in range(rows):
         for j in range(cols):
@@ -220,7 +220,7 @@ def inv(matrix):
     cdef double* c_matrix = <double*>malloc(size*size*sizeof(double))
 
     if c_matrix == NULL:
-        raise MemoryError("Failed to allocate memory")
+        raise MemoryError("lineq.matrix_methods.inv::alloc_error\nFailed to allocate memory")
 
     for i in range(size):
         for j in range(size):
@@ -229,7 +229,7 @@ def inv(matrix):
     cdef double* result_m = <double*>malloc(size*size*sizeof(double))
 
     if result_m == NULL:
-        raise MemoryError("Failed to allocate memory")
+        raise MemoryError("lineq.matrix_methods.inv::alloc_error\nFailed to allocate memory")
 
     inverse(c_matrix, result_m, size) 
 
@@ -255,7 +255,7 @@ def LU(matrix):
         if c_u_matrix != NULL:
             free(c_u_matrix)
 
-        raise MemoryError("Failed to allocate memory")
+        raise MemoryError("lineq.matrix_methods.LU::alloc_error\nFailed to allocate memory")
 
 
     for i in range(size):
@@ -288,7 +288,7 @@ def cholv1(matrix):
         if c_u_matrix != NULL:
             free(c_u_matrix)
 
-        raise MemoryError("Failed to allocate memory")
+        raise MemoryError("lineq.matrix_methods.cholv1::alloc_error\nFailed to allocate memory")
 
     for i in range(size):
         for j in range(size):
@@ -323,7 +323,7 @@ def cholv2(matrix):
         if c_d_matrix != NULL:
             free(c_d_matrix)
         
-        raise MemoryError("Failed to allocate memory")
+        raise MemoryError("lineq.matrix_methods.cholv2::alloc_error\nFailed to allocate memory")
 
     for i in range(size):
         for j in range(size):
@@ -360,7 +360,7 @@ def eigen(matrix, max_iter = 100, tol = 0.01):
         if c_matrix != NULL:
             free(c_matrix)
                 
-        raise MemoryError("Failed to allocate memory")
+        raise MemoryError("lineq.matrix_methods.eigen::alloc_error\nFailed to allocate memory")
 
 
     for i in range(size):
@@ -398,7 +398,7 @@ def power_method(matrix, max_iter = 100, tol = 0.01):
         if c_maxv != NULL:
             free(c_maxv)
         
-        raise MemoryError("Failed to allocate memory")
+        raise MemoryError("lineq.matrix_methods.power_method::alloc_error\nFailed to allocate memory")
 
 
     for i in range(size):
@@ -423,7 +423,7 @@ def norm(vector):
     cdef double c_res = 0
 
     if c_vec == NULL:
-        raise MemoryError("Failed to allocate memory")
+        raise MemoryError("lineq.matrix_methods.norm::alloc_error\nFailed to allocate memory")
 
     for i in range(size):
         c_vec[i] = vector[i]
@@ -447,7 +447,7 @@ def vec_approx(vec_a, vec_b, tol = 0.01):
         if c_vec_b != NULL:
             free(c_vec_b)
         
-        raise MemoryError("Failed to allocate memory")
+        raise MemoryError("lineq.matrix_methods.vec_approx::alloc_error\nFailed to allocate memory")
 
     for i in range(size):
         c_vec_a[i] = vec_a[i]

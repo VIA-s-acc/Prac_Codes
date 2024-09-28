@@ -15,7 +15,11 @@ def generate_random_matrix(size, rng, mode):
     cdef double* c_result = <double*>malloc(c_size * c_size * sizeof(double))
 
     if mode_c == NULL or c_result == NULL:
-        raise MemoryError("Failed to allocate memory")
+        if mode_c != NULL:
+            free(mode_c)
+        if c_result != NULL:
+            free(c_result)
+        raise MemoryError("lineq.generator.generate_random_matrix::alloc_error\nFailed to allocate memory")
 
     strcpy(mode_c, mode.encode('utf-8'))
 
@@ -35,7 +39,7 @@ def generate_random_vector(size, rng):
     cdef double* c_result = <double*>malloc(c_size*sizeof(double))
 
     if c_result == NULL:
-        raise MemoryError("Failed to allocate memory")
+        raise MemoryError("lineq.generator.generate_random_vector::alloc_error\nFailed to allocate memory")
 
     random_vector(c_size, c_rng, c_result)
     

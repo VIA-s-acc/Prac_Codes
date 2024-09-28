@@ -61,6 +61,8 @@ Still in development. ([Last Update](../README.MD#last-update)), build and use t
     -   [**Optimized.lineq.generator python interface**](../optimized/lineq/generator/Module/generator.py)
 -   [**Optimized.lineq.checker**](../optimized/lineq/checker/)
     -   [**Optimized.lineq.checker python interface**](../optimized/lineq/checker/Module/checker.py)
+- [**Optimzied.lineq.lineq_sub**](../optimized/lineq/lineq_sub/)
+    - in development
 ---
 ### Api
 ---
