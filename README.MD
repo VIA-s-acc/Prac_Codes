@@ -56,9 +56,10 @@ $$
 (6) \ & L \text{ is a lower triangular matrix, so (5) is easy to solve for } \bar{y} \\
 (7) \ & U \text{ is an upper triangular matrix, so (4) is easy to solve for } \bar{x} \\
 \end{aligned}
-\\
+$$
+
+$$
 \begin{aligned}
-\\
 \text{Algorithm complexity:}
 \\ LU_{\text{complexity}} & = \frac{2 \cdot n^3}{3} + O(n^2) \\
 \text{Solving (5) and (4)} & : n^2 + O(n)
