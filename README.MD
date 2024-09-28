@@ -46,24 +46,24 @@ Repository for mathematical codes ( 2 variants - optimized, non-optimized )
             ```
             Solve a system of linear equations with LU method
             ```
-            $$
-            \begin{aligned}
-            (1) \ & A\cdot\bar{x} = \bar{b} \\
-            (2) \ & A = L \cdot U  \\ 
-            (3) \ & L \cdot U = A \\
-            (4) \ & U \cdot \bar{x} = \bar{y}\\
-            (5) \ & L \cdot \bar{y} = \bar{b} \\
-            (6) \ & L \text{ is a lower triangular matrix, so (5) is easy to solve for } \bar{y} \\
-            (7) \ & U \text{ is an upper triangular matrix, so (4) is easy to solve for } \bar{x}
-            \end{aligned}
-            \\
-            \\
-            \begin{aligned}
-            \text{Algorithm complexity:}
-            \\ LU_{\text{complexity}} & = \frac{2 \cdot n^3}{3} + O(n^2) \\
-            \text{Solving (5) and (4)} & : n^2 + O(n)
-            \end{aligned}
-            $$
+$$
+\begin{aligned}
+(1) \ & A\cdot\bar{x} = \bar{b} \\
+(2) \ & A = L \cdot U  \\ 
+(3) \ & L \cdot U = A \\
+(4) \ & U \cdot \bar{x} = \bar{y}\\
+(5) \ & L \cdot \bar{y} = \bar{b} \\
+(6) \ & L \text{ is a lower triangular matrix, so (5) is easy to solve for } \bar{y} \\
+(7) \ & U \text{ is an upper triangular matrix, so (4) is easy to solve for } \bar{x}
+\end{aligned}
+\\
+\\
+\begin{aligned}
+\text{Algorithm complexity:}
+\\ LU_{\text{complexity}} & = \frac{2 \cdot n^3}{3} + O(n^2) \\
+\text{Solving (5) and (4)} & : n^2 + O(n)
+\end{aligned}
+$$
 
 
 
