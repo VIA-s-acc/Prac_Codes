@@ -21,7 +21,9 @@ def symmetric_check_pyx(matrix):
         for j in range(cols):
             c_matrix[i * cols + j] = matrix[i][j]
 
-    cdef bint result = _symmetric_check(c_matrix, rows, cols)
+    cdef bint result 
+    with nogil:
+        result = _symmetric_check(c_matrix, rows, cols)
 
     free(c_matrix)
 
@@ -41,7 +43,9 @@ def diagonal_domination_pyx(matrix):
         for j in range(cols):
             c_matrix[i * cols + j] = matrix[i][j]
 
-    cdef bint result = _diagonal_domination(c_matrix, rows, cols)
+    cdef bint result
+    with nogil:
+        result = _diagonal_domination(c_matrix, rows, cols)
 
     free(c_matrix)
 
@@ -61,8 +65,11 @@ def sylvesters_criterion_pyx(matrix):
     for i in range(rows):
         for j in range(cols):
             c_matrix[i * cols + j] = matrix[i][j]
+    
+    cdef bint result
 
-    cdef bint result = _sylvesters_criterion(c_matrix, rows)
+    with nogil:
+        result = _sylvesters_criterion(c_matrix, rows)
 
     free(c_matrix)
 

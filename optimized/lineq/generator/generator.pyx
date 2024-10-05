@@ -23,7 +23,8 @@ def generate_random_matrix(size, rng, mode):
 
     strcpy(mode_c, mode.encode('utf-8'))
 
-    random_matrix(c_size, c_rng, mode_c, c_result)
+    with nogil:
+        random_matrix(c_size, c_rng, mode_c, c_result)
 
     result = [[c_result[i * c_size + j] for j in range(size)] for i in range(size)]
 
@@ -41,7 +42,8 @@ def generate_random_vector(size, rng):
     if c_result == NULL:
         raise MemoryError("lineq.generator.generate_random_vector::alloc_error\nFailed to allocate memory")
 
-    random_vector(c_size, c_rng, c_result)
+    with nogil:
+        random_vector(c_size, c_rng, c_result)
     
     result = [c_result[i] for i in range(c_size)]
     

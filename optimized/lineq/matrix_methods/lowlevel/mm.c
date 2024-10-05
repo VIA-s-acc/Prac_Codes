@@ -34,16 +34,12 @@ double e_norm(double* vector, int size){
 }
 
 bool vector_approx(double* vector_a, double* vector_b, int size, double tolerance) {
-    double* new_vector = (double*)malloc(sizeof(double) * size);
-    if (new_vector == NULL) {
-        fprintf(stderr, "lineq.matrix_methods.lowlevel.vector_approx::alloc_error\nFailed to allocate memory.\n");
-        exit(1);
-    }
+    double norm = 0.0;
     for (int i = 0; i < size; ++i) {
-        new_vector[i] = vector_a[i] - vector_b[i];
+        double diff = vector_a[i] - vector_b[i];
+        norm += diff * diff; 
     }
-    double norm = e_norm(new_vector, size);
-    free(new_vector);
+    norm = sqrt(norm);  
     return norm < tolerance;
 }
 
@@ -287,9 +283,8 @@ void cholesky_decomp2(double* matrix, double* l_matrix, double* u_matrix, double
     }
 }
 
-
 double random_double(double min_value, double max_value) {
-    return min_value + (double)rand() / RAND_MAX * (max_value - min_value);
+    return min_value + (max_value - min_value) * ((double)rand() / RAND_MAX);
 }
 
 double max_el_in_matrix(double* matrix, int rows, int cols) {
@@ -395,7 +390,7 @@ double power_meth(double* matrix, int size, double* result_vec, double tolerance
     free(vec_);
     free(new_vec);
     free(new_eigen_value);
-
+    fprintf(stderr, "lineq.matrix_methods.power_meth::max_iter_error\nMaximum number of iterations reached. return last result\n");
     return result_eigen;
 }
 
@@ -450,7 +445,6 @@ double* get_eigen(double* matrix, int size, double* res_maxv, double* res_minv, 
     
     res_eigen[0] = res_max;
     res_eigen[1] = res_min;
-
     return res_eigen;
 }
 

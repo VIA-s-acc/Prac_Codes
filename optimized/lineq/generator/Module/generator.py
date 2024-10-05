@@ -29,7 +29,10 @@ class Generator():
         Args:
             size (int): size of matrix
             rng (int): random number generator  
-            mode (str): mode of matrix
+            mode (str): mode of matrix 
+                - `3diag`: three diagonal
+                - `symm`: symmetric
+                - `else`: random
         Returns:
             matrix (list): matrix
         """

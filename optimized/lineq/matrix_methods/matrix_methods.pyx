@@ -47,8 +47,8 @@ def determinant(matrix_a):
         for j in range(cols_a):
             c_matrix_a[i * cols_a + j] = matrix_a[i][j]
     cdef double result = 0
-
-    result = det(c_matrix_a, rows_a, cols_a)
+    with nogil:
+        result = det(c_matrix_a, rows_a, cols_a)
 
     free(c_matrix_a)
     
@@ -81,8 +81,8 @@ def sum_matrices_wrapper(matrix_a, matrix_b):
             c_matrix_b[i * cols_a + j] = matrix_b[i][j]
 
 
-
-    sum_matrices(c_matrix_a, c_matrix_b, result_matrix, rows_a, cols_a)
+    with nogil:
+        sum_matrices(c_matrix_a, c_matrix_b, result_matrix, rows_a, cols_a)
     
     result = [[result_matrix[i * cols_a + j] for j in range(cols_a)] for i in range(rows_a)]
     
@@ -114,8 +114,8 @@ def multiply_matrix_by_scalar_wrapper(matrix, scalar):
         for j in range(cols):
             c_matrix[i * cols + j] = matrix[i][j]
 
-
-    multiply_matrix_by_scalar(c_matrix, c_scalar, result_matrix, rows, cols)
+    with nogil:
+        multiply_matrix_by_scalar(c_matrix, c_scalar, result_matrix, rows, cols)
 
     result = [[result_matrix[i * cols + j] for j in range(cols)] for i in range(rows)]
 
@@ -156,10 +156,11 @@ def multiply_matrices_wrapper(matrix_a, matrix_b):
         for j in range(cols_b):
             c_matrix_b[i * cols_b + j] = matrix_b[i][j]
 
-    multiply_matrices(c_matrix_a, c_matrix_b, result_matrix, rows_a, cols_a, rows_b, cols_b)
-    
+    with nogil:
+        multiply_matrices(c_matrix_a, c_matrix_b, result_matrix, rows_a, cols_a, rows_b, cols_b)
+
     result = [[result_matrix[i * cols_b + j] for j in range(cols_b)] for i in range(rows_a)]
-    
+
     free(c_matrix_a)
     free(c_matrix_b)
     free(result_matrix)
@@ -177,17 +178,19 @@ def sig(x):
 def absolute(x):
     
     cdef double c_x = x
-    cdef double result = 0
-
-    result = abs_(x)
-
+    cdef double result
+    with nogil:
+        result = abs_(c_x)
+    
     return result
 
 def random(minv, maxv):
     cdef double c_minv = minv
     cdef double c_maxv = maxv
+    cdef double result 
 
-    cdef double result = random_double(c_minv, c_maxv)
+    with nogil:
+        result = random_double(c_minv, c_maxv)
 
     return result
 
@@ -206,8 +209,8 @@ def max_matrix(matrix):
             c_matrix[i * cols + j] = matrix[i][j]
             
     cdef double result = 0
-
-    result = max_el_in_matrix(c_matrix, rows, cols)
+    with nogil:
+        result = max_el_in_matrix(c_matrix, rows, cols)
     
     free(c_matrix)
     
@@ -231,7 +234,8 @@ def inv(matrix):
     if result_m == NULL:
         raise MemoryError("lineq.matrix_methods.inv::alloc_error\nFailed to allocate memory")
 
-    inverse(c_matrix, result_m, size) 
+    with nogil:
+        inverse(c_matrix, result_m, size) 
 
     result = [[result_m[i*size+j] for j in range(size)] for i in range(size)]
 
@@ -262,7 +266,8 @@ def LU(matrix):
         for j in range(size):
             c_matrix[i*size+j] = matrix[i][j]
     
-    LU_decomp(c_matrix, c_l_matrix, c_u_matrix, size)
+    with nogil:
+        LU_decomp(c_matrix, c_l_matrix, c_u_matrix, size)
 
     result_l = [[c_l_matrix[i*size+j] for j in range(size)] for i in range(size)]
     result_u = [[c_u_matrix[i*size+j] for j in range(size)] for i in range(size)]
@@ -294,7 +299,8 @@ def cholv1(matrix):
         for j in range(size):
             c_matrix[i*size+j] = matrix[i][j]
     
-    cholesky_decomp1(c_matrix, c_l_matrix, c_u_matrix, size)
+    with nogil:
+        cholesky_decomp1(c_matrix, c_l_matrix, c_u_matrix, size)
     
 
     result_l = [[c_l_matrix[i*size+j] for j in range(size)] for i in range(size)]
@@ -329,7 +335,8 @@ def cholv2(matrix):
         for j in range(size):
             c_matrix[i*size+j] = matrix[i][j]
 
-    cholesky_decomp2(c_matrix, c_l_matrix, c_u_matrix, c_d_matrix, size)
+    with nogil:
+        cholesky_decomp2(c_matrix, c_l_matrix, c_u_matrix, c_d_matrix, size)
 
     result_l = [[c_l_matrix[i*size+j] for j in range(size)] for i in range(size)]
     result_u = [[c_u_matrix[i*size+j] for j in range(size)] for i in range(size)]
@@ -367,7 +374,10 @@ def eigen(matrix, max_iter = 100, tol = 0.01):
         for j in range(size):
             c_matrix[i*size+j] = matrix[i][j]
 
-    cdef double* c_res = get_eigen(c_matrix, size, c_maxv, c_minv, c_iter, c_tol)
+    cdef double* c_res = <double*>malloc(2*sizeof(double))
+
+    with nogil:
+        c_res = get_eigen(c_matrix, size, c_maxv, c_minv, c_iter, c_tol)
 
     res_maxv = [c_maxv[i] for i in range(size)]
     res_minv = [c_minv[i] for i in range(size)]
@@ -404,8 +414,9 @@ def power_method(matrix, max_iter = 100, tol = 0.01):
     for i in range(size):
         for j in range(size):
             c_matrix[i*size+j] = matrix[i][j]
-
-    c_max = power_meth(c_matrix, size, c_maxv, c_tol, c_iter)
+    
+    with nogil:
+        c_max = power_meth(c_matrix, size, c_maxv, c_tol, c_iter)
 
     res_maxv = [c_maxv[i] for i in range(size)]
 
@@ -428,7 +439,8 @@ def norm(vector):
     for i in range(size):
         c_vec[i] = vector[i]
 
-    c_res = e_norm(c_vec, size)
+    with nogil:
+        c_res = e_norm(c_vec, size)
 
     free(c_vec)
 
@@ -453,7 +465,9 @@ def vec_approx(vec_a, vec_b, tol = 0.01):
         c_vec_a[i] = vec_a[i]
         c_vec_b[i] = vec_b[i]
 
-    cdef bint c_res = vector_approx(c_vec_a, c_vec_b, size, c_tol)
+    cdef bint c_res = 0
+    with nogil:
+        c_res = vector_approx(c_vec_a, c_vec_b, size, c_tol)
 
     free(c_vec_a)
     free(c_vec_b)

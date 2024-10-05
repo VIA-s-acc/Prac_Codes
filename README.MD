@@ -15,6 +15,42 @@ Repository for mathematical codes ( 2 variants - optimized, non-optimized )
 ---
 ## Last Update
 
+#### Update 05.10.2024 INFO:
+
+- `optimized.lineq.lineq_sub`.
+    - add functions for linear equations systems
+        - `iter_solve_simple(matrix, vector, eps=1e-12, max_iter=1000, eigen_max_iter=1000, eigen_eps=1e-12)`:
+            ``` 
+            Simple iteration to solve a system of linear equations.
+            Need positive definite and symmetric matrix.
+            ```
+
+$\text{Sylvester's criterion}$
+
+Sylvester's criterion states that a $n \times n$ Hermitian matrix $M$ is positive-definite if and only if all the following matrices have a positive determinant:
+- the upper left 1-by-1 corner of $M$,
+- the upper left 2-by-2 corner of $M$,
+- the upper left 3-by-3 corner of $M$,
+- $\quad \vdots$
+- $M$ itself.
+
+In other words, all of the leading principal minors must be positive. By using appropriate permutations of rows and columns of $M$, it can also be shown that the positivity of any nested sequence of $n$ principal minors of $M$ is equivalent to $M$ being positive-definite. 
+
+
+[Iterative Methods](https://wwz.unibas.ch/fileadmin/user_upload/wwz/00_Professuren/Kleiber_Oekonometrie_und_Statistik/Downloads/Topics/Skript003_Numeric.pdf)
+
+
+> [!IMPORTANT]
+> - Disabled GIL for lowlevel functions.
+> - Be careful.
+
+- Fixed memory leak in `optimized.lineq.lineq_sub`.
+- Fixed memory leak in `optimized.lineq.matrix_methods`.
+- Fixed `random_double` function in `optimized.lineq.matrix_methods`. -> now work correctly.
+- Fixed `random` in `optimized.lineq.matrix_methods.Module.module` `MatrixMethods` class -> now work correctly.
+- Fixed variables definitions in `.pyx` files in `optimized.lineq.matrix_methods`, `optimized.lineq.lineq_sub`, `optimized.lineq.generator`, `optimized.lineq.checker`. 
+
+---
 #### Update 28.09.2024 INFO:
 
 - `optimized.lineq.lineq_sub`.

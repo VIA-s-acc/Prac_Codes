@@ -11,12 +11,11 @@
 //     - `_forward_substitution(matrix, vec, dig)`: Solves a system of linear equations using forward substitution.
 //     - `_backward_substitution(matrix, vec, dig)`: Solves a system of linear equations using backward substitution.
 //     - `tridiagonal_elimination(matrix, vec, dig)`: Performs Tridiagonal elimination to solve a system of linear equations.
+//     - `simple_iteration(matrix, vec, max_iter, eigen_max_iter, eigen_eps, eps, dig)`: Performs simple iteration to solve a system of linear equations.
 
 
 
 // NOT READY
-
-//     - `simple_iteration(matrix, vec, max_iter, eigen_max_iter, eigen_eps, eps, dig)`: Performs simple iteration to solve a system of linear equations.
 //     - `seidel_iteration(matrix, vec, dig)`: Performs Seidel iteration to solve a system of linear equations.
 //     - `jacobi_iteration(matrix, vec, max_iter, eps, dig)`: Performs Jacobi iteration to solve a system of linear equations.
 //     - `relaxation_method(matrix, vec, dig, omega)`: Performs relaxation method to solve a system of linear equations.
@@ -27,6 +26,95 @@
 //     - `step_desc_iteration(matrix, vec, max_iter, eps, dig)`: Performs method of steepest descent to solve a system of linear equations.
 //     - `step_desc_iteration_imp(matrix, vec, max_iter, eps, dig, matrix_choose_mode)`: Performs implicit method of steepest descent to solve a system of linear equations.
 //     - `_chol_solver(matrix, vec, dig, mode)`: Solves a linear system using Cholesky decomposition.
+
+void simple_iteration(double* matrix, double* vector, int size_m, int size_v, double* result, double eps, int max_iter, int eigen_max_iter, double eigen_eps)
+{    
+    if (!_symmetric_check(matrix, size_m, size_m))
+    {
+        fprintf(stderr, "lineq.lineq_sub.simple_iteration::symmetric_check_error\nThe matrix is not symmetric.\n");
+        exit(1);
+    }
+    if (!_sylvesters_criterion(matrix, size_m))
+    {
+        fprintf(stderr, "lineq.lineq_sub.simple_iteration::sylvesters_criterion_error\nThe matrix is not positive definite.\n");
+        exit(1);
+    }
+    double* eigen = (double*)malloc(sizeof(double) * 2);
+    double* remax_v = (double*)malloc(sizeof(double) * size_v);
+    double* remin_v = (double*)malloc(sizeof(double) * size_v);
+
+    if (eigen == NULL || remax_v == NULL || remin_v == NULL)
+    {
+        if (eigen != NULL) {free(eigen); eigen = NULL;}
+        if (remax_v != NULL) {free(remax_v); remax_v = NULL;}
+        if (remin_v != NULL) {free(remin_v); remin_v = NULL;}
+        fprintf(stderr, "lineq.lineq_sub.simple_iteration::alloc_error\nFailed to allocate memory.\n");
+        exit(1);
+    }
+    eigen = get_eigen(matrix, size_m, remax_v, remin_v, eigen_max_iter, eigen_eps);
+    if (eigen == NULL)
+    {
+        fprintf(stderr, "lineq.lineq_sub.simple_iteration::eigen_error\nFailed to calculate eigenvalues.\n");
+        exit
+        (1);
+    }
+    if (remax_v != NULL) {free(remax_v); remax_v = NULL;}
+    if (remin_v != NULL) {free(remin_v); remin_v = NULL;}
+            
+    double max_eigen = eigen[0]; 
+    double min_eigen = eigen[1];
+    if (eigen != NULL) {free(eigen); eigen = NULL;}
+    if (max_eigen <= 0 || min_eigen <= 0)
+    {
+        fprintf(stderr, "lineq.lineq_sub.simple_iteration::eigen_error\nThe matrix is not positive definite (max_eigen<=0).\n");
+        exit(1);
+    }
+    double thau = 2/(max_eigen + min_eigen);
+    double max_v = max_el_in_matrix(matrix, size_m, size_m);
+    double* start_vector = (double*)malloc(sizeof(double) * size_v);
+    if (start_vector == NULL)
+    {
+        fprintf(stderr, "lineq.lineq_sub.simple_iteration::alloc_error\nFailed to allocate memory.\n");
+        exit(1);
+    }
+    memset(start_vector, 0, sizeof(double) * size_v);
+    for (int i = 0; i < size_v; ++i) {
+        start_vector[i] = random_double(0, 1+max_v);
+    }
+    
+    for (int i = 0; i < max_iter; ++i)
+    {
+        double* new_vector = (double*)malloc(sizeof(double) * size_v);
+        if (new_vector == NULL)
+        {
+            fprintf(stderr, "lineq.lineq_sub.simple_iteration::alloc_error\nFailed to allocate memory.\n");
+            exit(1);
+        }
+        for ( int j = 0; j < size_v; ++j )
+        {
+            double sum = 0;
+            for ( int k = 0; k < size_m; ++k )
+            {
+                sum += matrix[j * size_m + k] * start_vector[k];
+            }
+            new_vector[j] = start_vector[j] - thau * (sum - vector[j]);
+        }
+        if (vector_approx(new_vector, start_vector, size_v, eps)){   
+            memcpy(result, new_vector, sizeof(double) * size_v);            
+            if (new_vector != NULL) free(new_vector);
+            new_vector = NULL;
+            if (start_vector != NULL) free(start_vector);
+            return;
+
+        }
+        memcpy(start_vector, new_vector, sizeof(double) * size_v);
+    }
+
+    fprintf(stderr, "lineq.lineq_sub.simple_iteration::max_iter_error\nMaximum number of iterations reached. return last result\n");
+    memcpy(result, start_vector, sizeof(double) * size_v);
+    if (start_vector != NULL) free(start_vector);
+}
+
 
 void tridiagonal_elimination(double* matrix, double* vector, int size_m, int size_v, double* result)
 {

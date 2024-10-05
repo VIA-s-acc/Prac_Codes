@@ -227,7 +227,8 @@ class MatrixMethods():
             double: The randomly generated number.
         
         Note:
-            If the platform is Windows, it returns a random number using random.uniform(minv, maxv).
+            ~If the platform is Windows, it returns a random number using random.uniform(minv, maxv).~ Base function fixed.
+            
         Raises:
             MatrixMethodsError: If an undefined error occurs in the C module.
 
@@ -235,14 +236,14 @@ class MatrixMethods():
         >>> MatrixMethods.random(0, 10)
         5.2
         """
-        if sys.platform == 'win32':
-            return rd.uniform(minv, maxv)
+        # if sys.platform == 'win32':
+        #     return rd.uniform(minv, maxv)
         
-        else:
-            try:
-                return random(minv, maxv)
-            except:
-                raise(MatrixMethodsError('Undefined error | in .C module.'))
+    
+        try:
+            return random(minv, maxv)
+        except:
+            raise(MatrixMethodsError('Undefined error | in .C module.'))
 
     @staticmethod
     def max_matrix(matrix: matrix) -> double:

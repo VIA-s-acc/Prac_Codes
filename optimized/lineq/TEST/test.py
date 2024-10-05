@@ -75,7 +75,7 @@ class TestMatrixMethods(unittest.TestCase):
                     
         for f in MatrixMethods_ITERATIVE_FUNCS:
             try:
-                f([[5,1],[1,5]], 1, 0.1)
+                f([[5,1],[1,5]], 10, 0.1)
             except Exception as e:
                 self.fail(f'Ошибка: {e.__class__} {e}')
                 
