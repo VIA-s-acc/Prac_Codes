@@ -15,6 +15,12 @@ Repository for mathematical codes ( 2 variants - optimized, non-optimized )
 ---
 ## Last Update
 
+#### Update 19.02.2025 INFO:
+
+- `optimized.build`
+    - add new functionality to build script:
+    - see new script in [build](optimized/README.md)
+
 #### Update 05.10.2024 INFO:
 
 - `optimized.lineq.lineq_sub`.

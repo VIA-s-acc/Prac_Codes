@@ -101,5 +101,8 @@ def load_cfg():
     return cfg
 
 
+def save_cfg(cfg):
+    json.dump(cfg, open('build_cfg/build_modules.json', 'w'))
+
 def cfg_file_exists():
     return os.path.exists('build_cfg/build_modules.json')
