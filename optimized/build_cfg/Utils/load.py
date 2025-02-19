@@ -17,6 +17,7 @@ standart_cfg = {
         "check_setuptools": True, # check if setuptools is installed
         "run_tests": True, # run tests
         "print_result": True, # print result
+        "create_if_not_exist": False,
         "traceback": True, # print traceback
         "prefix": "" # prefix for print
     }
