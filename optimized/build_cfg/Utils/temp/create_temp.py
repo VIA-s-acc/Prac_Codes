@@ -7,7 +7,7 @@ from setuptools import setup
 from distutils.extension import Extension
 from Cython.Distutils import build_ext
 
-sourceFiles = ['{m}/{s}/{s}.pyx']
+sourceFiles = ['{m}/{s}/{s}.pyx', '{m}/{s}/lowlevel/{m}_{s}_c.c']
 
 ext_modules = [
     Extension("{s}", 
@@ -30,7 +30,7 @@ template_pyx = lambda m, s: f'''\
 
 from libc.stdlib cimport malloc, free
 
-cdef extern from "lowlevel/{s}.h" nogil:
+cdef extern from "lowlevel/{m}_{s}_c.h" nogil:
     int basic_function()
 
 def call_basic_function():
@@ -55,7 +55,7 @@ template_c = lambda m, s: f"""\
 /*==========================================================
 BASE C TEMPLATE
 ==========================================================*/
-#include "{s}.h"
+#include "{m}_{s}_c.h"
 
 int basic_function() {{
     return 1;
@@ -69,15 +69,15 @@ template_module = lambda m, s: f'''\
 #==========================================================
 
 from ..build.{s} import (
-    basic_function
+    call_basic_function
 )
 
 class {s.capitalize()}Module:
     def __init__(self):
         pass
 
-    def basic(self):
-        return basic_function()
+    def basic_function(self):
+        return call_basic_function()
 
 def sample_function():
     instance = {s.capitalize()}Module()

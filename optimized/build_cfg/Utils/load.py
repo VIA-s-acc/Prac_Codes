@@ -3,12 +3,7 @@ import json, os, shutil
 standart_cfg = {
     "modules": # list of modules
     {
-        "lineq": [ # list of libraries
-                "matrix_methods", 
-                "generator", 
-                "checker",
-                "lineq"
-            ]
+
     },
 
     "settings": # settings

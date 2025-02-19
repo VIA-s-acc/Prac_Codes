@@ -51,9 +51,9 @@ def create_module(m, s):
         f.write(template_module(m, s)) 
     with open(f"{m}/{s}/{s}.pyx", 'w') as f:
         f.write(template_pyx(m, s))
-    with open(f"{m}/{s}/lowlevel/{s}.h", 'w') as f:
+    with open(f"{m}/{s}/lowlevel/{m}_{s}_c.h", 'w') as f:
         f.write(template_h(m, s))  
-    with open(f"{m}/{s}/lowlevel/{s}.c", 'w') as f:
+    with open(f"{m}/{s}/lowlevel/{m}_{s}_c.c", 'w') as f:
         f.write(template_c(m, s))
 
 
