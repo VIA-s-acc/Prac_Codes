@@ -4,6 +4,7 @@ from build_cfg.Utils.load import load_cfg, save_cfg
 from build_cfg.Utils.build import build
 from build_cfg.Utils.test import run_tests
 from build_cfg.Utils.create_new import create_module
+from build_cfg.Utils.download_cfg import download
 import copy
 import traceback
 import argparse
@@ -12,10 +13,30 @@ import os
 
 
 def parse():
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(
+        description="Build and manage modules in the project."
+    )
+
+    parser.add_argument(
+        '--modules', '-m',
+        nargs='+',
+        required=False,
+        default='default',
+        help="Specify the modules to build. Use 'all' to build everything."
+    )
+
+    parser.add_argument(
+        '--create', '-c',
+        nargs='+',
+        required=False,
+        help="Create new modules. Format: module.submodule (e.g., utils.parser)."
+    )
+    parser.add_argument(
+        '--reset', '-r',
+        action='store_true',
+        help="Reset the build configuration."
+    )
     
-    parser.add_argument('--modules', '-m', nargs='+', required=False, default='default')
-    parser.add_argument('--create', '-c', nargs='+', required=False)
     args = parser.parse_args()
 
     return args
@@ -32,9 +53,19 @@ def main():
     7. Prints the result using the `res_print()` function.
     """
 
+
     args = parse()
+    if args.reset:
+        print(f"\n🟢 Resetting configuration...")
+        if os.path.exists('build_cfg/build_modules.json'): os.remove('build_cfg/build_modules.json')
+        else: pass
+        download()
+        print("🟢 Configuration reset.")
+        return
     cfg = load_cfg() # load config
     settings = cfg['settings'] # get settings
+
+    
     
     if args.create:
         print(f"\n🟢 Creating modules: {args.create}")
