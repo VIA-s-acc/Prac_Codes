@@ -5,73 +5,122 @@ from .temp.create_temp import setup, template_pyx, template_h, template_c, templ
 
 
 
-def recreate_or_create(m, s):
-    if os.path.exists(f"{m}/{s}"):
-        if os.access(f"{m}/{s}", os.W_OK):
-            shutil.rmtree(f"{m}/{s}")
-            os.mkdir(f"{m}/{s}")
-            os.mkdir(f"{m}/{s}/TEST")
-            os.mkdir(f"{m}/{s}/Module")
-            os.mkdir(f"{m}/{s}/lowlevel")
-        else:
-            print(f"🔴 {m}.{s} is not writable")
+def recreate_or_create(module_name, submodule_name):
+    """
+    Create a new directory structure for a module/submodule or recreate it if it already exists.
+    
+    Args:
+        module_name (str): Name of the parent module
+        submodule_name (str): Name of the submodule
+        
+    Returns:
+        int: 0 if successful, -1 if there was a permission error
+    """
+    path = os.path.join(module_name, submodule_name)
+    subdirs = ["TEST", "Module", "lowlevel"]
+    
+    if os.path.exists(path):
+        if not os.access(path, os.W_OK):
+            print(f"🔴 {module_name}.{submodule_name} is not writable")
             return -1
-    else:
-        os.mkdir(f"{m}/{s}")
-        os.mkdir(f"{m}/{s}/TEST")
-        os.mkdir(f"{m}/{s}/Module")
-        os.mkdir(f"{m}/{s}/lowlevel")
+            
+        shutil.rmtree(path)
+    
+    os.makedirs(path, exist_ok=True)
+    
+    for subdir in subdirs:
+        os.makedirs(os.path.join(path, subdir), exist_ok=True)
+        
     return 0
 
-def create_module(m, s):
-    
-    if os.path.exists(f"{m}/{s}"): 
-        resp = input(f"\n🔴 {m}.{s} already exists (You want to overwrite it? (Y/N)): \t")
-        if resp == 'y':
-            pass
-        else:
-            return
-    
-    
-    if not os.path.exists(m):
-        os.mkdir(m)
-        os.mkdir(f"{m}/TEST")
-        with open(f"{m}/TEST/test.py", 'w') as f:
-            f.write(f'''#==========================================================
-# WRITE YOUR GLOBAL {m} TESTS HERE
-# ==========================================================''')
-            f.close()
-        
-    res = recreate_or_create(m, s)
-    if res == -1:
-        print(f"\n🔴 {m}.{s} cannot be created | check access")
-        return
-    
-    with open(f"{m}/{s}/Module/{s}.py", 'w') as f:
-        f.write(template_module(m, s)) 
-    with open(f"{m}/{s}/{s}.pyx", 'w') as f:
-        f.write(template_pyx(m, s))
-    with open(f"{m}/{s}/lowlevel/{m}_{s}_c.h", 'w') as f:
-        f.write(template_h(m, s))  
-    with open(f"{m}/{s}/lowlevel/{m}_{s}_c.c", 'w') as f:
-        f.write(template_c(m, s))
 
+def create_module(module_name, submodule_name):
+    """
+    Create a new module structure with the given module and submodule names.
+    
+    Args:
+        module_name (str): The name of the parent module
+        submodule_name (str): The name of the submodule to create
+    
+    Returns:
+        bool: True if module was created successfully, False otherwise
+    """
+    if os.path.exists(f"{module_name}/{submodule_name}"):
+        response = input(f"\n🔴 {module_name}.{submodule_name} already exists (You want to overwrite it? (Y/N)): \t")
+        if response.lower() != 'y':
+            return False
+    
+    if not os.path.exists(module_name):
+        os.makedirs(f"{module_name}/TEST", exist_ok=True)
+        _create_global_test_file(module_name)
+    
+    _update_test_imports(f"{module_name}/TEST/test.py", f"from ..{submodule_name}.Module.{submodule_name} import *\n")
+    
+    if recreate_or_create(module_name, submodule_name) == -1:
+        print(f"\n🔴 {module_name}.{submodule_name} cannot be created | check access")
+        return False
+    
+    _create_submodule_files(module_name, submodule_name)
+    
+    _create_submodule_test_file(module_name, submodule_name)
+    
+    _update_module_imports(module_name, submodule_name)
+    
+    print(f"\n🟢 {module_name}.{submodule_name} created successfully")
+    return True
 
-    with open(f"{m}/{s}/setup.py", 'w') as f:
-        f.write(setup(m, s))
-        f.close()
-    with open(f"{m}/{s}/__init__.py", 'w') as f:
-        f.write(f"from .Module.{s} import *")
-        f.close()
-    with open(f"{m}/{s}/TEST/test.py", "w") as f:
+def _create_global_test_file(module_name):
+    """Create the global test file for a module."""
+    with open(f"{module_name}/TEST/test.py", 'w') as f:
         f.write(f'''#==========================================================
-# WRITE YOUR {m}.{s} TESTS HERE
-# ==========================================================''')
-        f.close()
+# WRITE YOUR GLOBAL {module_name} TESTS HERE
+# ==========================================================\n''')
+
+def _update_test_imports(test_file_path, import_statement):
+    """Update test file with import statement if not already present."""
+    if not os.path.exists(test_file_path):
+        return
         
-    print(f"\n🟢 {m}.{s} created successfully")
+    with open(test_file_path, 'r') as f:
+        lines = f.readlines()
     
+    if import_statement not in lines:
+        with open(test_file_path, 'a') as f:
+            f.write(import_statement)
+
+def _create_submodule_files(module_name, submodule_name):
+    """Create all necessary files for the submodule."""
+    file_templates = {
+        f"{module_name}/{submodule_name}/Module/{submodule_name}.py": template_module(module_name, submodule_name),
+        f"{module_name}/{submodule_name}/{submodule_name}.pyx": template_pyx(module_name, submodule_name),
+        f"{module_name}/{submodule_name}/lowlevel/{module_name}_{submodule_name}_c.h": template_h(module_name, submodule_name),
+        f"{module_name}/{submodule_name}/lowlevel/{module_name}_{submodule_name}_c.c": template_c(module_name, submodule_name),
+        f"{module_name}/{submodule_name}/setup.py": setup(module_name, submodule_name),
+        f"{module_name}/{submodule_name}/__init__.py": f"from .Module.{submodule_name} import *"
+    }
     
-        
+    for file_path, content in file_templates.items():
+        with open(file_path, 'w') as f:
+            f.write(content)
+
+def _create_submodule_test_file(module_name, submodule_name):
+    """Create and initialize the test file for the submodule."""
+    test_file = f"{module_name}/{submodule_name}/TEST/test.py"
     
+    with open(test_file, "w") as f:
+        f.write(f'''#==========================================================
+# WRITE YOUR {module_name}.{submodule_name} TESTS HERE
+# ==========================================================\n''')
     
+    _update_test_imports(test_file, f"from ..Module.{submodule_name} import *\n")
+
+def _update_module_imports(module_name, submodule_name):
+    """Update the parent module's __init__.py with imports for the new submodule."""
+    init_file = f"{module_name}/__init__.py"
+    import_statement = f"from .{submodule_name}.Module.{submodule_name} import *\n"
+    
+    if not os.path.exists(init_file):
+        with open(init_file, 'w') as f:
+            f.write(import_statement)
+    else:
+        _update_test_imports(init_file, import_statement)

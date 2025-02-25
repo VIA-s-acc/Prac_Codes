@@ -1,4 +1,4 @@
-import json, os, shutil
+import json, os, shutil, pprint
 
 standart_cfg = {
     "modules": # list of modules
@@ -13,6 +13,7 @@ standart_cfg = {
         "run_tests": True, # run tests
         "print_result": True, # print result
         "create_if_not_exist": False,
+        "auto_import": True,
         "traceback": True, # print traceback
         "prefix": "" # prefix for print
     }
@@ -72,8 +73,12 @@ def check_cfg(cfg):
         
     for key in settings_list:
         if key not in cfg['settings'].keys():
-            backup(f'🔴 {key} not found in "build_modules["settings"].json". Recreating...')
-            return False
+            backup(f'🔴 {key} not found in "build_modules["settings"].json". Recreating settings... (using standart parameters)')
+            cfg['settings'] = standart_cfg['settings']
+            save_cfg(cfg)
+            print('🟢 Settings recreated.')
+            pprint.pprint(cfg['settings'])
+            return True
         
     return True
 
@@ -93,6 +98,7 @@ def load_cfg():
         backup('🔴 Failed to load build_modules.json. Recreating...')
         json.dump(standart_cfg, open('build_cfg/build_modules.json', 'w'))
         cfg = load()
+        
     
     return cfg
 

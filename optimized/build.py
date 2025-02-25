@@ -43,86 +43,121 @@ def parse():
     
 def main():
     """
-    This function is the main entry point of the program. It performs the following steps:
-    1. Loads the configuration from the file using the `load_cfg()` function.
-    2. Retrieves the settings from the loaded configuration.
-    3. Retrieves the modules from the loaded configuration.
-    4. Checks the installation of Cython using the `check_cython()` function. Checks the installation of setuptools using the `check_setuptools()` function.
-    5. Builds the modules using the `build()` function.
-    6. Runs the tests using the `run_tests()` function.
-    7. Prints the result using the `res_print()` function.
+    Main entry point of the program that handles configuration management,
+    module creation, building, and testing.
     """
-
-
     args = parse()
-    if args.reset:
-        print(f"\n🟢 Resetting configuration...")
-        if os.path.exists('build_cfg/build_modules.json'): os.remove('build_cfg/build_modules.json')
-        else: pass
-        download()
-        print("🟢 Configuration reset.")
-        return
-    cfg = load_cfg() # load config
-    settings = cfg['settings'] # get settings
-
     
+    if args.reset:
+        reset_configuration()
+        return
+    
+    cfg = load_cfg()
+    settings = cfg['settings']
     
     if args.create:
-        print(f"\n🟢 Creating modules: {args.create}")
-        modules = cfg['modules']
-        for module in args.create:
-            m, s = module.split('.', 1)
-            if m not in list(modules.keys()):
-                modules[m] = []
-            if s not in list(modules[m]):
-                modules[m].append(s)
-            else:
-                pass
-            create_module(m, s)
-        save_cfg(cfg)
-        return
-        
-            
-        
-    
-    if args.modules == 'default' or args.modules[0] == 'all':
-        modules = cfg['modules'] # get modules
+        modules = handle_module_creation(args.create, cfg)
+        if not prompt_for_build():
+            return
     else:
-        modules = {}
-        for module in args.modules:
-            m, s = module.split('.', 1)
-            if m not in modules:
-                modules[m] = []
-            if s not in modules[m]:
-                modules[m].append(s)
+        modules = select_modules(args.modules, cfg)
+    
     try:
-        check_cython(settings) # check cython installation
-        check_setuptools(settings)
+        check_dependencies(settings)
+        handle_missing_modules(modules, settings)
         
-        for module in modules:
-            for lib in modules[module]:
-                if not os.path.exists(f"{module}/{lib}"):
-                    if settings["create_if_not_exist"]:
-                        print(f"\n🟢 Module {module}.{lib} does not exist. Creating base module...")
-                        create_module(module, lib)
-                    else:
-                        print(f"\n🔴 Module {module}.{lib} does not exist. Skipping (create_if_not_exist = False).")
+        libs, failed = build(modules, settings)
+        test_libs = [lib for lib in libs if lib not in failed]
         
-        libs, failed = build(modules, settings) # build modules
-        test_libs = copy.copy(libs)
-        
-        for lib in libs:
-            if lib in failed.keys():
-                print(f"\n🔴 ```{lib}``` build failed, cant run {lib}.TEST.test | SKIPPED.") 
-                test_libs.remove(lib) # remove failed libs from test
-        
-        run_tests(settings, test_libs, modules) # run tests 
-        res_print(settings, modules, libs, failed) # print result
+        run_tests(settings, test_libs, modules)
+        res_print(settings, modules, libs, failed)
 
     except Exception as e:
-        print("Error: " + str(e))
-        if settings['traceback']:
-            traceback.print_exc()
+        handle_error(e, settings)
+
+
+def reset_configuration():
+    """Reset the configuration file and download fresh defaults."""
+    print("\n🟢 Resetting configuration...")
+    config_path = 'build_cfg/build_modules.json'
+    if os.path.exists(config_path):
+        os.remove(config_path)
+    download()
+    print("🟢 Configuration reset.")
+
+
+def handle_module_creation(module_names, cfg):
+    """Create new modules and update configuration."""
+    print(f"\n🟢 Creating modules: {module_names}")
+    modules = cfg['modules']
+    
+    for module_name in module_names:
+        module, submodule = module_name.split('.', 1)
+        
+        # Ensure module exists in config
+        if module not in modules:
+            modules[module] = []
+            
+        # Add submodule if not already present
+        if submodule not in modules[module]:
+            modules[module].append(submodule)
+            
+        create_module(module, submodule)
+    
+    save_cfg(cfg)
+    print('\n🟢 Modules created.\n')
+    return modules
+
+
+def prompt_for_build():
+    """Ask user if they want to proceed with building."""
+    return input("🟢 run build? (Y/N):\t").lower() == 'y'
+
+
+def select_modules(module_args, cfg):
+    """Determine which modules to build based on command line arguments."""
+    if module_args == 'default' or module_args[0] == 'all':
+        return cfg['modules']
+    
+    modules = {}
+    for module_name in module_args:
+        module, submodule = module_name.split('.', 1)
+        if module not in modules:
+            modules[module] = []
+        if submodule not in modules[module]:
+            modules[module].append(submodule)
+    return modules
+
+
+def check_dependencies(settings):
+    """Verify that required dependencies are installed."""
+    check_cython(settings)
+    check_setuptools(settings)
+
+
+def handle_missing_modules(modules, settings):
+    """Create missing modules if enabled in settings."""
+    create_if_missing = settings.get("create_if_not_exist", False)
+    
+    for module_name, submodules in modules.items():
+        for submodule in submodules:
+            module_path = f"{module_name}/{submodule}"
+            
+            if not os.path.exists(module_path):
+                if create_if_missing:
+                    print(f"\n🟢 Module {module_name}.{submodule} does not exist. Creating base module...")
+                    create_module(module_name, submodule)
+                else:
+                    print(f"\n🔴 Module {module_name}.{submodule} does not exist. "
+                            f"Skipping (create_if_not_exist = False).")
+
+
+def handle_error(error, settings):
+    """Handle exceptions with optional traceback."""
+    print("Error: " + str(error))
+    if settings.get('traceback', False):
+        traceback.print_exc()
+
             
 if __name__ == '__main__':
     main() # run main
