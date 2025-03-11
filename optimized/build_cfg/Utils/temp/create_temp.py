@@ -29,6 +29,7 @@ template_pyx = lambda m, s: f'''\
 #==========================================================
 
 from libc.stdlib cimport malloc, free
+from libc.string cimport memcpy
 
 cdef extern from "lowlevel/{m}_{s}_c.h" nogil:
     int basic_function()

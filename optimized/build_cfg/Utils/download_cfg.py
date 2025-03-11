@@ -21,6 +21,7 @@ def check_tqdm():
 
 def download():
     check_config_parser()
+    check_tqdm()
     import tqdm
     with open('build_cfg/build_modules.json', 'wb') as f:
         with urllib.request.urlopen('https://raw.githubusercontent.com/VIA-s-acc/builder/main/build_cfg/build_modules.json') as response:

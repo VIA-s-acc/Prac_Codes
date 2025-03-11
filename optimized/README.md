@@ -8,10 +8,6 @@
 
 #### Global Requirements
 - **Python 3.10 or greater** must be installed.
-- Install the necessary dependencies via `pip`:
-  ```bash
-  pip install -r requirements.txt
-  ```
 
 ---
 
@@ -124,7 +120,7 @@ Navigate to the `Main_Codes` directory and run the `build.py` script to manage y
 #### Usage:
 
 ```bash
-usage: build.py [-h] [--modules MODULES [MODULES ...]] [--create CREATE [CREATE ...]] [--reset]
+usage: build.py [-h] [--modules MODULES [MODULES ...]] [--create CREATE [CREATE ...]] [--reset] [--test]
 ```
 
 **Options:**
@@ -132,6 +128,7 @@ usage: build.py [-h] [--modules MODULES [MODULES ...]] [--create CREATE [CREATE 
 - `--modules MODULES [MODULES ...]`, `-m MODULES [MODULES ...]`: Specify which modules to build. Use `'all'` to build everything.
 - `--create CREATE [CREATE ...]`, `-c CREATE [CREATE ...]`: Create new modules in the format `module.submodule` (e.g., `utils.parser`).
 - `--reset`, `-r`: Reset the build configuration.
+- `--test`, `-t`: Test modules (all if not specified by -m (--modules) ).
 
 ---
 
